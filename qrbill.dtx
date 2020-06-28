@@ -1,0 +1,1083 @@
+% \iffalse meta-comment
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Copyright (C) 2020 by Marei Peischl (peiTeX) <marei@peitex.de>
+%
+% This work is a collaboration of
+%   Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%    http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is
+%   Marei Peischl <qrbill@peitex.de>.
+%
+% This work consists of the files
+% qrbill.dtx and qrbill.ins, qrbill-vocab.csv
+% and the derived files
+% qrbill.sty, swiss.qrbill-cfg.tex, qrbill-letter-demo.tex,
+%  qrbill-standalone-demo.tex .
+%
+% The development repository can be found at
+% https://github.com/peitex/qrbill
+% Please use the issue tracker for feedback!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \fi
+% \iffalse
+%<*package>
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%</package>
+% \fi
+% \iffalse
+%<*driver>
+\ProvidesFile{qrbill.dtx}[2020/06/28 v1.0 \ create QR-bills based on the Swiss standard]
+\documentclass[english, parskip=half-]{scrartcl}
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[T1]{fontenc}
+\fi
+\usepackage{doc}
+\usepackage[cache, langlinenos]{minted}
+% Need to set the style here so that it is defined and brought in here.
+% If the style is set later, then docstrip interferes with any comments in
+% the style definition so that they appear as literal text in the document.
+
+\setminted{style=default, tabsize=4}
+\newminted{latex}{gobble=4,escapeinside=||}
+
+\newenvironment{doccode}{
+  \VerbatimEnvironment
+  \begin{VerbatimOut}[gobble=1, tabsize=4]{minted.doc.out}}
+  {\end{VerbatimOut}
+  \inputminted[autogobble, escapeinside=||,tabsize=4]{latex}{minted.doc.out}
+}
+
+\usepackage{babel}
+\usepackage[babel]{csquotes}
+
+\EnableCrossrefs
+\PageIndex
+\RecordChanges
+\newmintinline[code]{latex}{}
+
+\newcommand*\repl[1]{\meta{#1}}
+\newcommand*\opt[1]{\colorbox{black!20}{\meta{#1}}}
+\newcommand*\marg[1]{%
+        {\ttfamily\char`\{}\repl{#1}{\ttfamily\char`\}}}
+\newcommand*\oarg[1]{%
+        {\ttfamily[}\opt{#1}{\ttfamily]}
+}
+\newcommand*{\sarg}{\texttt{*}}
+
+\usepackage{xparse}
+
+\OnlyDescription
+\makeatletter
+
+\def\qrbill@optionNoDefault #1(#2) (#3){%
+	\vspace{0.1in}%
+	\leavevmode%
+	\marginpar{\raggedleft\small\ttfamily#1\ }%
+	\kern-\parindent\textsf{(#2)}\hfill#3\\}
+
+
+\def\qrbill@option #1 (#2) (#3){%
+	\qrbill@optionNoDefault#1(#2) ({(default: \texttt{#3})})%
+}
+
+\ExplSyntaxOn
+
+\newcommand*\qrbill@nextopt{}%
+\newenvironment{optionlist}%
+{%
+	\par\vspace{-.5\baselineskip}
+	\def\pipechar{|}%
+	\let\|\pipechar%
+	\RenewDocumentCommand{\item}{sr[]}{%
+		\qrbill@nextopt%
+		\renewcommand*\qrbill@nextopt{\par}%
+		\IfBooleanTF {##1}%
+		{\qrbill@optionNoDefault ##2}%
+		{\qrbill@option ##2}%
+}}
+{%
+	\par}
+\ExplSyntaxOff
+
+
+
+% Create a short verbatim pipe that handles quotation marks properly
+\begingroup
+\catcode`\|=\active
+\gdef\pipe@active@verbatim{%
+	\begingroup
+	\let\do\@makeother\dospecials
+	\catcode`\|=\active
+	\catcode`\`=\active
+	\catcode`\'=\active
+	\catcode`\<=\active
+	\catcode`\>=\active
+	\catcode`\-=\active
+	\catcode`\,=\active
+	\catcode`\ =\active
+	\pipe@active@verbatim@i}
+\gdef\pipe@active@verbatim@i#1|{%
+	\endgroup
+	\begingroup
+	\def\FV@SV@pipe@active@verbatim{%
+		\FV@Gobble
+		\expandafter\FV@ProcessLine\expandafter{#1}}%
+	\BUseVerbatim{pipe@active@verbatim}%
+	\endgroup}
+\AtBeginDocument{\let|\pipe@active@verbatim}
+\endgroup
+\makeatother
+
+\usepackage{array}
+\usepackage{booktabs}
+
+\usepackage{qrbill}
+
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+\DocInput{qrbill.dtx}
+\end{document}
+%</driver>
+%\fi
+%
+% \changes{v1.0}{2020/06/28}{First official version}
+%
+% \GetFileInfo{qrbill.dtx}
+%
+% \DoNotIndex{\newcommand,\newenvironment}
+% \title{qrbill}
+% \subtitle{\LaTeX-package to create QR-bills based on the Swiss payments standards}
+% \author{Marei Peischl \href{mailto:marei@peitex.de}{<marei@peitex.de>}}
+% \publishers{A collaborative project of pei\TeX{} and foobar LLC}
+% \date{\filedate}
+% \maketitle
+% \section{Introduction}
+% qrbill.sty, the \LaTeX-package, is the Free Software and Open Source answer to the launch of the swiss payments conversion, introduced mid 2020, replacing the former payment order slip by a restructured, QR enhanced slip. The published source code is based on the payment standard guidelines issued for Switzerland and intentionally has a modular structure to enable further development and adaptation for international use.
+%
+% By means of the \LaTeX{} framework, the qrbill can simply be integrated into existing accounting environments and automated billing systems.
+% \iffalse
+%    \begin{macrocode}
+%<*qrbill.sty>
+%    \end{macrocode}
+% \fi
+% \section{Example of use}
+% The easies way to use the qrbill package is to create a bill with the standalone documentclass:
+% 
+% \begin{doccode}
+% \documentclass{standalone}
+% \usepackage[ngerman]{babel}
+% 
+% \usepackage{xcolor}
+% \usepackage{qrbill}
+% 
+% \begin{document}
+% 	
+% \QRbill[
+% creditor={foobar LLC\\
+% 	Postfach 404\\
+% 	2342 Zurich\\
+% 	CH},
+% Account=CH1280808005649899718,
+% % insert additional data here
+% ]
+% 
+% \end{document}
+% \end{doccode}
+%
+% \DescribeMacro{\QRbill}\oarg{Data Setup}
+% The macro \code{\QRbill} creates a box of 210\,mm${}\times{}$105\,mm size. It will include a qrbill as described in the design guide \cite{qrbill-design} and insert all available data.
+%
+% There is also an example in the appendix showing all data fields (see appendix \ref{standalone-complete} on page \pageref{standalone-complete}).
+%
+% The headings are provided in German, English, Italian and French and will be translated using the document's language setup. The terms have been taken from the official guidelines.
+%
+% \section{Technical Requirements}
+% qrbill has been built for \TeX Live 2020. Currently it is not possible to ensure it's functionality with older Releases of \TeX Distributions.
+%
+% The packages loaded by qrbill are:
+% \begin{itemize}
+% \item expl3
+% \item fontspec (except one is using a custom font setup)
+% \item graphicx
+% \item scrbase (which is part of the koma-script bundle)
+% \item qrcode
+% \item iftex
+% \item l3keys2e
+% \item numprint
+% \end{itemize}
+%
+% As a default font \enquote{Liberation Sans} will be used. This will be loaded using fontspec, which would require the use of Lua\LaTeX{} or Xe\LaTeX{} as a compiler. To have a workaround for this, see the \code{font} option on page  \pageref{opt:font} for a custom font setup.
+%
+% \section{Package options}
+%
+% \begin{optionlist}
+%
+% \item[billinginfo (true/false) (true)]
+% Activate/deactivate the automatic fill of the BillingInformation. If this is set to \code{false} one still can add data to this field using the \code{BillingInformation} key, as Described in section \ref{sec:data-setup}.
+%
+% \item[creditorprefix\\debtorprefix (String) (CR-/UD-)]
+% For custom setups the predefined prefixes for the debtor and creditoraddress can be changes. The initial configuration is a requirement of the Swiss standards.
+%
+% \item[font (Frutiger/Arial/Helvetica/Liberation Sans/custom) (Liberation Sans)]
+% \label{opt:font}
+% The official guideline for the Swiss qrbill limits the choice of the font to the first four values of this option. The font selection and sizes currently hardcoded to fit to the size. Custom setups might be provided in the future.
+%
+% In case one wants to use a custom font, you can set the option \code{font=custom}. This will disable all font setup and not prevent the fontspec package from being loaded. You can redefine the macro \code{qrbillfont} to use any font available on your system, for example:
+% \begin{doccode}
+% \usepackage{fontspec}
+% % The Laconic font has to be installed
+% \renewcommand*{\qrbillfont}{\fontspec{Laconic}}
+% \end{doccode}
+%
+% \item[frame (true/false/top/bottom) (true)]
+% Switch to disable the frame around the created QRbill. The top/bottom options should be prefered when the bill is embedded into a document of a4 papersize.
+%
+% \item[icon (swiss-cross/filename) (<empty>)]
+% The swiss standard describes the placement of a swiss-cross icon in the center of the QRcode. This can be achieved using this option. The default is set empty, so no icon will be placed. If this option holds another string than \enquote{swiss-cross} it will be interpreted as filename and try to load a custom image.
+%
+% \item[iconwidth (length) (7mm)]
+% This option allows custom scaling for custom icons.
+
+% \item[qrscheme (Name of a custom QRbill scheme) (swiss)]
+% Loads the definitions for the QRcode and the BillingInformation. Currently only the swiss qrbill scheme is available, but one can define own variants based on this file. Users can copy the file swiss.qrbill-cfg.tex as an example.
+% \end{optionlist}
+% 
+% \section{Data setup}
+% \label{sec:data-setup}
+% \DescribeMacro{\qrbillsetdata}
+% The data fields can be filled either using the optional argument of \code{\QRbill} or using the macro \code{\qrbillsetdata}. Section \ref{sec:data-complete} shows a list of all available fields and appendix \ref{standalone-complete} provides an example of use. For further information on the construction of the QRcode see the specification \cite{qrbill-spec}.
+%
+% To simplify the usage qrbill provides an interface to use the different types of address data and is able to create a \enquote{billing information} string as described in \cite{qrbill-spec} using the single data elements.
+%
+% \section{Setup for the preconfigured Swiss QR-bill}
+% \subsection{Preconfigured data}
+% The initial configuration which uses the Swiss standard already adds the following data:
+% \begin{doccode}
+% \SetupQrBill{
+%   QRType=SPC,
+%   Version=0210,
+%   CodingType=1,
+%   Trailer=EPD,
+% }
+% \end{doccode}
+% These fields are currently required to use these values. If any future changes on the standard would require changes, they can be overwritten or redefined by using a custom implementation file, similar to swiss.qrbill-cfg.tex.
+%
+% Additionally the Currency has been initialized to use \enquote{CHF}. This also can be overwritten. Currently the Swiss standards only allow the values \code{CHF} or \code{EUR}.
+% \subsection{Address data}
+% The Swiss payment standards for QR-bills require the following data for the address of creditor (Prefix \code{CR-})  and debtor (Prefix \code{UD-}):
+% \begin{center}
+% \begin{tabular}{@{}>{\ttfamily}l>{\centering}p{.25\linewidth}>{\centering\arraybackslash}p{.25\linewidth}@{}}
+% \toprule
+% AddressType&K&S\\\cmidrule(r){1-1}\cmidrule(l){2-3}
+% Name& \multicolumn{2}{c}{Name}\\\cmidrule(r){1-1}\cmidrule(l){2-3}
+% Address1&Street&Street with number\\\cmidrule(r){1-1}\cmidrule(l){2-3}
+% Address2&Number&Postal code with City\\\cmidrule(r){1-1}\cmidrule(l){2-3}
+% ZIP&Postal code& Enforced Empty\\\cmidrule(r){1-1}\cmidrule(l){2-3}
+% City& City& Enforced Empty\\\cmidrule(r){1-1}\cmidrule(l){2-3}
+% Country& \multicolumn{2}{c}{Country Code}\\\bottomrule
+% \end{tabular}
+% \end{center}
+% To set an address of type \enquote{K} one can use they option key \code{debtor} or \code{creditor}. Type \enquote{S} can be achieved using the starred variant (\code{debtor*}/\code{creditor*}).
+%
+% \begin{minipage}{.5\linewidth}
+% \begin{doccode}
+% creditor={Name\\
+% Street Nr.\\
+% PostalCode City\\
+% CountryCode},
+% \end{doccode}
+% \end{minipage}%
+% \begin{minipage}{.5\linewidth}
+% \begin{doccode}
+% creditor*={Name\\
+% Street\\
+% Nr.\\
+% PostalCode\\
+% City\\
+% CountryCode},
+% \end{doccode}
+% \end{minipage}
+%
+% \subsection{Billing information}
+% The billing information is a string which can consist of the following data elements:
+% \begin{tabular}{@{}>{\ttfamily}ll@{}}
+%   invoicenum & invoice number\\
+%   invoicedate & invoice data \\
+%   customerref & customer reference \\
+%   vat & VAT number\\
+%   vatdate& VAT date\\
+%   vatdetails& VAT percentage / details\\
+%   importvat& import VAT\\
+%   conditions& payment conditions\\
+% \end{tabular}
+% The data has to be in the required format. qrbill might add features to automatically validate this in the future.
+%
+% Beside setting the data fields all on their own, qrbill can also handle a complete billing information string. One could simply set it by
+%
+% \begin{doccode}
+% BillingInfo=//S1/10/10201409/11/190512/20/1400.000-53/30/106017086
+%   /31/180508/32/7.7/40/2:10;0:30
+% \end{doccode}
+% \subsection{AV-Parameters}
+% The QRcode can use 2 AV Parameters. They have to carry the Prefix of \enquote{Name AV1:}/\enquote{Name AV2:}. This will be automatically added if the keys \code{AV1}/\code{AV2} are used instead of \code{AV1-Parameters}/\code{AV2-Parameters}.
+%
+% \subsection{Remaining data elements}
+% The remaining data elements should be set directly.
+% For restrictions on the content see the specification. Currently there is no validation taking place.
+% The remaining for the preconfigures Swiss standard are:
+%   Account,
+%   Amount,
+%   ReferenceType,
+%   Reference,
+%   Message,
+%
+% \subsection{The Swiss cross icon}
+% \cite{qrbill-design} reguires a swiss cross of 7\,mm size to be placed in the center of the QRcode.
+% This package supports this by using the package option for the icon:
+% \begin{doccode}
+% \usepackage[icon=swiss-cross, …]{qrbill}
+% \end{doccode}
+% This setting is not activated by default.
+%
+%
+% \subsection{Overview over all data fields}
+% \label{sec:data-complete}
+% Data fields which are used in the QRcode:\par
+% \ExplSyntaxOn
+% \seq_use:Nn \g__qrbill_qrscheme_seq {\\}
+% \ExplSyntaxOff
+% \par\medskip
+% Data fields, which are custom created by the qrbill package to simplify the use:\par
+% creditor and creditor*\\
+% debtor and debtor*\\
+% AV1 and AV2
+% \par\medskip
+% Data fields to automatically create the BillingInfo string. The key in parentheses indicates the prefix to be used to construct the string.\par
+% \ExplSyntaxOn
+% \prop_map_inline:Nn \g__qrbill_billing_info_prop {#2~(#1)\\}
+% \ExplSyntaxOff
+% \iffalse
+% \section{Implementation}
+%    \begin{macrocode}
+\RequirePackage{expl3}
+\ProvidesExplPackage{qrbill}{2020/06/28}{1.0}{
+  Template for QR-bills based on the Swiss Payment Standards
+}
+\RequirePackage{iftex}
+\RequirePackage{l3keys2e}
+
+\tl_new:N \g__qrbill_font_tl
+\bool_new:N \g__qrbill_top_frame_bool
+\bool_new:N \g__qrbill_bottom_frame_bool
+\bool_new:N \g__qrbill_left_frame_bool
+\bool_new:N \g__qrbill_right_frame_bool
+
+\keys_define:nn {qrbill} {
+  font .choices:nn = {Frutiger, Arial, Helvetica, Liberation Sans} {
+    \bool_gset_true:N \g__qrbill_fontsetup_bool
+    \tl_gset_eq:NN \g__qrbill_font_tl \l_keys_choice_tl
+  },
+  font .initial:n = Liberation Sans,
+  font / custom .code:n = {\tl_gclear:N \g__qrbill_font_tl},
+  qrscheme .tl_gset:N = \g__qrbill_qrscheme_tl,
+  qrscheme .initial:n = swiss,
+  creditorprefix .tl_gset:N = \g__qrbill_creditorprefix_tl,
+  creditorprefix .initial:n = CR-,
+  debtorprefix .tl_gset:N = \g__qrbill_debtorprefix_tl,
+  debtorprefix .initial:n = UD-,
+  qrmode .choice:,
+  qrmode / package .code:n = \bool_gset_false:N \g__qrbill_luamode_bool,
+  qrmode / lua .code:n = \bool_gset_true:N \g__qrbill_luamode_bool,
+  qrmode .initial:n = package,
+  frame .choice:,
+  frame / false .code:n = {
+    \bool_gset_false:N \__g__qrbill_top_frame_bool
+    \bool_gset_false:N \g__qrbill_bottom_frame_bool
+    \bool_gset_false:N \g__qrbill_left_frame_bool
+    \bool_gset_false:N \g__qrbill_right_frame_bool
+  },
+  frame / true .code:n = {
+    \bool_gset_true:N \g__qrbill_top_frame_bool
+    \bool_gset_true:N \g__qrbill_bottom_frame_bool
+    \bool_gset_true:N \g__qrbill_left_frame_bool
+    \bool_gset_true:N \g__qrbill_right_frame_bool
+  },
+  frame / top .code:n = {
+    \bool_gset_true:N \g__qrbill_top_frame_bool
+    \bool_gset_false:N \g__qrbill_bottom_frame_bool
+    \bool_gset_false:N \g__qrbill_left_frame_bool
+    \bool_gset_false:N \g__qrbill_right_frame_bool
+  },
+  frame / bottom .code:n = {
+    \bool_gset_false:N \g__qrbill_top_frame_bool
+    \bool_gset_true:N \g__qrbill_bottom_frame_bool
+    \bool_gset_false:N \g__qrbill_left_frame_bool
+    \bool_gset_false:N \g__qrbill_right_frame_bool
+  },
+  frame .initial:n = true,
+  billinginfo .bool_gset:N = \g__grbill_billinginfo_auto_bool,
+  billinginfo .default:n = true,
+  billinginfo .initial:n = true,
+  icon .choice:,
+  icon / swiss-cross .meta:n = {icon=qrbill_swiss-cross.pdf},
+  icon / unknown .code:n = \tl_gset:Nn \g_qrbill_icon_tl {#1},
+  icon .initial:n =,
+  iconwidth .dim_gset:N = \g_qrbill_iconwidth_dim,
+  iconwidth .initial:n = 7mm,
+}
+
+\ProcessKeysOptions{qrbill}
+
+\newcommand*{\qrbillsetup}[1]{\keys_set:nn {qrbill}{#1}}
+\newcommand*{\qrbillsetdata}[1]{\keys_set:nn {qrbill/data}{#1}}
+
+\tl_if_empty:NTF \g__qrbill_font_tl {
+  \def\qrbillfont{\normalfont}
+}{
+  \RequirePackage{fontspec}
+  \newfontfamily{\qrbillfont}{\g__qrbill_font_tl}
+}
+
+\dim_new:N \g_qrbill_QRcode_dim
+\dim_gset:Nn \g_qrbill_QRcode_dim {46mm}
+\bool_if:NF \g__qrbill_luamode_bool {
+  \usepackage{qrcode}
+  \cs_new:Nn \qrbill_parse_QRcode:n {
+    \raisebox{\depth}{\qrcode[height= \g_qrbill_QRcode_dim]{#1}}
+  }
+  \cs_generate_variant:Nn \qrbill_parse_QRcode:n {V}
+}
+
+\RequirePackage{scrbase}
+\RequirePackage{graphicx}
+\RequirePackage{numprint}
+\npthousandsep{\,}
+\npdecimalsign{.}
+
+\dim_new:N \g__qrbill_rule_dim
+\dim_gset:Nn \g__qrbill_rule_dim {.5pt}
+\dim_const:Nn \c_qrbill_sep_dim {5mm}
+\dim_const:Nn \c_qrbill_width_dim {210mm}
+\dim_const:Nn \c_qrbill_height_dim {105mm}
+
+\cs_new:Nn \qrbill_title_font: {\fontsize{11bp}{11bp}\selectfont\bfseries}
+
+\cs_new:Nn \qrbill_headingR_font: {\fontsize{6bp}{9bp}\selectfont\bfseries}
+\cs_new:Nn \qrbill_valueR_font: {\fontsize{8bp}{9bp}\selectfont}
+\cs_new:Nn \qrbill_amountR_font: {\fontsize{8bp}{11bp}\selectfont}
+\cs_new:Nn \qrbill_acceptance_font: {\fontsize{6bp}{8bp}\selectfont\bfseries}
+
+\cs_new:Nn \qrbill_headingP_font: {\fontsize{8bp}{11bp}\selectfont\bfseries}
+\cs_new:Nn \qrbill_valueP_font: {\fontsize{10bp}{11bp}\selectfont}
+\cs_new:Nn \qrbill_amountP_font: {\fontsize{10bp}{13bp}\selectfont}
+
+\cs_new:Nn \qrbill_infoheading_font: {\fontsize{7bp}{8bp}\selectfont\bfseries}
+\cs_new:Nn \qrbill_info_font: {\fontsize{7bp}{8bp}\selectfont}
+
+\dim_new:N \g_qrbill_placeholder_rule_dim
+\dim_gset:Nn \g_qrbill_placeholder_rule_dim {.75pt}
+\dim_new:N \g_qrbill_placeholder_corner_dim
+\dim_gset:Nn \g_qrbill_placeholder_corner_dim {3mm}
+\cs_new:Nn \__qrbill_placeholder_hmark: {
+  \rule{\g_qrbill_placeholder_corner_dim}{\g_qrbill_placeholder_rule_dim}
+}
+\cs_new:Nn \__qrbill_placeholder_vmark: {
+  \rule{\g_qrbill_placeholder_rule_dim}{\g_qrbill_placeholder_corner_dim}
+}
+
+
+\cs_new:Nn \__qrbill_placeholder:nn {
+  \vbox_to_ht:nn {#2} {
+    \hbox_to_wd:nn {#1} {\__qrbill_placeholder_hmark: \hfill \__qrbill_placeholder_hmark:}
+    \nointerlineskip
+    \hbox_to_wd:nn {#1} {\__qrbill_placeholder_vmark: \hfill \__qrbill_placeholder_vmark:}
+    \vfill
+    \hbox_to_wd:nn {#1} {\__qrbill_placeholder_vmark: \hfill \__qrbill_placeholder_vmark:}
+    \nointerlineskip
+    \hbox_to_wd:nn {#1} {\__qrbill_placeholder_hmark: \hfill \__qrbill_placeholder_hmark:}
+  }
+}
+
+\cs_new:Nn \qrbill_bill_create: {
+  \begingroup
+  \qrbill_parse_BillingInfo:
+  \qrbillfont
+  \setlength{\parindent}{\z@}
+  \parbox{\c_qrbill_width_dim }{
+    \vbox to \c_qrbill_height_dim {
+      \bool_if:NTF \g__qrbill_top_frame_bool
+        {\rule{\c_qrbill_width_dim}{\g__qrbill_rule_dim}}
+        {\rule{\c_zero_dim}{\g__qrbill_rule_dim}}
+      \par\nointerlineskip
+      \skip_vertical:n {\c_qrbill_sep_dim-\g__qrbill_rule_dim}
+      \skip_horizontal:n {\c_qrbill_sep_dim-\g__qrbill_rule_dim}
+      \begin{minipage}[c][95mm][t]{52mm}
+        \vbox_to_ht:nn {7mm} {\qrbill_title_font:\qrbillreceiptname}
+        \par\nointerlineskip
+        \vbox_to_ht:nn {56mm}{
+          {\qrbill_headingR_font:\qrbillaccountname\par}
+          {
+            \qrbill_valueR_font:\tl_use:c {l_qrbill_data_Account_tl}\par
+            \qrbill_insert_address:N \g__qrbill_creditorprefix_tl
+            \par\vskip\baselineskip
+          }
+          \tl_if_empty:NF \l_qrbill_data_Reference_tl {
+            {\qrbill_headingR_font:\qrbillreferencename\par}
+            {
+              \qrbill_valueR_font:\tl_use:c {l_qrbill_data_Reference_tl}
+              \par\vskip\baselineskip
+            }
+          }
+          \tl_if_empty:cTF {l_qrbill_data_\g__qrbill_debtorprefix_tl Name_tl}
+             {
+               {\qrbill_headingR_font:\qrbilldebtoraddrname\par}
+               \__qrbill_placeholder:nn {52mm} {20mm}
+             }{
+               {\qrbill_headingR_font:\qrbilldebtorname\par}
+               {
+                 \qrbill_valueR_font:
+                 \qrbill_insert_address:N \g__qrbill_debtorprefix_tl
+                 \par
+               }
+             }
+        }
+        \par\nointerlineskip
+        \vbox_to_ht:nn {14mm}{
+          \qrbill_headingR_font:
+          \begin{tabular}[t]{@{}ll@{}}
+            \qrbillcurrencyname&\qrbill_headingR_font:\qrbillamountname\\
+            \qrbill_amountR_font:\l_qrbill_data_Currency_tl
+              &\qrbill_amountR_font:
+                \tl_if_empty:NF \l_qrbill_data_Amount_tl
+                   {\numprint{\l_qrbill_data_Amount_tl}}
+          \end{tabular}
+          \tl_if_empty:NTF \l_qrbill_data_Amount_tl {
+            \hfill
+            \raisebox{\dimexpr-\height+\ht\strutbox}[\z@]{\llap{
+                \__qrbill_placeholder:nn {30mm} {10mm}
+            }}
+          }
+          \vfill
+        }
+        \par\nointerlineskip
+        \vbox_to_ht:nn {18mm} {
+          \makebox[\linewidth][r]{\qrbill_headingR_font:\qrbillacceptantname}\par
+        }
+      \end{minipage}%
+      \skip_horizontal:n {2\c_qrbill_sep_dim}
+      \begin{minipage}[c][95mm][t]{138mm}
+        \begin{minipage}[c][85mm][t]{51mm}
+          {\qrbill_title_font:\qrbillpaymentpartname}
+          \par\nointerlineskip
+          \skip_vertical:n {\c_qrbill_sep_dim}
+          \qrcode_setup_QRcode:
+          \leavevmode\qrbill_parse_QRcode:V \l_qrbill_data_str
+          \tl_if_empty:NF \g_qrbill_icon_tl {
+            \llap{\hbox_to_wd:nn {\g_qrbill_QRcode_dim} {
+                \hfill
+                \raisebox{\dimexpr-.5\height+.5\g_qrbill_QRcode_dim}[0pt][0pt]{
+                  \includegraphics[width=\g_qrbill_iconwidth_dim]{\g_qrbill_icon_tl}
+                }
+                \hfill
+            }}
+          }
+          \skip_vertical:n {\c_qrbill_sep_dim}
+          \vbox_to_ht:nn {22mm}{
+            \begin{tabular}[b]{@{}ll@{}}
+              \qrbill_headingP_font:\qrbillcurrencyname&\qrbill_headingP_font:
+                \qrbillamountname\\
+              \qrbill_amountP_font:\tl_use:c {l_qrbill_data_Currency_tl}&
+              \tl_if_empty:NF \l_qrbill_data_Amount_tl {
+                \qrbill_amountP_font:\numprint{\l_qrbill_data_Amount_tl}
+              }
+            \end{tabular}
+            \tl_if_empty:NTF \l_qrbill_data_Amount_tl {
+              \hfill
+              \raisebox{\dimexpr-\height+\ht\strutbox}[\z@]{
+                \llap{\__qrbill_placeholder:nn {40mm} {15mm}
+              }}
+            }
+          }
+        \end{minipage}
+        \begin{minipage}[c][85mm][t]{87mm}
+          \par\nointerlineskip
+          {\qrbill_headingP_font:\qrbillaccountname\par}
+          {
+            \qrbill_valueP_font:\tl_use:c {l_qrbill_data_Account_tl}\par
+            \qrbill_insert_address:N \g__qrbill_creditorprefix_tl
+            \par\vskip\baselineskip
+          }
+          \tl_if_empty:NF \l_qrbill_data_Reference_tl {
+            {\qrbill_headingP_font:\qrbillreferencename\par}
+            {\qrbill_valueP_font:\tl_use:c {l_qrbill_data_Reference_tl}
+              \par\vskip\baselineskip}
+          }
+          \exp_args:Nf \tl_if_empty:nF  {
+            \l_qrbill_data_BillingInfo_tl
+            \l_qrbill_data_Message_tl
+          }{
+            {\qrbill_headingP_font:\qrbilladdinfoname\par}
+            {
+              \qrbill_valueP_font:
+              \l_qrbill_data_Message_tl\par
+              \tl_replace_all:Nnn \l_qrbill_data_BillingInfo_tl {/} {\discretionary{}{}{}/}
+              \l_qrbill_data_BillingInfo_tl
+              \par\vskip\baselineskip
+            }
+          }
+          \tl_if_empty:cTF {l_qrbill_data_\g__qrbill_debtorprefix_tl Name_tl} {
+            {\qrbill_headingP_font:\qrbilldebtoraddrname\par}
+            \__qrbill_placeholder:nn {65mm} {25mm}
+          }{
+            {\qrbill_headingP_font:\qrbilldebtorname\par}
+            {
+              \qrbill_valueP_font:
+              \qrbill_insert_address:N \g__qrbill_debtorprefix_tl
+              \par
+            }
+          }
+        \end{minipage}\par\nointerlineskip
+        \begin{minipage}[b][10mm][t]{\linewidth}
+          \strut
+          \qrbill_insert_AV_parameters:NNn
+            \qrbill_infoheading_font:
+            \qrbill_info_font:
+            {AV1,AV2}
+        \end{minipage}
+      \end{minipage}
+      \par\nointerlineskip\skip_vertical:n  {\c_qrbill_sep_dim}
+      \smash{
+      \bool_if:NT \g__qrbill_bottom_frame_bool
+        {\rlap{\rule{\c_qrbill_width_dim}{\g__qrbill_rule_dim}}}
+      \bool_if:NTF \g__qrbill_left_frame_bool
+        {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
+        {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
+      \hspace{\dimexpr62mm-1.5\g__qrbill_rule_dim}
+      \rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}
+      \hspace{\dimexpr148mm-1.5\g__qrbill_rule_dim}
+      \bool_if:NTF \g__qrbill_right_frame_bool
+        {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
+        {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
+      }
+    }
+  }
+  \endgroup
+}
+
+\newcommand{\QRbill}[1][]{
+  \begingroup
+  \tl_if_empty:nF {#1} {\keys_set:nn {qrbill/data} {#1}}
+  \qrbill_bill_create:
+  \endgroup
+}
+
+\ior_new:N \qrbill_ior
+\clist_new:N \l_qrbill_tmpa_clist
+\ior_open:Nn \qrbill_ior {qrbill-vocab.csv}
+
+\ior_get:NN \qrbill_ior \l_tmpa_tl
+\clist_set:Nx \l_qrbill_tmpa_clist {\l_tmpa_tl}
+\int_set:Nn \l_tmpa_int {\clist_count:N \l_qrbill_tmpa_clist}
+
+\ior_str_map_inline:Nn \qrbill_ior {
+  \int_step_inline:nnn {2} {\l_tmpa_int } {
+    \exp_args:Nnx \use:n {\exp_args:NNx \exp_args:Nnc \defcaptionname
+      {\clist_item:Nn \l_qrbill_tmpa_clist {##1}}
+      {qrbill\clist_item:nn {#1} {1}name}}
+        {\clist_item:nn {#1} {##1}}
+  }
+}
+
+\ior_close:N \qrbill_ior
+
+\seq_new:N \l_qrbill_tmp_seq
+
+\cs_new:Nn \qrbill_set_address_combined:nn {
+  \seq_set_split:Nnn \l_qrbill_tmp_seq {\\} {#2}
+  \exp_args:Nnx \keys_set:nn {qrbill/data} {
+    #1AddressType=K,
+    #1Name=\seq_item:Nn \l_qrbill_tmp_seq {1},
+    #1Address1=\seq_item:Nn \l_qrbill_tmp_seq {2},
+    #1Address2=\seq_item:Nn \l_qrbill_tmp_seq {3},
+    #1PostalCode=,
+    #1City=,
+    #1Country=\seq_item:Nn \l_qrbill_tmp_seq {4},
+  }
+}
+
+\cs_new:Nn \qrbill_set_address_structured:nn {
+  \seq_set_split:Nnn \l_qrbill_tmp_seq {\\} {#2}
+  \exp_args:Nnx \keys_set:nn {qrbill/data} {
+    #1AddressType=S,
+    #1Name=\seq_item:Nn \l_qrbill_tmp_seq {1},
+    #1Address1=\seq_item:Nn \l_qrbill_tmp_seq {2},
+    #1Address2=\seq_item:Nn \l_qrbill_tmp_seq {3},
+    #1PostalCode=\seq_item:Nn \l_qrbill_tmp_seq {4},
+    #1City=\seq_item:Nn \l_qrbill_tmp_seq {5},
+    #1Country=\seq_item:Nn \l_qrbill_tmp_seq {6},
+  }
+}
+
+\cs_new:Nn \qrbill_insert_address:N {
+  \tl_use:c {l_qrbill_data_#1Name_tl}\ifhmode\\\fi
+  \str_case_e:nnF {\use:c {l_qrbill_data_#1AddressType_tl}}
+      {
+        {K}     {
+          \tl_use:c {l_qrbill_data_#1Address1_tl}
+          \tl_if_empty:cF {l_qrbill_data_#1Address2_tl} {
+            \ifhmode\\\fi
+            \tl_if_empty:cF {l_qrbill_data_#1Country_tl}
+              {\tl_use:c {l_qrbill_data_#1Country_tl}-}
+              \tl_use:c {l_qrbill_data_#1Address2_tl}
+           }
+        }
+      }{
+        \tl_use:c {l_qrbill_data_#1Address1_tl}~
+        \tl_use:c {l_qrbill_data_#1Address2_tl}
+        \tl_if_empty:cF {l_qrbill_data_#1City_tl} {
+          \ifhmode\\\fi
+          \tl_if_empty:cF {l_qrbill_data_#1Country_tl}
+            {\tl_use:c {l_qrbill_data_#1Country_tl}-}
+          \tl_use:c {l_qrbill_data_#1PostalCode_tl}~
+          \tl_use:c {l_qrbill_data_#1City_tl}
+        }
+      }
+}
+
+\newcommand*{\insertdebtor}{\null\qrbill_insert_address:N \g__qrbill_debtorprefix_tl}
+\newcommand*{\insertcreditor}{\null\qrbill_insert_address:N \g__qrbill_creditorprefix_tl}
+\newcommand*{\insertcurrency}{\l_qrbill_data_Currency_tl}
+
+\keys_define:nn {qrbill/data} {
+  creditor .code:n = \qrbill_set_address_combined:nn {\g__qrbill_creditorprefix_tl}{#1},
+  creditor* .code:n = \qrbill_set_address_structured:nn {\g__qrbill_creditorprefix_tl} {#1},
+  debtor .code:n = \qrbill_set_address_combined:nn {\g__qrbill_debtorprefix_tl}{#1},
+  debtor* .code:n = \qrbill_set_address_structured:nn {\g__qrbill_debtorprefix_tl} {#1},
+  account .tl_set:N = \l_qrbill_iban_tl,
+}
+
+\clist_map_inline:nn {AV1, AV2} {
+  \keys_define:nn {qrbill/data} {
+    #1 .code:n = {
+      \tl_if_empty:nF {##1}{
+        \keys_set:nx {qrbill/data} {
+          #1-Parameters={\qrbill_av_prefix:n {#1}##1}
+        }
+      }
+      \tl_set:cn {l_qrbill_#1_tl} {##1}
+    },
+    #1 .initial:n =,
+  }
+}
+
+\newcommand*{\SetupQrBill}[1]{
+  \keys_set:nn {qrbill/data} {#1}
+}
+
+\str_new:N \l_qrbill_data_str
+\cs_new:Nn \qrcode_setup_QRcode: {
+  \str_clear:N \l_qrbill_data_str
+  \bool_set_false:N \l_tmpa_bool
+  \seq_map_inline:Nn \g__qrbill_qrscheme_seq {
+    \bool_if:NTF \l_tmpa_bool
+         {\str_put_right:Nn\l_qrbill_data_str  {^^J}}
+         {\bool_set_true:N \l_tmpa_bool}
+         \exp_args:NNv \str_put_right:Nn \l_qrbill_data_str {l_qrbill_data_##1_tl}
+  }
+  %necessary to preserve spaces!
+  \str_replace_all:Nnn \l_qrbill_data_str  {~ } {\ }
+  \tl_set_rescan:Nno \l_qrbill_data_str {\ExplSyntaxOff} {\l_qrbill_data_str}
+}
+
+\seq_new:N \g__qrbill_qrscheme_seq
+\newcommand*\SetQrScheme[1]{
+  \seq_gset_from_clist:Nn \g__qrbill_qrscheme_seq {#1}
+  \seq_map_inline:Nn \g__qrbill_qrscheme_seq {
+    \keys_define:nn {qrbill/data} {
+      ##1 .tl_set:c = l_qrbill_data_##1_tl,
+      ##1 .initial:n =,
+    }
+  }
+}
+
+
+
+\prop_new:N \g__qrbill_billing_info_prop 
+\seq_new:N \g__qrbill_billing_info_seq
+\newcommand*{\SetBillingInfoScheme}[1]{
+  \prop_gset_from_keyval:Nn \g__qrbill_billing_info_prop {#1}
+  \seq_gclear:N  \g__qrbill_billing_info_seq
+  \prop_map_inline:Nn \g__qrbill_billing_info_prop {
+    \exp_args:Nx \clist_if_in:nnF {\tl_to_str:n {prefix , postfix}} {##1} {
+      \seq_push:Nn  \g__qrbill_billing_info_seq {##1}
+    }
+    \keys_define:nn {qrbill/data} {
+      ##2 .tl_set:c = l_qrbill_##2_tl,
+      ##2 .initial:n =,
+    }
+  }
+  \seq_sort:Nn \g__qrbill_billing_info_seq {
+    \int_compare:nNnTF { ##1 } > { ##2 }
+        { \sort_return_swapped: }
+        { \sort_return_same: }
+  }
+}
+
+\tl_new:N \l_qrbill_data_BillingInfo_tl
+
+\cs_new:Nn \qrbill_parse_BillingInfo: {
+  \bool_if:NT \g__grbill_billinginfo_auto_bool {
+    \str_put_right:Nx \l_qrbill_data_BillingInfo_tl {
+      \prop_item:Nn \g__qrbill_billing_info_prop  {prefix}
+    }
+    \seq_map_inline:Nn \g__qrbill_billing_info_seq {
+      \prop_get:NnN \g__qrbill_billing_info_prop {##1} \l_tmpa_tl
+      \tl_if_empty:cF {l_qrbill_\l_tmpa_tl _tl} {
+        \str_put_right:Nx \l_qrbill_data_BillingInfo_tl {
+          /##1/\tl_use:c {l_qrbill_\l_tmpa_tl _tl}
+        }
+      }
+    }
+  }
+}
+
+\cs_new:Nn \qrbill_insert_AV_parameters:NNn {
+  \clist_map_inline:nn {#3} {
+    \tl_if_empty:cF {l_qrbill_##1_tl}
+       {{#1\qrbill_av_prefix:n {##1}}{#2 \tl_use:c {l_qrbill_##1_tl}}}
+  }
+}
+
+\cs_new:Nn \qrbill_av_prefix:n {Name~#1:~}
+
+\input{\g__qrbill_qrscheme_tl.qrbill-cfg}
+
+%    \end{macrocode}
+%    \begin{macrocode}
+%</qrbill.sty>
+%<*swiss.qrbill-cfg.tex>
+%    \end{macrocode}
+% \fi
+%    \begin{macrocode}
+\qrbillsetup{
+        creditorprefix =CR-,
+        debtorprefix =UD-,
+}
+
+\SetQrScheme{
+  QRType,
+  Version,
+  CodingType,
+  Account,
+  CR-AddressType,
+  CR-Name,
+  CR-Address1,
+  CR-Address2,
+  CR-PostalCode,
+  CR-City,
+  CR-Country,
+  UCR-AddressType,
+  UCR-Name,
+  UCR-Address1,
+  UCR-Address2,
+  UCR-ZIP,
+  UCR-City,
+  UCR-Country,
+  Amount,
+  Currency,
+  UD-AddressType,
+  UD-Name,
+  UD-Address1,
+  UD-Address2,
+  UD-PostalCode,
+  UD-City,
+  UD-Country,
+  ReferenceType,
+  Reference,
+  Message,
+  Trailer,
+  BillingInfo,
+  AV1-Parameters,
+  AV2-Parameters
+}
+
+\SetBillingInfoScheme{
+  prefix=//S1,
+  10=invoicenum,
+  11=invoicedate,
+  20=customerref,
+  30=vat,
+  31=vatdate,
+  32=vatdetails,
+  33=importvat,
+  40=conditions
+}
+
+\SetupQrBill{
+        QRType=SPC,
+        Version=0210,
+        CodingType=1,
+        Trailer=EPD,
+        Currency=CHF,
+        ReferenceType=NON,
+}
+%    \end{macrocode}
+% \iffalse
+%    \begin{macrocode}
+%</swiss.qrbill-cfg.tex>
+%    \end{macrocode}
+% \fi
+%
+% \appendix
+% \section{Example of standalone qrbill}
+% \label{standalone-complete}
+% \iffalse
+%    \begin{macrocode}
+%<*qrbill-standalone-demo.tex>
+%    \end{macrocode}
+% \fi
+%    \begin{macrocode}
+% !TeX program=lualatex
+\documentclass{standalone}
+\usepackage[nswissgerman]{babel}
+
+\RequirePackage{xcolor}
+\usepackage[icon=swiss-cross]{qrbill}
+
+\begin{document}
+
+\QRbill[
+  creditor*={foobar LLC\\
+    Postfach\\
+    404\\
+    2342\\
+    Zurich\\
+    CH},
+  Account=CH1280808005649899718,
+  vat=123123123,% VAT number with stripped CH and periods
+  debtor*={peiTeX\\
+    TeXnikerweg\\
+    78\\
+    23420\\
+    Hamburg\\
+    DE},
+  Amount=1337.42,
+  Message=Bestellung vom 27.06.2020,
+  invoicenum=100-4242,
+  invoicedate=200701,%yymmdd
+  vatdetails=0,% 0% VAT 
+  vatdate=200701,%yymmdd
+  AV1=LX;F00BAR;2342,
+]
+
+\end{document}
+%    \end{macrocode}
+% \iffalse
+%    \begin{macrocode}
+%</qrbill-standalone-demo.tex>
+%<*qrbill-letter-demo.tex>
+%    \end{macrocode}
+% \fi
+% \section{qrbill scrletter example}
+%    \begin{macrocode}
+% !TeX Program=lualatex
+\documentclass[foldmarks=b]{scrletter}
+\usepackage[frame=top]{qrbill}
+
+% Setup layer
+\DeclareNewLayer[
+	align=bl,
+	voffset=\paperheight,
+	hoffset=0pt,
+	contents={\QRbill},
+	width=\paperwidth,
+	height=105mm,
+	]{qrbill}
+	
+
+
+\begin{document}
+
+\qrbillsetdata{
+  creditor*={foobar LLC\\
+    Postfach\\
+    404\\
+    2342\\
+    Zurich\\
+    CH},
+  Account=CH1280808005649899718,
+  vat=123123123,% VAT number with stripped CH and periods
+  debtor*={peiTeX\\
+    TeXnikerweg\\
+    78\\
+    23420\\
+    Hamburg\\
+    DE},
+  Amount=1337.42,
+  Message=Bestellung vom 27.06.2020,
+  invoicenum=100-4242,
+  invoicedate=200701,%yymmdd
+  vatdetails=0,% 0% VAT 
+  vatdate=200701,%yymmdd
+  AV1=LX;F00BAR;2342,
+}
+
+\setkomavar{fromaddress}{\insertcreditor}
+	
+\begin{letter}{\insertdebtor}
+	
+\opening{opening}
+
+Text
+
+\closing{closing}
+
+% Add qbill on last page
+% For more details 
+\AddLayersToPageStyle{@everystyle@}{qrbill}
+	
+\end{letter}
+\end{document}
+%    \end{macrocode}
+% 
+% \iffalse
+%    \begin{macrocode}
+%</qrbill-letter-demo.tex>
+%    \end{macrocode}
+% \fi
+% \begin{thebibliography}{99}
+% \bibitem{qrbill-spec} Swiss Implementation Guidelines QR-bill: Technical and professional specifications of the payment part with Swiss QR Code and of the receipt. Version 2.1, with effect from 30 September 2019. \url{https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf}
+% \bibitem{qrbill-design} Style Guide QR-billStyle Guide QR-bill: The right layout pays off. Layout rules and recommendations for the payment part with Swiss QR Code and for the receipt. \url{https://www.paymentstandards.ch/dam/downloads/style-guide-en.pdf}
+% \end{thebibliography}
+%\Finale
+\endinput

@@ -1,0 +1,57 @@
+\input l3docstrip
+
+\def\filedate{2020/06/28}
+\def\fileversion{1.0}
+
+\preamble
+
+Copyright (C) 2020 by Marei Peischl (peiTeX) <marei@peitex.de>
+
+This work is a collaboration of
+  Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either version 1.3
+of this license or (at your option) any later version.
+The latest version of this license is in
+   http://www.latex-project.org/lppl.txt
+and version 1.3 or later is part of all distributions of LaTeX
+version 2005/12/01 or later.
+
+This work has the LPPL maintenance status `maintained'.
+
+The Current Maintainer of this work is
+  Marei Peischl <qrbill@peitex.de>.
+
+This work consists of the files
+qrbill.dtx and qrbill.ins, qrbill-vocab.csv
+and the derived files
+qrbill.sty, swiss.qrbill-cfg.tex, qrbill-letter-demo.tex,
+ qrbill-standalone-demo.tex .
+
+The development repository can be found at
+https://github.com/peitex/qrbill
+Please use the issue tracker for feedback!
+
+\endpreamble
+
+\askforoverwritefalse
+
+\usedir{tex/latex/qrbill}
+
+\generate{
+        \file{qrbill.sty}{
+                \from{qrbill.dtx}{qrbill.sty,package}
+                }
+        \file{swiss.qrbill-cfg.tex}{
+                \from{qrbill.dtx}{swiss.qrbill-cfg.tex}
+        }
+       \file{qrbill-letter-demo.tex}{
+                \from{qrbill.dtx}{qrbill-letter-demo.tex}
+        }
+       \file{qrbill-standalone-demo.tex}{
+                \from{qrbill.dtx}{qrbill-standalone-demo.tex}
+        }
+}
+
+\endbatchfile

@@ -1,0 +1,14 @@
+language,{ngerman, german, nswissgerman, swissgerman},{french},{italian},{english,british,american}
+paymentpart,Zahlteil,Section paiement,Sezione pagamento,Payment part
+account,Konto / Zahlbar an,Compte / Payable à,Conto / Pagabile a,Account / Payable to
+reference,Referenz,Référence,Riferimento,Reference
+addinfo,Zusätzliche Informationen,Informations additionnelles,Informazioni aggiuntive,Additional information
+furtherinfo,Weitere Informationen,Informations supplémentaires,Informazioni supplementari,Further information
+currency,Währung,Monnaie,Valuta,Currency
+amount,Betrag,Montant,Importo,Amount
+receipt,Empfangsschein,Récépissé,Ricevuta,Receipt
+acceptant,Annahmestelle,Point de dépôt,Punto di accettazione,Acceptance point
+separate,Vor der Einzahlung abzutrennen,A détacher avant le versement,Da staccare prima del versamento,Separate before paying in
+debtor,Zahlbar durch,Payable par,Pagabile da,Payable by
+debtoraddr,Zahlbar durch (Name/Adresse),Payable par (nom/adresse),Pagabile da (nome/indirizzo),Payable by (name/address)
+infavourof,Zugunsten,En faveur de,A favore di,In favour of
