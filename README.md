@@ -4,7 +4,7 @@ Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2020/06/28 v1.0
+qrbill 2020/06/29 v1.01
 
 ***************************************************************************
 
@@ -19,6 +19,7 @@ qrbill 2020/06/28 v1.0
 * qrbill.dtx
 * qrbill.ins
 * qrbill-vocab.csv
+* qrbill_swiss-cross.pdf
 
 The files
 * qrbill.sty
@@ -28,7 +29,16 @@ as well as the demo files
 * qrbill-letter-demo.tex
 can be created from the qrbill.dtx by processing the qrbill.ins-file.
 
+## Installation Notes
+
+To be able to compile the package, the files
+qrbill.sty, swiss.qrbill-cfg.tex, qrbill_swiss-cross.pdf and qrbill-vocab.csv
+have to be placed in the $TEXINPUTS path.
+
+To simplify this, you can have a look at the qrbill.tds.zip, which provides an already prestructured variant to be extracted to any tds tree.
+
 
 ## Version History
 
- * v1.00 First official version - published on 2020-06-28
+ * v1.00 (2020-06-28) First official version
+ * v1.01 (2020-06-29) Add tds package and the separate option
