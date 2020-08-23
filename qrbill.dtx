@@ -54,7 +54,7 @@
 % \fi
 % \iffalse
 %<*driver>
-\ProvidesFile{qrbill.dtx}[2020/06/29 v1.01 \ create QR-bills based on the Swiss standard]
+\ProvidesFile{qrbill.dtx}[2020/08/23 v1.02 \ create QR-bills based on the Swiss standard]
 \documentclass[english, parskip=half-]{scrartcl}
 \usepackage{iftex}
 \ifPDFTeX
@@ -272,6 +272,7 @@
 % Loads the definitions for the QRcode and the BillingInformation. Currently only the swiss qrbill scheme is available, but one can define own variants based on this file. Users can copy the file swiss.qrbill-cfg.tex as an example.
 %
 % \changes{v1.01}{2020/06/29}{Add separate option to modify the top rule of the QR bill}
+% \changes{v1.02}{2020/08/23}{Fix placement issue with separate option}
 % \item[separate (false/text/symbol) (text)]
 % Setup the separation rule between the document and the qrbill. If the value is text or symbol the Info \enquote{\qrbillseparatename} or the corresponding translation will be printed on top of the frame. This option will be ignored it the frame has no top rule.
 % \end{optionlist}
@@ -394,7 +395,7 @@
 % \section{Implementation}
 %    \begin{macrocode}
 \RequirePackage{expl3}
-\ProvidesExplPackage{qrbill}{2020/06/29}{1.01}{
+\ProvidesExplPackage{qrbill}{2020/08/23}{1.02}{
   Template for QR-bills based on the Swiss Payment Standards
 }
 \RequirePackage{iftex}

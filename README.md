@@ -4,7 +4,7 @@ Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2020/06/29 v1.01
+qrbill 2020/08/23 v1.02
 
 ***************************************************************************
 
@@ -42,3 +42,4 @@ To simplify this, you can have a look at the qrbill.tds.zip, which provides an a
 
  * v1.00 (2020-06-28) First official version
  * v1.01 (2020-06-29) Add tds package and the separate option
+ * v1.02 (2020-08-23) Fix placement for separate=symbols
