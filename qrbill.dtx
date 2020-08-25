@@ -54,7 +54,7 @@
 % \fi
 % \iffalse
 %<*driver>
-\ProvidesFile{qrbill.dtx}[2020/08/23 v1.02 \ create QR-bills based on the Swiss standard]
+\ProvidesFile{qrbill.dtx}[2020/08/25 v1.02 \ create QR-bills based on the Swiss standard]
 \documentclass[english, parskip=half-]{scrartcl}
 \usepackage{iftex}
 \ifPDFTeX
@@ -170,7 +170,7 @@
 %</driver>
 %\fi
 %
-% \changes{v1.0}{2020/06/28}{First official version}
+% \changes{v1.00}{2020/06/28}{First official version}
 %
 % \GetFileInfo{qrbill.dtx}
 %
@@ -297,7 +297,7 @@
 % \ExplSyntaxOff
 %
 % \changes{v1.01}{2020/06/29}{Add separate option to modify the top rule of the QR bill}
-% \changes{v1.02}{2020/08/23}{Fix placement issue with separate option}
+% \changes{v1.02}{2020/08/25}{Fix placement issue with separate option}
 % \item[separate (false/text/symbol) (text)]
 % Setup the separation rule between the document and the qrbill. If the value is text or symbol the Info \enquote{\qrbillseparatename} or the corresponding translation will be printed on top of the frame. This option will be ignored it the frame has no top rule.
 % \end{optionlist}
@@ -320,7 +320,7 @@
 %   Trailer=EPD,
 % }
 % \end{doccode}
-% These fields are required to use these values for Version 2.1 of the QRbill standard.. If any future changes on the standard would require changes, they can be overwritten or redefined by using a custom implementation file, similar to swiss.qrbill-cfg.tex.
+% These fields are required to use these values for Version 2.1 of the QRbill standard. If any future changes on the standard would require changes, they can be overwritten or redefined by using a custom implementation file, similar to swiss.qrbill-cfg.tex.
 %
 % \changes{v1.02}{2020/08/25}{Note the version number inconsistency in the official guidelines}
 % Be aware that we use the versioncode \code{0210}, as this is the current, implemented standard from the official guidelines, which replaced version 2.0 in 09/2019.
@@ -426,7 +426,7 @@
 % \section{Implementation}
 %    \begin{macrocode}
 \RequirePackage{expl3}
-\ProvidesExplPackage{qrbill}{2020/08/23}{1.02}{
+\ProvidesExplPackage{qrbill}{2020/08/25}{1.02}{
   Template for QR-bills based on the Swiss Payment Standards
 }
 \RequirePackage{iftex}
