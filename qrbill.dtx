@@ -320,7 +320,13 @@
 %   Trailer=EPD,
 % }
 % \end{doccode}
-% These fields are currently required to use these values. If any future changes on the standard would require changes, they can be overwritten or redefined by using a custom implementation file, similar to swiss.qrbill-cfg.tex.
+% These fields are required to use these values for Version 2.1 of the QRbill standard.. If any future changes on the standard would require changes, they can be overwritten or redefined by using a custom implementation file, similar to swiss.qrbill-cfg.tex.
+%
+% \changes{v1.02}{2020/08/25}{Note the version number inconsistency in the official guidelines}
+% Be aware that we use the versioncode \code{0210}, as this is the current, implemented standard from the official guidelines, which replaced version 2.0 in 09/2019.
+% As the mentioned example in v2.1 of the official guidelines use an outdated version code (e.g. \code{0200}), some banking apps may refuse the processing of the QR code. Hence, this is not a bug of the qrbill package, but of these apps.
+% Feel free to change the version back to \code{0200} to override and support the replaced standard.
+% The corresponding issue and discussion can be found at \url{https://github.com/peiTeX/qrbill/issues/3}.
 %
 % Additionally the Currency has been initialized to use \enquote{CHF}. This also can be overwritten. Currently the Swiss standards only allow the values \code{CHF} or \code{EUR}.
 % \subsection{Address data}
