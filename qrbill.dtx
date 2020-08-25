@@ -262,6 +262,11 @@
 % \item[frame (true/false/top/bottom) (true)]
 % Switch to disable the frame around the created QRbill. The top/bottom options should be prefered when the bill is embedded into a document of a4 papersize.
 %
+% \changes{v1.02}{2020/08/25}{add ibanseparator option}
+% \item[ibanseparator (tokenlist) (\textbackslash,)]
+% Set the tokenlist to separate the account numbers. See option \code{sep-iban} for
+% further information.
+%
 % \item[icon (swiss-cross/filename) (<empty>)]
 % The swiss standard describes the placement of a swiss-cross icon in the center of the QRcode. This can be achieved using this option. The default is set empty, so no icon will be placed. If this option holds another string than \enquote{swiss-cross} it will be interpreted as filename and try to load a custom image.
 %
@@ -269,7 +274,27 @@
 % This option allows custom scaling for custom icons.
 
 % \item[qrscheme (Name of a custom QRbill scheme) (swiss)]
-% Loads the definitions for the QRcode and the BillingInformation. Currently only the swiss qrbill scheme is available, but one can define own variants based on this file. Users can copy the file swiss.qrbill-cfg.tex as an example.
+% Loads the definitions for the QRcode and the BillingInformation. Currently only the
+% swiss qrbill scheme is available, but one can define own variants based on this file.
+% Users can copy the file swiss.qrbill-cfg.tex as an example.
+%
+% \changes{v1.02}{2020/08/25}{add referenceseparator option}
+% \item[referenceseparator (tokenlist) (\textbackslash,)]
+% Set the tokenlist to separate the reference codes. See option \code{sep-reference} for
+% further information.
+%
+% \changes{v1.02}{2020/08/25}{add sep-iban/sep-reference option}
+% \item[sep-iban\\sep-reference (integer) (0)]
+% Set the size of character groups to separate these. Positive values will be counted left to right. Negative ones the other way round.
+% The most variants of the Swiss QRbill use values of \code{sep-iban=4} and \code{sep-reference=-5} e.\,g.:
+%
+% \ExplSyntaxOn
+% \begingroup
+% \keys_set:nn {qrbill} {sep-iban=4,sep-reference=-5}
+% Iban:~\__qrbill_sep_tl:nn {iban} {CH1280808005649899718}\\
+% Reference:~\__qrbill_sep_tl:nn {reference} {000000000000000000000000152}
+% \endgroup
+% \ExplSyntaxOff
 %
 % \changes{v1.01}{2020/06/29}{Add separate option to modify the top rule of the QR bill}
 % \changes{v1.02}{2020/08/23}{Fix placement issue with separate option}
@@ -489,6 +514,14 @@
   ,
   separate / false .code:n = {\bool_gset_false:N \g__qrbill_separateinfo_bool},
   separate .initial:n = text,
+  sep-iban .int_gset:N = \g__qrbill_ibansep_int,
+  sep-iban .initial:n = 0,
+  ibanseperator .tl_gset:N = \g__qrbill_ibansep_tl,
+  ibanseperator  .initial:n = {\,},
+  sep-reference .int_gset:N = \g__qrbill_referencesep_int,
+  sep-reference .initial:n = 0,
+  referenceseperator .tl_gset:N = \g__qrbill_referencesep_tl,
+  referenceseperator .initial:n = {\,}
 }
 
 \ProcessKeysOptions{qrbill}
@@ -586,14 +619,16 @@
         \vbox_to_ht:nn {56mm}{
           {\qrbill_headingR_font:\qrbillaccountname\par}
           {
-            \qrbill_valueR_font:\tl_use:c {l_qrbill_data_Account_tl}\par
+            \qrbill_valueR_font:
+            \__qrbill_sep_tl:nV {iban} \l_qrbill_data_Account_tl\par
             \qrbill_insert_address:N \g__qrbill_creditorprefix_tl
             \par\vskip\baselineskip
           }
           \tl_if_empty:NF \l_qrbill_data_Reference_tl {
             {\qrbill_headingR_font:\qrbillreferencename\par}
             {
-              \qrbill_valueR_font:\tl_use:c {l_qrbill_data_Reference_tl}
+              \qrbill_valueR_font:
+              \__qrbill_sep_tl:nV {reference} \l_qrbill_data_Reference_tl
               \par\vskip\baselineskip
             }
           }
@@ -672,13 +707,15 @@
           \par\nointerlineskip
           {\qrbill_headingP_font:\qrbillaccountname\par}
           {
-            \qrbill_valueP_font:\tl_use:c {l_qrbill_data_Account_tl}\par
+            \qrbill_valueP_font:
+            \__qrbill_sep_tl:nV {iban} \l_qrbill_data_Account_tl \par
             \qrbill_insert_address:N \g__qrbill_creditorprefix_tl
             \par\vskip\baselineskip
           }
           \tl_if_empty:NF \l_qrbill_data_Reference_tl {
             {\qrbill_headingP_font:\qrbillreferencename\par}
-            {\qrbill_valueP_font:\tl_use:c {l_qrbill_data_Reference_tl}
+            {\qrbill_valueP_font:
+              \__qrbill_sep_tl:nV {reference} \l_qrbill_data_Reference_tl
               \par\vskip\baselineskip}
           }
           \exp_args:Nf \tl_if_empty:nF  {
@@ -812,6 +849,35 @@
         }
       }
 }
+
+\cs_new:Nn \__qrbill_sep_tl:nn {
+	\int_compare:nTF  {\int_use:c {g__qrbill_#1sep_int} = 0} {
+		#2
+	}{
+		\str_set:Nn \l_tmpa_str {#2}
+		\int_compare:nT {\int_use:c  {g__qrbill_#1sep_int} < 0} {
+			\tl_reverse:N \l_tmpa_str
+		}
+		\int_set:Nn \l_tmpb_int {\int_abs:n {\int_use:c {g__qrbill_#1sep_int}}}
+		\int_set:Nn \l_tmpa_int {1}
+		\tl_clear:N \l_tmpa_tl
+		\int_while_do:nn {\l_tmpa_int < \str_count:N \l_tmpa_str} {
+			\tl_put_right:Nx \l_tmpa_tl {
+				\str_range:Nnn \l_tmpa_str {\l_tmpa_int} {\l_tmpa_int + \l_tmpb_int-1}
+			}
+			\int_add:Nn \l_tmpa_int {\l_tmpb_int}
+			\tl_put_right:Nn \l_tmpa_tl {{\tl_use:c {g__qrbill_#1sep_tl}}}
+		}
+		\tl_put_right:Nx \l_tmpa_tl {
+			\str_range:Nnn \l_tmpa_str {\l_tmpa_int} {\str_count:N \l_tmpa_str}
+		}
+		\int_compare:nT {\int_use:c  {g__qrbill_#1sep_int} < 0} {
+			\tl_reverse:N \l_tmpa_tl
+		}
+		\l_tmpa_tl
+	}
+}
+\cs_generate_variant:Nn \__qrbill_sep_tl:nn {nV}
 
 \newcommand*{\insertdebtor}{\null\qrbill_insert_address:N \g__qrbill_debtorprefix_tl}
 \newcommand*{\insertcreditor}{\null\qrbill_insert_address:N \g__qrbill_creditorprefix_tl}
