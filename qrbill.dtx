@@ -311,22 +311,27 @@
 %
 % \section{Setup for the preconfigured Swiss QR-bill}
 % \subsection{Preconfigured data}
+% \changes{v1.03}{2021/05/07}{Update to swiss qrbill standard version 2.2}
 % The initial configuration which uses the Swiss standard already adds the following data:
 % \begin{doccode}
 % \SetupQrBill{
 %   QRType=SPC,
-%   Version=0210,
+%   Version=0200,
 %   CodingType=1,
 %   Trailer=EPD,
 % }
 % \end{doccode}
-% These fields are required to use these values for Version 2.1 of the QRbill standard. If any future changes on the standard would require changes, they can be overwritten or redefined by using a custom implementation file, similar to swiss.qrbill-cfg.tex.
+% These fields are required to use these values for Version 2.2 of the QRbill standard. If any future changes on the standard would require changes, they can be overwritten or redefined by using a custom implementation file, similar to swiss.qrbill-cfg.tex.
 %
 % \changes{v1.02}{2020/08/25}{Note the version number inconsistency in the official guidelines}
-% Be aware that we use the versioncode \code{0210}, as this is the current, implemented standard from the official guidelines, which replaced version 2.0 in 09/2019.
-% As the mentioned example in v2.1 of the official guidelines use an outdated version code (e.g. \code{0200}), some banking apps may refuse the processing of the QR code. Hence, this is not a bug of the qrbill package, but of these apps.
-% Feel free to change the version back to \code{0200} to override and support the replaced standard.
-% The corresponding issue and discussion can be found at \url{https://github.com/peiTeX/qrbill/issues/3}.
+% Be aware that version 2.1 of the standard requested to use the versioncode \code{0210}.
+% With the update to version 2.2 of the standard this was changed to \code{0200}.
+% This change was caused by a discrepancy between the standard and the commong implementation.
+% Most of them continued to use the version code \code{0200} therefore SIX decided to keep this error and created a workaround with finally documenting this change in version 2.2 of the guildelines.
+% \begin{quote}
+%Note: In collaboration with representatives of the financial center, SIX has decided that only the version designation “0200” is permitted in master version 02. From master version 03 onwards, depiction of subversions is enabled.\\\hspace*{\fill}\cite{qrbill-spec}
+% \end{quote}
+% The corresponding issue and discussion concerning this especially for version 2.1 can be found at \url{https://github.com/peiTeX/qrbill/issues/3}.
 %
 % Additionally the Currency has been initialized to use \enquote{CHF}. This also can be overwritten. Currently the Swiss standards only allow the values \code{CHF} or \code{EUR}.
 % \subsection{Address data}
@@ -1057,7 +1062,7 @@
 
 \SetupQrBill{
         QRType=SPC,
-        Version=0210,
+        Version=0200,
         CodingType=1,
         Trailer=EPD,
         Currency=CHF,
@@ -1072,7 +1077,7 @@
 %
 % \PrintChanges
 % \begin{thebibliography}{99}
-% \bibitem{qrbill-spec} Swiss Implementation Guidelines QR-bill: Technical and professional specifications of the payment part with Swiss QR Code and of the receipt. Version 2.1, with effect from 30 September 2019. \url{https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf}
+% \bibitem{qrbill-spec} Swiss Implementation Guidelines QR-bill: Technical and professional specifications of the payment part with Swiss QR Code and of the receipt. Version 2.2, with effect from 22 February 2021. \url{https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf}. Last checked 2021-05-07
 % \bibitem{qrbill-design} Style Guide QR-billStyle Guide QR-bill: The right layout pays off. Layout rules and recommendations for the payment part with Swiss QR Code and for the receipt. \url{https://www.paymentstandards.ch/dam/downloads/style-guide-en.pdf}
 % \end{thebibliography}
 % \appendix
