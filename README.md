@@ -4,7 +4,7 @@ Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2020/08/25 v1.02
+qrbill 2021/xx/xx v1.03
 
 ***************************************************************************
 
@@ -44,5 +44,8 @@ To simplify this, you can have a look at the qrbill.tds.zip, which provides an a
  * v1.01 (2020-06-29) Add tds package and the separate option
  * v1.02 (2020-08-25)
    - Fix placement issue with separate option
-   - add sep-iban/sep-reference mechanism
-   - not on version number inconsistency
+   - Add sep-iban/sep-reference mechanism
+   - Not on version number inconsistency
+ * v1.03 (2021-xx-xx)
+   - Update to swiss qrbill payments standard v2.2
+   - Add seb-iban and sep-reference to the example files
