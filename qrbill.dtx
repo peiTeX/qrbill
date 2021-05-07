@@ -1082,6 +1082,7 @@
 % \end{thebibliography}
 % \appendix
 % \section{Example of standalone qrbill}
+% \changes{v1.03}{2021/05/07}{set sep-iban and sep-reference in examples}
 % \label{standalone-complete}
 % \iffalse
 %    \begin{macrocode}
@@ -1094,7 +1095,12 @@
 \usepackage[nswissgerman]{babel}
 
 \RequirePackage{xcolor}
-\usepackage[icon=swiss-cross,separate=false]{qrbill}
+\usepackage[
+  icon=swiss-cross,
+  separate=false,
+  sep-iban=4,
+  sep-reference=-5
+]{qrbill}
 
 \begin{document}
 
@@ -1134,7 +1140,11 @@
 %    \begin{macrocode}
 % !TeX Program=lualatex
 \documentclass[foldmarks=b]{scrletter}
-\usepackage[frame=top]{qrbill}
+\usepackage[
+  frame=top,
+  sep-iban=4,
+  sep-reference=-5,
+]{qrbill}
 
 % Setup layer
 \DeclareNewLayer[
