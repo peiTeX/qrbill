@@ -4,7 +4,7 @@ Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2021/xx/xx v1.03
+qrbill 2021/05/10 v1.03
 
 ***************************************************************************
 
@@ -46,6 +46,6 @@ To simplify this, you can have a look at the qrbill.tds.zip, which provides an a
    - Fix placement issue with separate option
    - Add sep-iban/sep-reference mechanism
    - Not on version number inconsistency
- * v1.03 (2021-xx-xx)
+ * v1.03 (2021-05-10)
    - Update to swiss qrbill payments standard v2.2
    - Add seb-iban and sep-reference to the example files
