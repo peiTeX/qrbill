@@ -1,6 +1,6 @@
 # qrbill – create QR-bills based on the swiss payment standard
 
-Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020
+Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020–2021
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
