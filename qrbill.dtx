@@ -426,6 +426,35 @@
 % \ExplSyntaxOn
 % \prop_map_inline:Nn \g__qrbill_billing_info_prop {#2~(#1)\\}
 % \ExplSyntaxOff
+%
+% \section{Setup for EPC QR codes}
+% EPC QR codes can be used for SEPA credit transfer (SCT).
+% They do not include any data about the debtor or tax information.
+% Therefore they may only be used with the starred variant of \latexinline{\QRbill*} or the user has to provide additional data interfaces.
+% \subsection{Preconfigured data}
+% \changes{v1.04}{2022/07/01}{Add basic support for EPC QR codes}
+% The epc qrscheme provided by this package preset the following data:
+% \begin{doccode}
+% \SetupQrBill{
+%	   QRType=BCD,
+%	   Version=002,
+%	   CodingType=1,% UTF-8, 2 would be ISO
+%	   Trailer=SCT,
+%	 }
+% \end{doccode}
+% These fields are required to use these values for the current version of the EPC QR code.
+%
+% \subsection{Required data}
+% The data fields required by the EPC QRcode can be set directly a full example for an easy EPC qrcode would be
+% \begin{doccode}
+% 	\QRbill*[
+%		BIC=BYLADEM1GLS,
+%		Account=DE68430609671013251700,
+% 	Name=peiTeX,
+% 	Amount=EUR123.42,
+% 	Message={Invoice 2022:1337, customer 1337}
+% 	]
+% \end{doccode}
 % \iffalse
 % \section{Implementation}
 %    \begin{macrocode}
@@ -1008,9 +1037,6 @@
 %</qrbill.sty>
 % \section{The file swiss.qrbill-cfg.tex as a custom qrbill scheme}
 %<*swiss.qrbill-cfg.tex>
-%    \end{macrocode}
-% \fi
-%    \begin{macrocode}
 \qrbillsetup{
         creditorprefix =CR-,
         debtorprefix =UD-,
@@ -1080,7 +1106,7 @@
 %    \end{macrocode}
 % \section{The file epc.qrbill-cfg.tex as a custom qrbill scheme}
 % This scheme supports much less variables in contrast to the swiss scheme.
-% Therefore the \code{\QRbill} macro has to be used as the starred variant or additional variables have to be provided by the user.
+% Therefore the \latexinline{\QRbill} macro has to be used as the starred variant or additional variables have to be provided by the user.
 %<*epc.qrbill-cfg.tex>
 %    \end{macrocode}
 % \fi
@@ -1106,9 +1132,6 @@
 	CodingType=1,
 	Trailer=SCT,
 }
-%    \end{macrocode}
-% \iffalse
-%    \begin{macrocode}
 %</epc.qrbill-cfg.tex>
 %    \end{macrocode}
 % \fi
