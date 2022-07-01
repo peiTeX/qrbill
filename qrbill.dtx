@@ -82,7 +82,7 @@
 \EnableCrossrefs
 \PageIndex
 \RecordChanges
-\newmintinline[code]{latex}{}
+\newmintinline{latex}{}
 
 \newcommand*\repl[1]{\meta{#1}}
 \newcommand*\opt[1]{\colorbox{black!20}{\meta{#1}}}
@@ -215,7 +215,7 @@
 % \end{doccode}
 %
 % \DescribeMacro{\QRbill}\oarg{Data Setup}
-% The macro \code{\QRbill} creates a box of 210\,mm${}\times{}$105\,mm size. It will include a qrbill as described in the design guide \cite{qrbill-design} and insert all available data.
+% The macro \latexinline{\QRbill} creates a box of 210\,mm${}\times{}$105\,mm size. It will include a qrbill as described in the design guide \cite{qrbill-design} and insert all available data.
 %
 % There is also an example in the appendix showing all data fields (see appendix \ref{standalone-complete} on page \pageref{standalone-complete}).
 %
@@ -236,14 +236,14 @@
 % \item numprint
 % \end{itemize}
 %
-% As a default font \enquote{Liberation Sans} will be used. This will be loaded using fontspec, which would require the use of Lua\LaTeX{} or Xe\LaTeX{} as a compiler. To have a workaround for this, see the \code{font} option on page  \pageref{opt:font} for a custom font setup.
+% As a default font \enquote{Liberation Sans} will be used. This will be loaded using fontspec, which would require the use of Lua\LaTeX{} or Xe\LaTeX{} as a compiler. To have a workaround for this, see the \latexinline{font} option on page  \pageref{opt:font} for a custom font setup.
 %
 % \section{Package options}
 %
 % \begin{optionlist}
 %
 % \item[billinginfo (true/false) (true)]
-% Activate/deactivate the automatic fill of the BillingInformation. If this is set to \code{false} one still can add data to this field using the \code{BillingInformation} key, as Described in section \ref{sec:data-setup}.
+% Activate/deactivate the automatic fill of the BillingInformation. If this is set to \latexinline{false} one still can add data to this field using the \latexinline{BillingInformation} key, as Described in section \ref{sec:data-setup}.
 %
 % \item[creditorprefix\\debtorprefix (String) (CR-/UD-)]
 % For custom setups the predefined prefixes for the debtor and creditoraddress can be changes. The initial configuration is a requirement of the Swiss standards.
@@ -252,7 +252,7 @@
 % \label{opt:font}
 % The official guideline for the Swiss qrbill limits the choice of the font to the first four values of this option. The font selection and sizes currently hardcoded to fit to the size. Custom setups might be provided in the future.
 %
-% In case one wants to use a custom font, you can set the option \code{font=custom}. This will disable all font setup and not prevent the fontspec package from being loaded. You can redefine the macro \code{qrbillfont} to use any font available on your system, for example:
+% In case one wants to use a custom font, you can set the option \latexinline{font=custom}. This will disable all font setup and not prevent the fontspec package from being loaded. You can redefine the macro \latexinline{qrbillfont} to use any font available on your system, for example:
 % \begin{doccode}
 % \usepackage{fontspec}
 % % The Laconic font has to be installed
@@ -264,7 +264,7 @@
 %
 % \changes{v1.02}{2020/08/25}{add ibanseparator option}
 % \item[ibanseparator (tokenlist) (\textbackslash,)]
-% Set the tokenlist to separate the account numbers. See option \code{sep-iban} for
+% Set the tokenlist to separate the account numbers. See option \latexinline{sep-iban} for
 % further information.
 %
 % \item[icon (swiss-cross/filename) (<empty>)]
@@ -280,13 +280,13 @@
 %
 % \changes{v1.02}{2020/08/25}{add referenceseparator option}
 % \item[referenceseparator (tokenlist) (\textbackslash,)]
-% Set the tokenlist to separate the reference codes. See option \code{sep-reference} for
+% Set the tokenlist to separate the reference codes. See option \latexinline{sep-reference} for
 % further information.
 %
 % \changes{v1.02}{2020/08/25}{add sep-iban/sep-reference option}
 % \item[sep-iban\\sep-reference (integer) (0)]
 % Set the size of character groups to separate these. Positive values will be counted left to right. Negative ones the other way round.
-% The most variants of the Swiss QRbill use values of \code{sep-iban=4} and \code{sep-reference=-5} e.\,g.:
+% The most variants of the Swiss QRbill use values of \latexinline{sep-iban=4} and \latexinline{sep-reference=-5} e.\,g.:
 %
 % \ExplSyntaxOn
 % \begingroup
@@ -305,7 +305,7 @@
 % \section{Data setup}
 % \label{sec:data-setup}
 % \DescribeMacro{\qrbillsetdata}
-% The data fields can be filled either using the optional argument of \code{\QRbill} or using the macro \code{\qrbillsetdata}. Section \ref{sec:data-complete} shows a list of all available fields and appendix \ref{standalone-complete} provides an example of use. For further information on the construction of the QRcode see the specification \cite{qrbill-spec}.
+% The data fields can be filled either using the optional argument of \latexinline{\QRbill} or using the macro \latexinline{\qrbillsetdata}. Section \ref{sec:data-complete} shows a list of all available fields and appendix \ref{standalone-complete} provides an example of use. For further information on the construction of the QRcode see the specification \cite{qrbill-spec}.
 %
 % To simplify the usage qrbill provides an interface to use the different types of address data and is able to create a \enquote{billing information} string as described in \cite{qrbill-spec} using the single data elements.
 %
@@ -324,18 +324,18 @@
 % These fields are required to use these values for Version 2.2 of the QRbill standard. If any future changes on the standard would require changes, they can be overwritten or redefined by using a custom implementation file, similar to swiss.qrbill-cfg.tex.
 %
 % \changes{v1.02}{2020/08/25}{Note the version number inconsistency in the official guidelines}
-% Be aware that version 2.1 of the standard requested to use the versioncode \code{0210}.
-% With the update to version 2.2 of the standard this was changed to \code{0200}.
+% Be aware that version 2.1 of the standard requested to use the versioncode \latexinline{0210}.
+% With the update to version 2.2 of the standard this was changed to \latexinline{0200}.
 % This change was caused by a discrepancy between the standard and the commong implementation.
-% Most of them continued to use the version code \code{0200} therefore SIX decided to keep this error and created a workaround with finally documenting this change in version 2.2 of the guildelines.
+% Most of them continued to use the version code \latexinline{0200} therefore SIX decided to keep this error and created a workaround with finally documenting this change in version 2.2 of the guildelines.
 % \begin{quote}
 %Note: In collaboration with representatives of the financial center, SIX has decided that only the version designation “0200” is permitted in master version 02. From master version 03 onwards, depiction of subversions is enabled.\\\hspace*{\fill}\cite{qrbill-spec}
 % \end{quote}
 % The corresponding issue and discussion concerning this especially for version 2.1 can be found at \url{https://github.com/peiTeX/qrbill/issues/3}.
 %
-% Additionally the Currency has been initialized to use \enquote{CHF}. This also can be overwritten. Currently the Swiss standards only allow the values \code{CHF} or \code{EUR}.
+% Additionally the Currency has been initialized to use \enquote{CHF}. This also can be overwritten. Currently the Swiss standards only allow the values \latexinline{CHF} or \latexinline{EUR}.
 % \subsection{Address data}
-% The Swiss payment standards for QR-bills require the following data for the address of creditor (Prefix \code{CR-})  and debtor (Prefix \code{UD-}):
+% The Swiss payment standards for QR-bills require the following data for the address of creditor (Prefix \latexinline{CR-})  and debtor (Prefix \latexinline{UD-}):
 % \begin{center}
 % \begin{tabular}{@{}>{\ttfamily}l>{\centering}p{.25\linewidth}>{\centering\arraybackslash}p{.25\linewidth}@{}}
 % \toprule
@@ -348,7 +348,7 @@
 % Country& \multicolumn{2}{c}{Country Code}\\\bottomrule
 % \end{tabular}
 % \end{center}
-% To set an address of type \enquote{K} one can use they option key \code{debtor} or \code{creditor}. Type \enquote{S} can be achieved using the starred variant (\code{debtor*}/\code{creditor*}).
+% To set an address of type \enquote{K} one can use they option key \latexinline{debtor} or \latexinline{creditor}. Type \enquote{S} can be achieved using the starred variant (\latexinline{debtor*}/\latexinline{creditor*}).
 %
 % \begin{minipage}{.5\linewidth}
 % \begin{doccode}
@@ -390,7 +390,7 @@
 %   /31/180508/32/7.7/40/2:10;0:30
 % \end{doccode}
 % \subsection{AV-Parameters}
-% The QRcode can use 2 AV Parameters. They have to carry the Prefix of \enquote{Name AV1:}/\enquote{Name AV2:}. This will be automatically added if the keys \code{AV1}/\code{AV2} are used instead of \code{AV1-Parameters}/\code{AV2-Parameters}.
+% The QRcode can use 2 AV Parameters. They have to carry the Prefix of \enquote{Name AV1:}/\enquote{Name AV2:}. This will be automatically added if the keys \latexinline{AV1}/\latexinline{AV2} are used instead of \latexinline{AV1-Parameters}/\latexinline{AV2-Parameters}.
 %
 % \subsection{Remaining data elements}
 % The remaining data elements should be set directly.
