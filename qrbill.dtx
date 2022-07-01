@@ -23,8 +23,8 @@
 % This work consists of the files
 % qrbill.dtx and qrbill.ins, qrbill-vocab.csv
 % and the derived files
-% qrbill.sty, swiss.qrbill-cfg.tex, qrbill-letter-demo.tex,
-%  qrbill-standalone-demo.tex .
+% qrbill.sty, swiss.qrbill-cfg.tex, epc.qrbill-cfg.tex,
+% qrbill-letter-demo.tex, qrbill-standalone-demo.tex.
 %
 % The development repository can be found at
 % https://github.com/peitex/qrbill
@@ -1077,6 +1077,39 @@
 % \iffalse
 %    \begin{macrocode}
 %</swiss.qrbill-cfg.tex>
+%    \end{macrocode}
+% \section{The file epc.qrbill-cfg.tex as a custom qrbill scheme}
+% This scheme supports much less variables in contrast to the swiss scheme.
+% Therefore the \code{\QRbill} macro has to be used as the starred variant or additional variables have to be provided by the user.
+%<*epc.qrbill-cfg.tex>
+%    \end{macrocode}
+% \fi
+%    \begin{macrocode}
+\SetQrScheme{
+	QRType,
+	Version,
+	CodingType,
+	Trailer,
+	BIC,
+	Name,
+	Account,
+	Amount,
+	DTA,
+	Reference,
+	Message,
+	Note
+}
+
+\SetupQrBill{
+	QRType=BCD,
+	Version=002,
+	CodingType=1,
+	Trailer=SCT,
+}
+%    \end{macrocode}
+% \iffalse
+%    \begin{macrocode}
+%</epc.qrbill-cfg.tex>
 %    \end{macrocode}
 % \fi
 %
