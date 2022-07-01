@@ -781,11 +781,17 @@
   \endgroup
 }
 
-\newcommand{\QRbill}[1][]{
-  \begingroup
-  \tl_if_empty:nF {#1} {\keys_set:nn {qrbill/data} {#1}}
-  \qrbill_bill_create:
-  \endgroup
+\NewDocumentCommand{\QRbill}{so}{
+	\begingroup
+	\IfNoValueF{#2} {\keys_set:nn {qrbill/data} {#2}}
+	\IfBooleanTF {#1}
+	{
+		\qrcode_setup_QRcode:
+		\qrbill_parse_QRcode:V \l_qrbill_data_str
+	}{
+		\qrbill_bill_create:
+	}
+	\endgroup
 }
 
 \ior_new:N \qrbill_ior
