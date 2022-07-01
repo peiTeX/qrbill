@@ -60,7 +60,7 @@
 \ifPDFTeX
 \usepackage[T1]{fontenc}
 \fi
-\usepackage{doc}
+\usepackage[hyperref=false]{doc}
 \usepackage[cache, langlinenos]{minted}
 % Need to set the style here so that it is defined and brought in here.
 % If the style is set later, then docstrip interferes with any comments in
@@ -79,7 +79,6 @@
 \usepackage{babel}
 \usepackage[babel]{csquotes}
 
-\EnableCrossrefs
 \PageIndex
 \RecordChanges
 \newmintinline{latex}{}
