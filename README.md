@@ -1,10 +1,10 @@
 # qrbill – create QR-bills based on the swiss payment standard
 
-Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020–2021
+Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020–2022
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2021/05/10 v1.03
+qrbill 2022/07/02 v1.04
 
 ***************************************************************************
 
@@ -24,6 +24,7 @@ qrbill 2021/05/10 v1.03
 The files
 * qrbill.sty
 * swiss.qrbill-cfg.tex
+* epc.qrbill-cfg.tex
 as well as the demo files
 * qrbill-standalone-demo.tex
 * qrbill-letter-demo.tex
@@ -49,3 +50,6 @@ To simplify this, you can have a look at the qrbill.tds.zip, which provides an a
  * v1.03 (2021-05-10)
    - Update to swiss qrbill payments standard v2.2
    - Add seb-iban and sep-reference to the example files
+ * v1.04 (2022/07/02)
+   - add basic support for EPC QR codes
+   - add date parsing mechanism to preset the dates to values of `\today`
