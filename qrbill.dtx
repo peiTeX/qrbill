@@ -312,10 +312,10 @@
 % Version 1.04 adds a starred variant to expand the argument before setting the data. This might be usefull for using counters or other variables inside the command.
 %
 % \section{Parsing dates}
-% In version v1.04 qrbill introduced the functionality to parse dates. For the swiss data scheme the fields \texinline{invoicedate} and \texinline{vatdate} are prefilled with the compilation date.
+% In version v1.04 qrbill introduced the functionality to parse dates. For the swiss data scheme the fields \latexinline{invoicedate} and \latexinline{vatdate} are prefilled with the compilation date.
 % \changes{v1.04}{2022/07/02}{Add date parsing mechanisms}
 % \DescribeMacro{\QRbillParseDate}\marg{year}\marg{month}\marg{day}
-% To be compatible with language specific setups the usage of \texinline{\today} is not allowed directly but one can use
+% To be compatible with language specific setups the usage of \latexinline{\today} is not allowed directly but one can use
 % \begin{doccode}
 %	\qrbillsetdata*{
 %		invoicedate=\QRbillParseDate{\the\year}{\the\month}{\the\day}
@@ -460,15 +460,15 @@
 % These fields are required to use these values for the current version of the EPC QR code.
 %
 % \subsection{Required data}
-% The data fields required by the EPC QRcode can be set directly a full example for an easy EPC qrcode would be
+% The data fields required by the EPC QRcode can be set directly. A full example for an easy EPC qrcode would be
 % \begin{doccode}
-% 	\QRbill*[
-%		BIC=BYLADEM1GLS,
-%		Account=DE68430609671013251700,
-% 	Name=peiTeX,
-% 	Amount=EUR123.42,
-% 	Message={Invoice 2022:1337, customer 1337}
-% 	]
+%   \QRbill*[
+%     BIC=BYLADEM1GLS,
+%     Account=DE68430609671013251700,
+%     Name=peiTeX,
+%     Amount=EUR123.42,
+%     Message={Invoice 2022:1337, customer 1337}
+%   ]
 % \end{doccode}
 % \iffalse
 % \section{Implementation}
