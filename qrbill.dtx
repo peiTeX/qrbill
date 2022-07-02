@@ -1131,13 +1131,15 @@
 }
 \ExplSyntaxOff
 
-\SetupQrBill{
+\SetupQrBill*{
         QRType=SPC,
         Version=0200,
         CodingType=1,
         Trailer=EPD,
         Currency=CHF,
         ReferenceType=NON,
+        invoicedate=\QRbillParseDate{\the\year}{\the\month}{\the\day},
+        vatdate=\QRbillParseDate{\the\year}{\the\month}{\the\day}
 }
 %    \end{macrocode}
 % \iffalse
