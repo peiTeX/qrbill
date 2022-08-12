@@ -653,6 +653,10 @@
 	\file_if_exist:nTF {qrencode.lua} {
 		\lua_load_module:n {qrbill-latexluaqrcode}
 	} {
+		\msg_new:nnn {qrbill} {luaqrcode-not-found} {
+			Could~not~find~the~required~library~for~qrmode=lua.\\
+			I~will~switch~to~qrmode=package.
+		}
 		\msg_warning:nn {qrbill} {luaqrcode-not-found}
 		\bool_gset_false:N \g__qrbill_luamode_bool
 	}
