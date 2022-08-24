@@ -1004,18 +1004,31 @@
 
 \prop_new:N \g__qrbill_billing_info_prop 
 \seq_new:N \g__qrbill_billing_info_seq
+
+\clist_new:N \g__qrbill_billing_info_static_clist
+\newcommand*{\SetStaticData}[1]{\clist_gset:Nx \g__qrbill_billing_info_static_clist {\tl_to_str:n {#1}}}
+
 \newcommand*{\SetBillingInfoScheme}[1]{
   \prop_gset_from_keyval:Nn \g__qrbill_billing_info_prop {#1}
   \seq_gclear:N  \g__qrbill_billing_info_seq
   \prop_map_inline:Nn \g__qrbill_billing_info_prop {
-    \exp_args:Nx \clist_if_in:nnF {\tl_to_str:n {prefix , postfix}} {##1} {
-      \seq_push:Nn  \g__qrbill_billing_info_seq {##1}
+    \clist_if_in:NnF \g__qrbill_billing_info_static_clist {##1} {
+      \seq_push:Nn \g__qrbill_billing_info_seq {##1}
     }
     \keys_define:nn {qrbill/data} {
       ##2 .tl_set:c = l_qrbill_##2_tl,
       ##2 .initial:n =,
     }
   }
+	\seq_if_empty:NF \g__qrbill_billing_info_seq {
+		\prop_map_inline:Nn \g__qrbill_billing_info_prop {
+			\clist_if_in:NnT \g__qrbill_billing_info_static_clist {##1} {
+				\exp_args:Nx \clist_if_in:nnF {\tl_to_str:n {prefix , postfix}} {##1} {
+					\seq_push:Nn  \g__qrbill_billing_info_seq {##1}
+		    }
+			}
+		}
+	}
   \seq_sort:Nn \g__qrbill_billing_info_seq {
     \int_compare:nNnTF { ##1 } > { ##2 }
         { \sort_return_swapped: }
@@ -1110,6 +1123,8 @@
   AV1-Parameters,
   AV2-Parameters
 }
+
+\SetStaticData{prefix,11,31}
 
 \SetBillingInfoScheme{
   prefix=//S1,
