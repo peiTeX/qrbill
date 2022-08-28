@@ -276,7 +276,11 @@
 %
 % \item[iconwidth (length) (7mm)]
 % This option allows custom scaling for custom icons.
-
+%
+% \item[qrmode (package/lua) (package)] Selects the mechanism for QRcode generation.
+% With Version 2.0 the package supports usage of the the luaqrcode library \cite{luaqrcode}. This can be enabled by using the \latexinline{qmode=lua} option.
+% In that case the luaqrcode libary has to be installed within the \verb+$LUAINPUTS+.
+%
 % \item[qrscheme (Name of a custom QRbill scheme) (swiss)]
 % Loads the definitions for the QRcode and the BillingInformation. Currently only the
 % swiss qrbill scheme is available, but one can define own variants based on this file.
@@ -1304,8 +1308,10 @@
 %
 % \PrintChanges
 % \begin{thebibliography}{99}
-% \bibitem{qrbill-spec} Swiss Implementation Guidelines QR-bill: Technical and professional specifications of the payment part with Swiss QR Code and of the receipt. Version 2.2, with effect from 22 February 2021. \url{https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf}. Last checked 2021-05-07
+% \bibitem{qrbill-spec} Swiss Implementation Guidelines QR-bill: Technical and professional specifications of the payment part with Swiss QR Code and of the receipt. Version 2.2, with effect from 22 February 2021. \url{https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf}. Last checked 2022-08-28
 % \bibitem{qrbill-design} Style Guide QR-billStyle Guide QR-bill: The right layout pays off. Layout rules and recommendations for the payment part with Swiss QR Code and for the receipt. \url{https://www.paymentstandards.ch/dam/downloads/style-guide-en.pdf}
+% \bibitem{luaqrcode} Luaqrcode – Pure Lua QR Code library.  By Patrick Gundlach (SPEEDATA GMBH) and contributors.
+% \url{http://speedata.github.io/luaqrcode/}. Last checked 2022-08-28
 % \end{thebibliography}
 % \appendix
 % \section{Example of standalone qrbill}
