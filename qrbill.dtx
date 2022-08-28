@@ -685,7 +685,7 @@
 
 \bool_if:NF \g__qrbill_luamode_bool {
   \usepackage{qrcode}
-  \cs_new:Nn \qrbill_parse_QRcode:n {
+  \cs_set:Nn \qrbill_parse_QRcode:n {
     \raisebox{\depth}{\qrcode[height= \g_qrbill_QRcode_dim]{#1}}
   }
 }
