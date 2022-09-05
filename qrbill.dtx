@@ -263,8 +263,9 @@
 % \renewcommand*{\qrbillfont}{\fontspec{Laconic}}
 % \end{doccode}
 %
-% \item[frame (true/false/top/bottom) (true)]
+% \item[frame (true/false/top/bottom/none) (true)]
 % Switch to disable the frame around the created QRbill. The top/bottom options should be prefered when the bill is embedded into a document of a4 papersize.
+% The option none also disables the vertical line inside the bill as this may be included on preprinted paper.
 %
 % \changes{v1.02}{2020/08/25}{add ibanseparator option}
 % \item[ibanseparator (tokenlist) (\textbackslash,)]
@@ -514,6 +515,7 @@
 \bool_new:N \g__qrbill_bottom_frame_bool
 \bool_new:N \g__qrbill_left_frame_bool
 \bool_new:N \g__qrbill_right_frame_bool
+\bool_new:N \g__qrbill_vertical_splitter_bool
 \bool_new:N \g__qrbill_separateinfo_bool
 \prop_new:N \g__qrbill_replacement_prop
 
@@ -542,29 +544,41 @@
   qrmode .initial:n = package,
   frame .choice:,
   frame / false .code:n = {
-    \bool_gset_false:N \__g__qrbill_top_frame_bool
+    \bool_gset_false:N \g__qrbill_top_frame_bool
     \bool_gset_false:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
+    \bool_gset_true:N \g__qrbill_vertical_splitter_bool
   },
   frame / true .code:n = {
     \bool_gset_true:N \g__qrbill_top_frame_bool
     \bool_gset_true:N \g__qrbill_bottom_frame_bool
     \bool_gset_true:N \g__qrbill_left_frame_bool
     \bool_gset_true:N \g__qrbill_right_frame_bool
+    \bool_gset_true:N \g__qrbill_vertical_splitter_bool
   },
   frame / top .code:n = {
     \bool_gset_true:N \g__qrbill_top_frame_bool
     \bool_gset_false:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
+    \bool_gset_true:N \g__qrbill_vertical_splitter_bool
   },
   frame / bottom .code:n = {
     \bool_gset_false:N \g__qrbill_top_frame_bool
     \bool_gset_true:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
+    \bool_gset_true:N \g__qrbill_vertical_splitter_bool
   },
+  frame / none .code:n = {
+    \bool_gset_false:N \g__qrbill_top_frame_bool
+    \bool_gset_false:N \g__qrbill_bottom_frame_bool
+    \bool_gset_false:N \g__qrbill_left_frame_bool
+    \bool_gset_false:N \g__qrbill_right_frame_bool
+    \bool_gset_false:N \g__qrbill_vertical_splitter_bool
+  },
+
   frame .initial:n = true,
   billinginfo .bool_gset:N = \g__grbill_billinginfo_auto_bool,
   billinginfo .default:n = true,
@@ -956,7 +970,9 @@
         {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
         {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
       \hspace{\dimexpr62mm-1.5\g__qrbill_rule_dim}
-      \rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}
+      \bool_if:NTF \g__qrbill_vertical_splitter_bool
+        {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
+        {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
       \hspace{\dimexpr148mm-1.5\g__qrbill_rule_dim}
       \bool_if:NTF \g__qrbill_right_frame_bool
         {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
