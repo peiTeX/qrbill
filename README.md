@@ -38,6 +38,21 @@ have to be placed in the $TEXINPUTS path.
 
 To simplify this, you can have a look at the qrbill.tds.zip, which provides an already prestructured variant to be extracted to any tds tree.
 
+### Use the Repository directly
+
+The repository provides a l3build script. You can build the documentation by running
+
+```
+l3build doc
+```
+This will unpack the package files and build the the docs within `build/`.
+
+To install the files into your local texmf tree run
+```
+l3build install
+```
+
+For further information on l3build and other options please have a look at the corresponding documentation `texdoc l3build`.
 
 ## Version History
 
