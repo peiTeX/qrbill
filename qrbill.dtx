@@ -685,8 +685,55 @@
 
 \bool_if:NF \g__qrbill_luamode_bool {
   \usepackage{qrcode}
+  % modified version of \qr@encode@binary to allow utf8 qrcodes required by swiss qrbill scheme
+  % Copyright (C) 2015 by Anders Hendrickson <ahendric@cord.edu>
+	\cs_set:Nn \__qrbill_encode_unicode_binary:n {
+		% #1 = string of ascii characters, to be converted into bitstream
+		%
+		% We do this one entirely in hex, rather than binary, because we can.
+		\edef\qr@plaintext{#1}%
+		%
+		%First, the mode indicator.
+		\def\qr@codetext{4}% %This means `binary'
+		%
+		%Next, the character count.
+		\xdef\qr@stringlength{\tl_count:o {\qr@plaintext}}%
+		%Set \qr@charactercountlengthinhex to \qr@charactercountbits@byte/4%
+		\edef\qr@charactercountlengthinhex{\int_eval:n {\qr@charactercountbits@byte / 4}}%
+		\qr@decimaltohex[\qr@charactercountlengthinhex]{\qr@charactercount}{\qr@stringlength}%
+		\xa\g@addto@macro\xa\qr@codetext\xa{\qr@charactercount}%
+		%
+		%Now comes the actual data.
+		\exp_args:NNx \str_set_convert:Nnnn \l_tmpa_str  { \qr@plaintext }  {iso88591} {utf8}
+		\exp_args:NNV \str_set_convert:Nnnn \l_tmpa_str  \l_tmpa_str {} {latin1/hex}
+		\str_gput_right:NV \qr@codetext \l_tmpa_str
+		\xdef\qr@codetext{\exp_args:No \str_lowercase:n {\qr@codetext}}
+		%Now the terminator.
+		\g@addto@macro\qr@codetext{0}% %This is '0000' in binary.
+		%
+		%There is no need to pad bits to make a multiple of 8,
+		%because the data length is already 4 + 8 + 8n + 4.
+		%
+		%Now add padding codewords if needed.
+		\setcounter{qr@hexchars}{\tl_count:o {\qr@codetext}}%
+		%Set \qr@numpaddingcodewords equal to \qr@totaldatacodewords - qr@hexchars/2.
+		\edef\qr@numpaddingcodewords{\int_eval:n {(-\c@qr@hexchars / 2)+\qr@totaldatacodewords}}
+		%
+		\int_compare:nNnT {\qr@numpaddingcodewords} < {0} {
+			\edef\ds{ERROR:~Too~much~data!~Over~by~\qr@numpaddingcodewords~bytes.}
+		}
+		\int_compare:nNnT {\qr@numpaddingcodewords} > {0} {
+			\int_step_inline:nnnn {2} {2} {\qr@numpaddingcodewords} {
+			\g@addto@macro{\qr@codetext}{ec11}%
+		}
+		\int_if_odd:nT {\qr@numpaddingcodewords} {
+				\g@addto@macro{\qr@codetext}{ec}%
+			}
+		}
+	}
   \cs_set:Nn \qrbill_parse_QRcode:n {
-    \raisebox{\depth}{\qrcode[height= \g_qrbill_QRcode_dim]{#1}}
+		\cs_set_eq:NN \qr@encode@binary \__qrbill_encode_unicode_binary:n
+		\raisebox{\depth}{\cs_set_eq:NN \qr@encode@binary \__qrbill_encode_unicode_binary:n\qrcode[height= \g_qrbill_QRcode_dim]{#1}}
   }
 }
 
