@@ -1091,7 +1091,7 @@
 		\int_set:Nn \l_tmpb_int {\int_abs:n {\int_use:c {g__qrbill_#1sep_int}}}
 		\int_set:Nn \l_tmpa_int {1}
 		\tl_clear:N \l_tmpa_tl
-		\int_while_do:nn {\l_tmpa_int < \str_count:N \l_tmpa_str} {
+		\int_while_do:nNnn {\l_tmpa_int} < {\str_count:N \l_tmpa_str - \l_tmpb_int +1 } {
 			\tl_put_right:Nx \l_tmpa_tl {
 				\str_range:Nnn \l_tmpa_str {\l_tmpa_int} {\l_tmpa_int + \l_tmpb_int-1}
 			}
