@@ -180,6 +180,7 @@
 % \publishers{A collaborative project of pei\TeX{} and foobar LLC}
 % \date{\filedate}
 % \maketitle
+% \tableofcontents
 % \section{Introduction}
 % qrbill.sty, the \LaTeX-package, is the Free Software and Open Source answer to the launch of the swiss payments conversion, introduced mid 2020, replacing the former payment order slip by a restructured, QR enhanced slip. The published source code is based on the payment standard guidelines issued for Switzerland and intentionally has a modular structure to enable further development and adaptation for international use.
 %
@@ -643,6 +644,7 @@
 }{
   \RequirePackage{fontspec}
   \newfontfamily{\qrbillfont}{\g__qrbill_font_tl}
+  \RequirePackage{anyfontsize}
 }
 
 \dim_new:N \g_qrbill_QRcode_dim
