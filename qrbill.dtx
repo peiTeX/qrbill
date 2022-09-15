@@ -247,6 +247,10 @@
 % \item[creditorprefix\\debtorprefix (String) (CR-/UD-)]
 % For custom setups the predefined prefixes for the debtor and creditoraddress can be changes. The initial configuration is a requirement of the Swiss standards.
 %
+% \item[data-to-string (true/false) (false)]
+% Converts data to be used to setup the billing QRcode into a string. This option has to be updated if the data should not be treated as ordinary \LaTeX{} code.
+% You can use this to automatically escape special characters.\changes{v1.05}{2022/09/15}{add data-to-string option}
+%
 % \item[font (Frutiger/Arial/Helvetica/Liberation Sans/custom) (Liberation Sans)]
 % \label{opt:font}
 % The official guideline for the Swiss qrbill limits the choice of the font to the first four values of this option. The font selection and sizes currently hardcoded to fit to the size. Custom setups might be provided in the future.
@@ -611,17 +615,27 @@
   replace-umlauts .choice:,
   replace-umlauts / true .code:n = \prop_gput_from_keyval:Nn {ä=ae,Ä=AE,ü=ue,Ü=UE,ö=oe,Ö=OE,ß=ss,ẞ=SS},
   replace-umlauts / false .code:n = \clist_map_inline:nn {ä,Ä,ü,Ü,ö,Ö,ß,ẞ} {\prop_gremove:Nn \g__qrbill_replacement_prop {##1}},
-  data-as-string .bool_gset:N = \g__qrbill_to_string_bool,
+  data-to-string .bool_gset:N = \g__qrbill_to_string_bool,
 }
 
 \ProcessKeysOptions{qrbill}
 
 \newcommand*{\qrbillsetup}[1]{\keys_set:nn {qrbill}{#1}}
 \NewDocumentCommand{\qrbillsetdata}{sm}{
+	\bool_if:NTF \g__qrbill_to_string_bool {
+		\IfBooleanTF {#1} {
+			\tl_set:Nx \l_tmpa_tl {#2}
+			\exp_args:Nx \tl_show:n {\tl_to_str:V \l_tmpa_tl}
+			\exp_args:Nnx \keys_set:nn {qrbill/data} {\tl_to_str:V \l_tmpa_tl}
+		}{
+			\exp_args:Nnx \keys_set:nn {qrbill/data} {\tl_to_str:n {#2}}
+		}
+	} {
 	\IfBooleanT {#1}
 		\exp_args:Nnx
 	\keys_set:nn
 		{qrbill/data}{#2}
+	}
 }
 
 \tl_if_empty:NTF \g__qrbill_font_tl {
@@ -900,7 +914,13 @@
 \seq_new:N \l_qrbill_tmp_seq
 
 \cs_new:Nn \qrbill_set_address_combined:nn {
-  \seq_set_split:Nnn \l_qrbill_tmp_seq {\\} {#2}
+	\bool_if:NTF \g__qrbill_to_string_bool {
+		\exp_args:NNxx \seq_set_split:Nnn \l_qrbill_tmp_seq
+			{\tl_to_str:n {\\}}
+			{ \str_range:nnn { #2 } { 2 } { -2 } }
+	} {
+		\seq_set_split:Nnn \l_qrbill_tmp_seq {\\} {#2}
+	}
   \exp_args:Nnx \keys_set:nn {qrbill/data} {
     #1AddressType=K,
     #1Name=\seq_item:Nn \l_qrbill_tmp_seq {1},
@@ -913,7 +933,13 @@
 }
 
 \cs_new:Nn \qrbill_set_address_structured:nn {
-  \seq_set_split:Nnn \l_qrbill_tmp_seq {\\} {#2}
+	\bool_if:NTF \g__qrbill_to_string_bool {
+		\exp_args:NNxx \seq_set_split:Nnn \l_qrbill_tmp_seq
+			{\tl_to_str:n {\\}}
+			{ \str_range:nnn { #2 } { 2 } { -2 } }
+	} {
+		\seq_set_split:Nnn \l_qrbill_tmp_seq {\\} {#2}
+	}
   \exp_args:Nnx \keys_set:nn {qrbill/data} {
     #1AddressType=S,
     #1Name=\seq_item:Nn \l_qrbill_tmp_seq {1},
@@ -1007,8 +1033,13 @@
 }
 
 \newcommand*{\SetupQrBill}[1]{
-  \keys_set:nn {qrbill/data} {#1}
+	\bool_if:NTF \g__qrbill_to_string_bool {
+		\exp_args:Nnx \keys_set:nn {qrbill/data} {\tl_to_str:n {#1}}
+	} {
+		\keys_set:nn {qrbill/data} {#1}
+	}
 }
+
 
 \str_new:N \l_qrbill_data_str
 \cs_new:Nn \qrcode_setup_QRcode: {
