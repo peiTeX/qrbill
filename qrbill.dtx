@@ -300,6 +300,16 @@
 % \item[separate (false/text/symbol) (text)]
 % Setup the separation rule between the document and the qrbill. If the value is text or symbol the Info \enquote{\qrbillseparatename} or the corresponding translation will be printed on top of the frame. This option will be ignored it the frame has no top rule.
 % \end{optionlist}
+%
+% \item[replace-tilde\\replace-umlauts (true/false) (false)]
+% Add automatic string replacements for \latexinline{~} and Umlauts.
+% In general the Data has either to be parsed as string or be expandable.
+% There are some specials about active characters like \latexinline{~}.
+% The option \latexinline{replace-tilde=true} will replace this by an ordinary space within the data string for the QRcode.
+%
+% Similarly the replace-umlauts options is mapping Umlauts to the two character representation. This can be used  if UTF-8 is not supported.
+% Custom replacements can be set up using \latexinline{\QRbillAddCustomReplacement} as described in section \ref{sec:custom-replacement}.
+% \changes{v1.05}{2022/09/15}{Add replace-tilde/replace-umlauts options}
 % 
 % \section{Data setup}
 % \label{sec:data-setup}
@@ -322,6 +332,16 @@
 %	}
 % \end{doccode}
 % By default this setting will return the ISO date (YYYY-MM-DD) but the swiss scheme is already changing this to the desired (YYMMDD) structure.
+%
+% \section{String replacements}\label{sec:custom-replacement}
+% \changes{v1.05}{2022/09/15}{Add support for custom string replacements}
+% Following a feature request qrbill received support for custom replacements.
+% Those allow the use of special characters within the data fields.
+% The corresponding options \latexinline{replace-tilde} and \latexinline{replace-umlauts} provide preset variants for the most common replacements.
+% In case you want to add another you can use the following structure:
+% \begin{doccode}
+%	\AddQRbillCustomReplacement{Ä}{Ae}
+% \end{doccode}
 %
 % \section{Setup for the preconfigured Swiss QR-bill}
 % \subsection{Preconfigured data}
@@ -486,6 +506,7 @@
 \bool_new:N \g__qrbill_left_frame_bool
 \bool_new:N \g__qrbill_right_frame_bool
 \bool_new:N \g__qrbill_separateinfo_bool
+\prop_new:N \g__qrbill_replacement_prop
 
 \msg_new:nnn {qrbill} {typo-in-option} {
 	A~typo~within~the~option~#1~was~removed.\\
@@ -585,6 +606,13 @@
   referenceseparator .tl_gset:N = \g__qrbill_referencesep_tl,
   referenceseparator .initial:n = {\,},
   referenceseperator .code:n = \keys_set:nn {qrbill} {referenceseparator=#1}\msg_warning:nnnn {qrbill} {typo-in-option} {referenceseperator} {referenceseparator},
+  replace-tilde .choice:,
+  replace-tilde / true .code:n = \prop_gput:Nxx \g__qrbill_replacement_prop  {\char_generate:nn {126} {12}} {\ },
+  replace-tilde / false  .code:n = \exp_args:NNx \prop_gremove:Nn \g__qrbill_replacement_prop  {\char_generate:nn {126} {12}},
+  replace-umlauts .choice:,
+  replace-umlauts / true .code:n = \prop_gput_from_keyval:Nn {ä=ae,Ä=AE,ü=ue,Ü=UE,ö=oe,Ö=OE,ß=ss,ẞ=SS},
+  replace-umlauts / false .code:n = \clist_map_inline:nn {ä,Ä,ü,Ü,ö,Ö,ß,ẞ} {\prop_gremove:Nn \g__qrbill_replacement_prop {##1}},
+  data-as-string .bool_gset:N = \g__qrbill_to_string_bool,
 }
 
 \ProcessKeysOptions{qrbill}
@@ -994,7 +1022,10 @@
          \exp_args:NNv \str_put_right:Nn \l_qrbill_data_str {l_qrbill_data_##1_tl}
   }
   %necessary to preserve spaces!
-  \str_replace_all:Nnn \l_qrbill_data_str  {~ } {\ }
+  \str_replace_all:Nnn \l_qrbill_data_str {~ } {\ }
+  \prop_map_inline:Nn \g__qrbill_replacement_prop {
+		\str_replace_all:Nnn \l_qrbill_data_str {##1} {##2}
+	}
   \tl_set_rescan:Nno \l_qrbill_data_str {\ExplSyntaxOff} {\l_qrbill_data_str}
 }
 
