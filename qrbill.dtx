@@ -1110,7 +1110,7 @@
   \keys_define:nn {qrbill/data} {
     #1 .code:n = {
       \tl_if_empty:nF {##1}{
-        \exp_args:Nnx \keys_set:nx {qrbill/data} {
+        \exp_args:Nnx \keys_set:nn {qrbill/data} {
           #1-Parameters={\qrbill_av_prefix:n {#1}##1}
         }
       }
