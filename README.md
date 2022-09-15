@@ -4,7 +4,7 @@ Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020–2022
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2022/07/02 v1.04
+qrbill 2022/09/15 v1.05
 
 ***************************************************************************
 
@@ -68,3 +68,9 @@ For further information on l3build and other options please have a look at the c
  * v1.04 (2022/07/02)
    - add basic support for EPC QR codes
    - add date parsing mechanism to preset the dates to values of `\today`
+ * v1.05 (2022/09/15)
+   - add option to convert all data to strings
+   - add mechanism to do custom replacements within the data
+   - fix qrcode encoding to support UTF-8
+   - add mpde support Speedata's luaqrcode library for qrcode generation
+   - small layout and typo fixes
