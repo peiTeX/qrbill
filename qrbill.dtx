@@ -515,7 +515,7 @@
 \bool_new:N \g__qrbill_bottom_frame_bool
 \bool_new:N \g__qrbill_left_frame_bool
 \bool_new:N \g__qrbill_right_frame_bool
-\bool_new:N \g__qrbill_vertical_splitter_bool
+\bool_new:N \g__qrbill_vrule_bool
 \bool_new:N \g__qrbill_separateinfo_bool
 \prop_new:N \g__qrbill_replacement_prop
 
@@ -548,35 +548,35 @@
     \bool_gset_false:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
-    \bool_gset_true:N \g__qrbill_vertical_splitter_bool
+    \bool_gset_true:N \g__qrbill_vrule_bool
   },
   frame / true .code:n = {
     \bool_gset_true:N \g__qrbill_top_frame_bool
     \bool_gset_true:N \g__qrbill_bottom_frame_bool
     \bool_gset_true:N \g__qrbill_left_frame_bool
     \bool_gset_true:N \g__qrbill_right_frame_bool
-    \bool_gset_true:N \g__qrbill_vertical_splitter_bool
+    \bool_gset_true:N \g__qrbill_vrule_bool
   },
   frame / top .code:n = {
     \bool_gset_true:N \g__qrbill_top_frame_bool
     \bool_gset_false:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
-    \bool_gset_true:N \g__qrbill_vertical_splitter_bool
+    \bool_gset_true:N \g__qrbill_vrule_bool
   },
   frame / bottom .code:n = {
     \bool_gset_false:N \g__qrbill_top_frame_bool
     \bool_gset_true:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
-    \bool_gset_true:N \g__qrbill_vertical_splitter_bool
+    \bool_gset_true:N \g__qrbill_vrule_bool
   },
   frame / none .code:n = {
     \bool_gset_false:N \g__qrbill_top_frame_bool
     \bool_gset_false:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
-    \bool_gset_false:N \g__qrbill_vertical_splitter_bool
+    \bool_gset_false:N \g__qrbill_vrule_bool
   },
 
   frame .initial:n = true,
@@ -970,7 +970,7 @@
         {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
         {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
       \hspace{\dimexpr62mm-1.5\g__qrbill_rule_dim}
-      \bool_if:NTF \g__qrbill_vertical_splitter_bool
+      \bool_if:NTF \g__qrbill_vrule_bool
         {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
         {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
       \hspace{\dimexpr148mm-1.5\g__qrbill_rule_dim}
