@@ -72,5 +72,5 @@ For further information on l3build and other options please have a look at the c
    - add option to convert all data to strings
    - add mechanism to do custom replacements within the data
    - fix qrcode encoding to support UTF-8
-   - add mpde support Speedata's luaqrcode library for qrcode generation
-   - small layout and typo fixes
+   - add support for speedata's luaqrcode library for qrcode generation http://speedata.github.io/luaqrcode/
+   - small layout and documentation fixes
