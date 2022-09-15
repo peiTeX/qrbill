@@ -649,13 +649,40 @@
 
 \dim_new:N \g_qrbill_QRcode_dim
 \dim_gset:Nn \g_qrbill_QRcode_dim {46mm}
+\bool_if:NT \g__qrbill_luamode_bool {
+	\file_if_exist:nTF {qrencode.lua} {
+		\lua_load_module:n {qrbill-latexluaqrcode}
+	} {
+		\msg_warning:nn {qrbill} {luaqrcode-not-found}
+		\bool_gset_false:N \g__qrbill_luamode_bool
+	}
+
+	% qrcode setup
+	\dim_new:N \l__qrbill_QRblocksize_dim
+	\cs_set_protected:Npn \qrbill_qrcode_black: {\rule{\l__qrbill_QRblocksize_dim}{\l__qrbill_QRblocksize_dim}}
+	\cs_set_protected:Npn \qrbill_qrcode_white: {\rule{\l__qrbill_QRblocksize_dim}{0pt}\rule{0pt}{\l__qrbill_QRblocksize_dim}}
+	\cs_new:Nn \qrbill_parse_QRcode:n {
+		\lua_now:e {
+			num, string = printQRcode("\lua_escape:n {#1}")
+		}
+		\dim_set:Nn \l__qrbill_QRblocksize_dim {\g_qrbill_QRcode_dim/\lua_now:n {tex.print(num)}}
+		\let\qrblack\qrbill_qrcode_black:
+		\let\qrwhite\qrbill_qrcode_white:
+		\def\qrnewline{\\[\dimexpr-\baselineskip+\l__qrbill_QRblocksize_dim]}
+		\noindent\parbox{\g_qrbill_QRcode_dim}{
+			\lua_now:n {tex.sprint(string)}
+		}
+	}
+}
+
 \bool_if:NF \g__qrbill_luamode_bool {
   \usepackage{qrcode}
   \cs_new:Nn \qrbill_parse_QRcode:n {
     \raisebox{\depth}{\qrcode[height= \g_qrbill_QRcode_dim]{#1}}
   }
-  \cs_generate_variant:Nn \qrbill_parse_QRcode:n {V}
 }
+
+\cs_generate_variant:Nn \qrbill_parse_QRcode:n {V}
 
 \newcommand*{\QRbillAddCustomReplacement}[2]{
 	 \prop_gput:Nxx \g__qrbill_replacement_prop  {#1} {#2},
@@ -1045,7 +1072,6 @@
 		\keys_set:nn {qrbill/data} {#1}
 	}
 }
-
 
 \str_new:N \l_qrbill_data_str
 \cs_new:Nn \qrcode_setup_QRcode: {
