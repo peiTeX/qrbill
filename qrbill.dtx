@@ -657,6 +657,10 @@
   \cs_generate_variant:Nn \qrbill_parse_QRcode:n {V}
 }
 
+\newcommand*{\QRbillAddCustomReplacement}[2]{
+	 \prop_gput:Nxx \g__qrbill_replacement_prop  {#1} {#2},
+}
+
 \RequirePackage{scrbase}
 \RequirePackage{graphicx}
 \RequirePackage{numprint}
