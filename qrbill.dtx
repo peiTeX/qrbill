@@ -487,6 +487,13 @@
 \bool_new:N \g__qrbill_right_frame_bool
 \bool_new:N \g__qrbill_separateinfo_bool
 
+\msg_new:nnn {qrbill} {typo-in-option} {
+	A~typo~within~the~option~#1~was~removed.\\
+	The~correct~name~for~the~option~is~#2.\\
+	Please~use~#2~instead~of~#1,~which~only\\
+	exists~for~backwards~compatibility~and~will~be~removed.
+}
+
 \keys_define:nn {qrbill} {
   font .choices:nn = {Frutiger, Arial, Helvetica, Liberation Sans} {
     \bool_gset_true:N \g__qrbill_fontsetup_bool
@@ -570,12 +577,14 @@
   separate .initial:n = text,
   sep-iban .int_gset:N = \g__qrbill_ibansep_int,
   sep-iban .initial:n = 0,
-  ibanseperator .tl_gset:N = \g__qrbill_ibansep_tl,
-  ibanseperator  .initial:n = {\,},
+  ibanseparator .tl_gset:N = \g__qrbill_ibansep_tl,
+  ibanseparator .initial:n = {\,},
+  ibanseperator .code:n = \keys_set:nn {qrbill} {ibanseparator=#1}\msg_warning:nnnn {qrbill} {typo-in-option} {ibanseperator} {ibanseparator},
   sep-reference .int_gset:N = \g__qrbill_referencesep_int,
   sep-reference .initial:n = 0,
-  referenceseperator .tl_gset:N = \g__qrbill_referencesep_tl,
-  referenceseperator .initial:n = {\,}
+  referenceseparator .tl_gset:N = \g__qrbill_referencesep_tl,
+  referenceseparator .initial:n = {\,},
+  referenceseperator .code:n = \keys_set:nn {qrbill} {referenceseparator=#1}\msg_warning:nnnn {qrbill} {typo-in-option} {referenceseperator} {referenceseparator},
 }
 
 \ProcessKeysOptions{qrbill}
