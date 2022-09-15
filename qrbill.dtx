@@ -644,7 +644,6 @@
 	\bool_if:NTF \g__qrbill_to_string_bool {
 		\IfBooleanTF {#1} {
 			\tl_set:Nx \l_tmpa_tl {#2}
-			\exp_args:Nx \tl_show:n {\tl_to_str:V \l_tmpa_tl}
 			\exp_args:Nnx \keys_set:nn {qrbill/data} {\tl_to_str:V \l_tmpa_tl}
 		}{
 			\exp_args:Nnx \keys_set:nn {qrbill/data} {\tl_to_str:n {#2}}
