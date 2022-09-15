@@ -632,7 +632,7 @@
   replace-tilde / true .code:n = \prop_gput:Nxx \g__qrbill_replacement_prop  {\char_generate:nn {126} {12}} {\ },
   replace-tilde / false  .code:n = \exp_args:NNx \prop_gremove:Nn \g__qrbill_replacement_prop  {\char_generate:nn {126} {12}},
   replace-umlauts .choice:,
-  replace-umlauts / true .code:n = \prop_gput_from_keyval:Nn {ä=ae,Ä=AE,ü=ue,Ü=UE,ö=oe,Ö=OE,ß=ss,ẞ=SS},
+  replace-umlauts / true .code:n = \prop_gput_from_keyval:Nn \g__qrbill_replacement_prop {ä=ae,Ä=AE,ü=ue,Ü=UE,ö=oe,Ö=OE,ß=ss,ẞ=SS},
   replace-umlauts / false .code:n = \clist_map_inline:nn {ä,Ä,ü,Ü,ö,Ö,ß,ẞ} {\prop_gremove:Nn \g__qrbill_replacement_prop {##1}},
   data-to-string .bool_gset:N = \g__qrbill_to_string_bool,
 }
