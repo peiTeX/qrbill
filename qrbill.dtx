@@ -278,6 +278,11 @@
 % \item[iconwidth (length) (7mm)]
 % This option allows custom scaling for custom icons.
 %
+% \item[ignore-if-empty (comma list) (<empty>)]
+% Allows to define a list of fields for the qrscheme to be ignored if they have empty values.
+% For the swiss QRbill standard this is recommended for the fields \enquote{AV1-Parameters}, \enquote{AV2-Parameters} and \enquote{BillingInfo}.
+% \changes{v1.06}{2022/10/18}{Add ignore-if-empty option}
+%
 % \item[qrmode (package/lua) (package)] Selects the mechanism for QRcode generation.
 % With Version 2.0 the package supports usage of the the luaqrcode library \cite{luaqrcode}. This can be enabled by using the \latexinline{qmode=lua} option.
 % In that case the luaqrcode libary has to be installed within the \verb+$LUAINPUTS+.
@@ -1185,16 +1190,13 @@
 }
 
 \seq_new:N \g__qrbill_qrscheme_seq
-\newcommand*\SetQrScheme[2][]{
-		\tl_if_empty:nF {#1} {
-			\keys_set:nn {qrbill} {#1}
-		}
-		\seq_gset_from_clist:Nn \g__qrbill_qrscheme_seq {#2}
+\newcommand*\SetQrScheme[1]{
+		\seq_gset_from_clist:Nn \g__qrbill_qrscheme_seq {#1}
 		\seq_map_inline:Nn \g__qrbill_qrscheme_seq {
-		\keys_define:nn {qrbill/data} {
-			##1 .tl_set:c = l_qrbill_data_##1_tl,
-			##1 .initial:n =,
-		}
+			\keys_define:nn {qrbill/data} {
+				##1 .tl_set:c = l_qrbill_data_##1_tl,
+				##1 .initial:n =,
+			}
 		}
 }
 
@@ -1279,11 +1281,17 @@
 % \section{The file swiss.qrbill-cfg.tex as a custom qrbill scheme}
 %<*swiss.qrbill-cfg.tex>
 \qrbillsetup{
-	creditorprefix =CR-,
-	debtorprefix =UD-,
+	creditorprefix=CR-,
+	debtorprefix=UD-,
 }
 
-\SetQrScheme{
+\SetQrScheme[
+	ignore-if-empty={
+		AV1-Parameters,
+		AV2-Parameters,
+		BillingInfo
+	}
+]{
   QRType,
   Version,
   CodingType,
