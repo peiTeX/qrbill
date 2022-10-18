@@ -86,9 +86,9 @@
 \newcommand*\repl[1]{\meta{#1}}
 \newcommand*\opt[1]{\colorbox{black!20}{\meta{#1}}}
 \newcommand*\marg[1]{%
-        {\ttfamily\char`\{}\repl{#1}{\ttfamily\char`\}}}
+	{\ttfamily\char`\{}\repl{#1}{\ttfamily\char`\}}}
 \newcommand*\oarg[1]{%
-        {\ttfamily[}\opt{#1}{\ttfamily]}
+	{\ttfamily[}\opt{#1}{\ttfamily]}
 }
 \newcommand*{\sarg}{\texttt{*}}
 
@@ -192,16 +192,16 @@
 % \fi
 % \section{Example of use}
 % The easies way to use the qrbill package is to create a bill with the standalone documentclass:
-% 
+%
 % \begin{doccode}
 % \documentclass{standalone}
 % \usepackage[ngerman]{babel}
-% 
+%
 % \usepackage{xcolor}
 % \usepackage{qrbill}
-% 
+%
 % \begin{document}
-% 	
+%
 % \QRbill[
 % creditor={foobar LLC\\
 % 	Postfach 404\\
@@ -210,7 +210,7 @@
 % Account=CH1280808005649899718,
 % % insert additional data here
 % ]
-% 
+%
 % \end{document}
 % \end{doccode}
 %
@@ -323,7 +323,7 @@
 % \item[vrule (true/false/symbol) (true)]
 % Allows customization of the vertical rule between payment part and receipt. The value \latexinline{vrule=symbol} acts similar to the \latexinline{separator=symbol} option.
 % \changes{v1.06}{2022/10/18}{Add vrule=symbol option.}
-% 
+%
 % \end{optionlist}
 %
 % \section{Data setup}
@@ -533,7 +533,7 @@
 
 \keys_define:nn {qrbill} {
   font .choices:nn = {Frutiger, Arial, Helvetica, Liberation Sans} {
-    \tl_gset_eq:NN \g__qrbill_font_tl \l_keys_choice_tl
+		\tl_gset_eq:NN \g__qrbill_font_tl \l_keys_choice_tl
   },
   font .initial:n = Liberation Sans,
   font / custom .code:n = {\tl_gclear:N \g__qrbill_font_tl},
@@ -549,35 +549,35 @@
   qrmode .initial:n = package,
   frame .choice:,
   frame / false .code:n = {
-    \bool_gset_false:N \g__qrbill_top_frame_bool
-    \bool_gset_false:N \g__qrbill_bottom_frame_bool
-    \bool_gset_false:N \g__qrbill_left_frame_bool
-    \bool_gset_false:N \g__qrbill_right_frame_bool
+		\bool_gset_false:N \g__qrbill_top_frame_bool
+		\bool_gset_false:N \g__qrbill_bottom_frame_bool
+		\bool_gset_false:N \g__qrbill_left_frame_bool
+		\bool_gset_false:N \g__qrbill_right_frame_bool
   },
   frame / true .code:n = {
-    \bool_gset_true:N \g__qrbill_top_frame_bool
-    \bool_gset_true:N \g__qrbill_bottom_frame_bool
-    \bool_gset_true:N \g__qrbill_left_frame_bool
-    \bool_gset_true:N \g__qrbill_right_frame_bool
+		\bool_gset_true:N \g__qrbill_top_frame_bool
+		\bool_gset_true:N \g__qrbill_bottom_frame_bool
+		\bool_gset_true:N \g__qrbill_left_frame_bool
+		\bool_gset_true:N \g__qrbill_right_frame_bool
   },
   frame / top .code:n = {
-    \bool_gset_true:N \g__qrbill_top_frame_bool
-    \bool_gset_false:N \g__qrbill_bottom_frame_bool
-    \bool_gset_false:N \g__qrbill_left_frame_bool
-    \bool_gset_false:N \g__qrbill_right_frame_bool
+		\bool_gset_true:N \g__qrbill_top_frame_bool
+		\bool_gset_false:N \g__qrbill_bottom_frame_bool
+		\bool_gset_false:N \g__qrbill_left_frame_bool
+		\bool_gset_false:N \g__qrbill_right_frame_bool
   },
   frame / bottom .code:n = {
-    \bool_gset_false:N \g__qrbill_top_frame_bool
-    \bool_gset_true:N \g__qrbill_bottom_frame_bool
-    \bool_gset_false:N \g__qrbill_left_frame_bool
-    \bool_gset_false:N \g__qrbill_right_frame_bool
+		\bool_gset_false:N \g__qrbill_top_frame_bool
+		\bool_gset_true:N \g__qrbill_bottom_frame_bool
+		\bool_gset_false:N \g__qrbill_left_frame_bool
+		\bool_gset_false:N \g__qrbill_right_frame_bool
   },
   frame / none .code:n = {
-    \bool_gset_false:N \g__qrbill_top_frame_bool
-    \bool_gset_false:N \g__qrbill_bottom_frame_bool
-    \bool_gset_false:N \g__qrbill_left_frame_bool
-    \bool_gset_false:N \g__qrbill_right_frame_bool
-    \keys_set:nn {qrbill} {vrule=false}
+		\bool_gset_false:N \g__qrbill_top_frame_bool
+		\bool_gset_false:N \g__qrbill_bottom_frame_bool
+		\bool_gset_false:N \g__qrbill_left_frame_bool
+		\bool_gset_false:N \g__qrbill_right_frame_bool
+		\keys_set:nn {qrbill} {vrule=false}
   },
   frame .initial:n = true,
   vrule .choice:,
@@ -608,31 +608,30 @@
   iconwidth .initial:n = 7mm,
   separate .choice:,
   separate / symbol .code:n = {
-    \bool_gset_true:N \g__qrbill_separateinfo_bool
-    \RequirePackage{marvosym}
-    \cs_set:Nn \qrbill_print_separate_info: {
-      \par\leaders\vbox_to_ht:nn {1sp} {
-        \smash{
-        \hbox_to_wd:nn {\c_qrbill_width_dim }{
-            \leaders\hbox{\rule{1mm}{\g__qrbill_rule_dim}\hspace{1mm}}\hskip 0pt\@plus1 fill\relax
-            \llap{\raisebox{-.5\height}{\LeftScissors}}
-            \leaders\hbox{\rule{1mm}{\g__qrbill_rule_dim}\hspace{1mm}}\hskip 0pt\@plus4 fill\relax
-        }
-        }
-      }
-      \vskip 1sp
-      \vskip -1sp
-    }
-    },
+		\bool_gset_true:N \g__qrbill_separateinfo_bool
+		\RequirePackage{marvosym}
+		\cs_set:Nn \qrbill_print_separate_info: {
+			\par\leaders\vbox_to_ht:nn {1sp} {
+				\smash{
+					\hbox_to_wd:nn {\c_qrbill_width_dim }{
+						\leaders\hbox{\rule{1mm}{\g__qrbill_rule_dim}\hspace{1mm}}\hskip 0pt\@plus1 fill\relax
+						\llap{\raisebox{-.5\height}{\LeftScissors}}
+						\leaders\hbox{\rule{1mm}{\g__qrbill_rule_dim}\hspace{1mm}}\hskip 0pt\@plus4 fill\relax
+					}
+				}
+			}
+			\vskip 1sp
+			\vskip -1sp
+		}
+	},
   separate / text .code:n = {
-    \bool_gset_true:N \g__qrbill_separateinfo_bool
-    \cs_set:Nn \qrbill_print_separate_info: {
-        \centerline{\raisebox{\dimexpr\depth+.3ex\relax}[0pt][0pt]{\footnotesize\qrbillseparatename}}
-    \par\nointerlineskip
-    \rule{\c_qrbill_width_dim}{\g__qrbill_rule_dim}
-    }
-  }
-  ,
+		\bool_gset_true:N \g__qrbill_separateinfo_bool
+		\cs_set:Nn \qrbill_print_separate_info: {
+			\centerline{\raisebox{\dimexpr\depth+.3ex\relax}[0pt][0pt]{\footnotesize\qrbillseparatename}}
+			\par\nointerlineskip
+			\rule{\c_qrbill_width_dim}{\g__qrbill_rule_dim}
+		}
+  },
   separate / false .code:n = {\bool_gset_false:N \g__qrbill_separateinfo_bool},
   separate .initial:n = text,
   sep-iban .int_gset:N = \g__qrbill_ibansep_int,
@@ -815,13 +814,13 @@
 
 \cs_new:Nn \__qrbill_placeholder:nn {
   \vbox_to_ht:nn {#2} {
-    \hbox_to_wd:nn {#1} {\__qrbill_placeholder_hmark: \hfill \__qrbill_placeholder_hmark:}
-    \nointerlineskip
-    \hbox_to_wd:nn {#1} {\__qrbill_placeholder_vmark: \hfill \__qrbill_placeholder_vmark:}
-    \vfill
-    \hbox_to_wd:nn {#1} {\__qrbill_placeholder_vmark: \hfill \__qrbill_placeholder_vmark:}
-    \nointerlineskip
-    \hbox_to_wd:nn {#1} {\__qrbill_placeholder_hmark: \hfill \__qrbill_placeholder_hmark:}
+		\hbox_to_wd:nn {#1} {\__qrbill_placeholder_hmark: \hfill \__qrbill_placeholder_hmark:}
+		\nointerlineskip
+		\hbox_to_wd:nn {#1} {\__qrbill_placeholder_vmark: \hfill \__qrbill_placeholder_vmark:}
+		\vfill
+		\hbox_to_wd:nn {#1} {\__qrbill_placeholder_vmark: \hfill \__qrbill_placeholder_vmark:}
+		\nointerlineskip
+		\hbox_to_wd:nn {#1} {\__qrbill_placeholder_hmark: \hfill \__qrbill_placeholder_hmark:}
   }
 }
 
@@ -831,170 +830,170 @@
   \qrbillfont
   \setlength{\parindent}{\z@}
   \parbox{\c_qrbill_width_dim }{
-    \vbox to \c_qrbill_height_dim {
-      \bool_if:NTF \g__qrbill_top_frame_bool
-        {
-          \bool_if:NTF \g__qrbill_separateinfo_bool
-            {\qrbill_print_separate_info:}
-            {\rule{\c_qrbill_width_dim}{\g__qrbill_rule_dim}}
-        }
-        {\rule{\c_zero_dim}{\g__qrbill_rule_dim}}
-      \par\nointerlineskip
-      \skip_vertical:n {\c_qrbill_sep_dim-\g__qrbill_rule_dim}
-      \skip_horizontal:n {\c_qrbill_sep_dim-\g__qrbill_rule_dim}
-      \begin{minipage}[c][95mm][t]{52mm}
-        \vbox_to_ht:nn {7mm} {\qrbill_title_font:\qrbillreceiptname}
-        \par\nointerlineskip
-        \vbox_to_ht:nn {56mm}{
-          {\qrbill_headingR_font:\qrbillaccountname\par}
-          {
-            \qrbill_valueR_font:
-            \__qrbill_sep_tl:nV {iban} \l_qrbill_data_Account_tl\par
-            \qrbill_insert_address:N \g__qrbill_creditorprefix_tl
-            \par\vskip\baselineskip
-          }
-          \tl_if_empty:NF \l_qrbill_data_Reference_tl {
-            {\qrbill_headingR_font:\qrbillreferencename\par}
-            {
-              \qrbill_valueR_font:
-              \__qrbill_sep_tl:nV {reference} \l_qrbill_data_Reference_tl
-              \par\vskip\baselineskip
-            }
-          }
-          \tl_if_empty:cTF {l_qrbill_data_\g__qrbill_debtorprefix_tl Name_tl}
-             {
-               {\qrbill_headingR_font:\qrbilldebtoraddrname\par}
-               \__qrbill_placeholder:nn {52mm} {20mm}
-             }{
-               {\qrbill_headingR_font:\qrbilldebtorname\par}
-               {
-                 \qrbill_valueR_font:
-                 \qrbill_insert_address:N \g__qrbill_debtorprefix_tl
-                 \par
-               }
-             }
-        }
-        \par\nointerlineskip
-        \vbox_to_ht:nn {14mm}{
-          \qrbill_headingR_font:
-          \begin{tabular}[t]{@{}ll@{}}
-            \qrbillcurrencyname&\qrbill_headingR_font:\qrbillamountname\\
-            \qrbill_amountR_font:\l_qrbill_data_Currency_tl
-              &\qrbill_amountR_font:
-                \tl_if_empty:NF \l_qrbill_data_Amount_tl
-                   {\numprint{\l_qrbill_data_Amount_tl}}
-          \end{tabular}
-          \tl_if_empty:NTF \l_qrbill_data_Amount_tl {
-            \hfill
-            \raisebox{\dimexpr-\height+\ht\strutbox}[\z@]{\llap{
-                \__qrbill_placeholder:nn {30mm} {10mm}
-            }}
-          }
-          \vfill
-        }
-        \par\nointerlineskip
-        \vbox_to_ht:nn {18mm} {
-          \makebox[\linewidth][r]{\qrbill_headingR_font:\qrbillacceptantname}\par
-        }
-      \end{minipage}%
-      \skip_horizontal:n {2\c_qrbill_sep_dim}
-      \begin{minipage}[c][95mm][t]{138mm}
-        \begin{minipage}[c][85mm][t]{51mm}
-          \parbox[t][7mm][t]{\linewidth}{\qrbill_title_font:\qrbillpaymentpartname}
-          \par\nointerlineskip
-          \skip_vertical:n {\c_qrbill_sep_dim}
-          \qrcode_setup_QRcode:
-          \leavevmode\qrbill_parse_QRcode:V \l_qrbill_data_str
-          \tl_if_empty:NF \g_qrbill_icon_tl {
-            \llap{\hbox_to_wd:nn {\g_qrbill_QRcode_dim} {
-                \hfill
-                \raisebox{\dimexpr-.5\height+.5\g_qrbill_QRcode_dim}[0pt][0pt]{
-                  \includegraphics[width=\g_qrbill_iconwidth_dim]{\g_qrbill_icon_tl}
-                }
-                \hfill
-            }}
-          }
-          \skip_vertical:n {\c_qrbill_sep_dim}
-          \vbox_to_ht:nn {22mm}{
-            \begin{tabular}[b]{@{}ll@{}}
-              \qrbill_headingP_font:\qrbillcurrencyname&\qrbill_headingP_font:
-                \qrbillamountname\\
-              \qrbill_amountP_font:\tl_use:c {l_qrbill_data_Currency_tl}&
-              \tl_if_empty:NF \l_qrbill_data_Amount_tl {
-                \qrbill_amountP_font:\numprint{\l_qrbill_data_Amount_tl}
-              }
-            \end{tabular}
-            \tl_if_empty:NTF \l_qrbill_data_Amount_tl {
-              \hfill
-              \raisebox{\dimexpr-\height+\ht\strutbox}[\z@]{
-                \llap{\__qrbill_placeholder:nn {40mm} {15mm}
-              }}
-            }
-          }
-        \end{minipage}
-        \begin{minipage}[c][85mm][t]{87mm}
-          \par\nointerlineskip
-          {\qrbill_headingP_font:\qrbillaccountname\par}
-          {
-            \qrbill_valueP_font:
-            \__qrbill_sep_tl:nV {iban} \l_qrbill_data_Account_tl \par
-            \qrbill_insert_address:N \g__qrbill_creditorprefix_tl
-            \par\vskip\baselineskip
-          }
-          \tl_if_empty:NF \l_qrbill_data_Reference_tl {
-            {\qrbill_headingP_font:\qrbillreferencename\par}
-            {\qrbill_valueP_font:
-              \__qrbill_sep_tl:nV {reference} \l_qrbill_data_Reference_tl
-              \par\vskip\baselineskip}
-          }
-          \exp_args:Nf \tl_if_empty:nF  {
-            \l_qrbill_data_BillingInfo_tl
-            \l_qrbill_data_Message_tl
-          }{
-            {\qrbill_headingP_font:\qrbilladdinfoname\par}
-            {
-              \qrbill_valueP_font:
-              \l_qrbill_data_Message_tl\par
-              \tl_replace_all:Nnn \l_qrbill_data_BillingInfo_tl {/} {\discretionary{}{}{}/}
-              \l_qrbill_data_BillingInfo_tl
-              \par\vskip\baselineskip
-            }
-          }
-          \tl_if_empty:cTF {l_qrbill_data_\g__qrbill_debtorprefix_tl Name_tl} {
-            {\qrbill_headingP_font:\qrbilldebtoraddrname\par}
-            \__qrbill_placeholder:nn {65mm} {25mm}
-          }{
-            {\qrbill_headingP_font:\qrbilldebtorname\par}
-            {
-              \qrbill_valueP_font:
-              \qrbill_insert_address:N \g__qrbill_debtorprefix_tl
-              \par
-            }
-          }
-        \end{minipage}\par\nointerlineskip
-        \begin{minipage}[b][10mm][t]{\linewidth}
-          \strut
-          \qrbill_insert_AV_parameters:NNn
-            \qrbill_infoheading_font:
-            \qrbill_info_font:
-            {AV1,AV2}
-        \end{minipage}
-      \end{minipage}
-      \par\nointerlineskip\skip_vertical:n  {\c_qrbill_sep_dim}
-      \smash{
-      \bool_if:NT \g__qrbill_bottom_frame_bool
-        {\rlap{\rule{\c_qrbill_width_dim}{\g__qrbill_rule_dim}}}
-      \bool_if:NTF \g__qrbill_left_frame_bool
-        {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
-        {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
-      \hspace{\dimexpr62mm-1.5\g__qrbill_rule_dim}
-      \g__qrbill_vrule_tl
-      \hspace{\dimexpr148mm-1.5\g__qrbill_rule_dim}
-      \bool_if:NTF \g__qrbill_right_frame_bool
-        {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
-        {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
-      }
-    }
+		\vbox to \c_qrbill_height_dim {
+			\bool_if:NTF \g__qrbill_top_frame_bool
+			{
+				\bool_if:NTF \g__qrbill_separateinfo_bool
+				{\qrbill_print_separate_info:}
+				{\rule{\c_qrbill_width_dim}{\g__qrbill_rule_dim}}
+			}
+			{\rule{\c_zero_dim}{\g__qrbill_rule_dim}}
+			\par\nointerlineskip
+			\skip_vertical:n {\c_qrbill_sep_dim-\g__qrbill_rule_dim}
+			\skip_horizontal:n {\c_qrbill_sep_dim-\g__qrbill_rule_dim}
+			\begin{minipage}[c][95mm][t]{52mm}
+			\vbox_to_ht:nn {7mm} {\qrbill_title_font:\qrbillreceiptname}
+			\par\nointerlineskip
+			\vbox_to_ht:nn {56mm}{
+				{\qrbill_headingR_font:\qrbillaccountname\par}
+				{
+				\qrbill_valueR_font:
+				\__qrbill_sep_tl:nV {iban} \l_qrbill_data_Account_tl\par
+				\qrbill_insert_address:N \g__qrbill_creditorprefix_tl
+				\par\vskip\baselineskip
+				}
+				\tl_if_empty:NF \l_qrbill_data_Reference_tl {
+				{\qrbill_headingR_font:\qrbillreferencename\par}
+				{
+					\qrbill_valueR_font:
+					\__qrbill_sep_tl:nV {reference} \l_qrbill_data_Reference_tl
+					\par\vskip\baselineskip
+				}
+				}
+				\tl_if_empty:cTF {l_qrbill_data_\g__qrbill_debtorprefix_tl Name_tl}
+				 {
+					 {\qrbill_headingR_font:\qrbilldebtoraddrname\par}
+					 \__qrbill_placeholder:nn {52mm} {20mm}
+				 }{
+					 {\qrbill_headingR_font:\qrbilldebtorname\par}
+					 {
+					 \qrbill_valueR_font:
+					 \qrbill_insert_address:N \g__qrbill_debtorprefix_tl
+					 \par
+					 }
+				 }
+			}
+			\par\nointerlineskip
+			\vbox_to_ht:nn {14mm}{
+				\qrbill_headingR_font:
+				\begin{tabular}[t]{@{}ll@{}}
+				\qrbillcurrencyname&\qrbill_headingR_font:\qrbillamountname\\
+				\qrbill_amountR_font:\l_qrbill_data_Currency_tl
+					&\qrbill_amountR_font:
+					\tl_if_empty:NF \l_qrbill_data_Amount_tl
+						 {\numprint{\l_qrbill_data_Amount_tl}}
+				\end{tabular}
+				\tl_if_empty:NTF \l_qrbill_data_Amount_tl {
+				\hfill
+				\raisebox{\dimexpr-\height+\ht\strutbox}[\z@]{\llap{
+					\__qrbill_placeholder:nn {30mm} {10mm}
+				}}
+				}
+				\vfill
+			}
+			\par\nointerlineskip
+			\vbox_to_ht:nn {18mm} {
+				\makebox[\linewidth][r]{\qrbill_headingR_font:\qrbillacceptantname}\par
+			}
+			\end{minipage}%
+			\skip_horizontal:n {2\c_qrbill_sep_dim}
+			\begin{minipage}[c][95mm][t]{138mm}
+			\begin{minipage}[c][85mm][t]{51mm}
+				\parbox[t][7mm][t]{\linewidth}{\qrbill_title_font:\qrbillpaymentpartname}
+				\par\nointerlineskip
+				\skip_vertical:n {\c_qrbill_sep_dim}
+				\qrcode_setup_QRcode:
+				\leavevmode\qrbill_parse_QRcode:V \l_qrbill_data_str
+				\tl_if_empty:NF \g_qrbill_icon_tl {
+				\llap{\hbox_to_wd:nn {\g_qrbill_QRcode_dim} {
+					\hfill
+					\raisebox{\dimexpr-.5\height+.5\g_qrbill_QRcode_dim}[0pt][0pt]{
+						\includegraphics[width=\g_qrbill_iconwidth_dim]{\g_qrbill_icon_tl}
+					}
+					\hfill
+				}}
+				}
+				\skip_vertical:n {\c_qrbill_sep_dim}
+				\vbox_to_ht:nn {22mm}{
+				\begin{tabular}[b]{@{}ll@{}}
+					\qrbill_headingP_font:\qrbillcurrencyname&\qrbill_headingP_font:
+					\qrbillamountname\\
+					\qrbill_amountP_font:\tl_use:c {l_qrbill_data_Currency_tl}&
+					\tl_if_empty:NF \l_qrbill_data_Amount_tl {
+					\qrbill_amountP_font:\numprint{\l_qrbill_data_Amount_tl}
+					}
+				\end{tabular}
+				\tl_if_empty:NTF \l_qrbill_data_Amount_tl {
+					\hfill
+					\raisebox{\dimexpr-\height+\ht\strutbox}[\z@]{
+					\llap{\__qrbill_placeholder:nn {40mm} {15mm}
+					}}
+				}
+				}
+			\end{minipage}
+			\begin{minipage}[c][85mm][t]{87mm}
+				\par\nointerlineskip
+				{\qrbill_headingP_font:\qrbillaccountname\par}
+				{
+				\qrbill_valueP_font:
+				\__qrbill_sep_tl:nV {iban} \l_qrbill_data_Account_tl \par
+				\qrbill_insert_address:N \g__qrbill_creditorprefix_tl
+				\par\vskip\baselineskip
+				}
+				\tl_if_empty:NF \l_qrbill_data_Reference_tl {
+				{\qrbill_headingP_font:\qrbillreferencename\par}
+				{\qrbill_valueP_font:
+					\__qrbill_sep_tl:nV {reference} \l_qrbill_data_Reference_tl
+					\par\vskip\baselineskip}
+				}
+				\exp_args:Nf \tl_if_empty:nF  {
+				\l_qrbill_data_BillingInfo_tl
+				\l_qrbill_data_Message_tl
+				}{
+				{\qrbill_headingP_font:\qrbilladdinfoname\par}
+				{
+					\qrbill_valueP_font:
+					\l_qrbill_data_Message_tl\par
+					\tl_replace_all:Nnn \l_qrbill_data_BillingInfo_tl {/} {\discretionary{}{}{}/}
+					\l_qrbill_data_BillingInfo_tl
+					\par\vskip\baselineskip
+				}
+				}
+				\tl_if_empty:cTF {l_qrbill_data_\g__qrbill_debtorprefix_tl Name_tl} {
+				{\qrbill_headingP_font:\qrbilldebtoraddrname\par}
+				\__qrbill_placeholder:nn {65mm} {25mm}
+				}{
+				{\qrbill_headingP_font:\qrbilldebtorname\par}
+				{
+					\qrbill_valueP_font:
+					\qrbill_insert_address:N \g__qrbill_debtorprefix_tl
+					\par
+				}
+				}
+			\end{minipage}\par\nointerlineskip
+			\begin{minipage}[b][10mm][t]{\linewidth}
+				\strut
+				\qrbill_insert_AV_parameters:NNn
+				\qrbill_infoheading_font:
+				\qrbill_info_font:
+				{AV1,AV2}
+			\end{minipage}
+			\end{minipage}
+			\par\nointerlineskip\skip_vertical:n  {\c_qrbill_sep_dim}
+			\smash{
+			\bool_if:NT \g__qrbill_bottom_frame_bool
+			{\rlap{\rule{\c_qrbill_width_dim}{\g__qrbill_rule_dim}}}
+			\bool_if:NTF \g__qrbill_left_frame_bool
+			{\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
+			{\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
+			\hspace{\dimexpr62mm-1.5\g__qrbill_rule_dim}
+			\g__qrbill_vrule_tl
+			\hspace{\dimexpr148mm-1.5\g__qrbill_rule_dim}
+			\bool_if:NTF \g__qrbill_right_frame_bool
+			{\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
+			{\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
+			}
+		}
   }
   \endgroup
 }
@@ -1022,10 +1021,10 @@
 
 \ior_str_map_inline:Nn \qrbill_ior {
   \int_step_inline:nnn {2} {\l_tmpa_int } {
-    \exp_args:Nnx \use:n {\exp_args:NNx \exp_args:Nnc \defcaptionname
-      {\clist_item:Nn \l_qrbill_tmpa_clist {##1}}
-      {qrbill\clist_item:nn {#1} {1}name}}
-        {\clist_item:nn {#1} {##1}}
+		\exp_args:Nnx \use:n {\exp_args:NNx \exp_args:Nnc \defcaptionname
+			{\clist_item:Nn \l_qrbill_tmpa_clist {##1}}
+			{qrbill\clist_item:nn {#1} {1}name}}
+			{\clist_item:nn {#1} {##1}}
   }
 }
 
@@ -1042,13 +1041,13 @@
 		\seq_set_split:Nnn \l_qrbill_tmp_seq {\\} {#2}
 	}
   \exp_args:Nnx \keys_set:nn {qrbill/data} {
-    #1AddressType=K,
-    #1Name={\seq_item:Nn \l_qrbill_tmp_seq {1}},
-    #1Address1={\seq_item:Nn \l_qrbill_tmp_seq {2}},
-    #1Address2={\seq_item:Nn \l_qrbill_tmp_seq {3}},
-    #1PostalCode=,
-    #1City=,
-    #1Country={\seq_item:Nn \l_qrbill_tmp_seq {4}},
+		#1AddressType=K,
+		#1Name={\seq_item:Nn \l_qrbill_tmp_seq {1}},
+		#1Address1={\seq_item:Nn \l_qrbill_tmp_seq {2}},
+		#1Address2={\seq_item:Nn \l_qrbill_tmp_seq {3}},
+		#1PostalCode=,
+		#1City=,
+		#1Country={\seq_item:Nn \l_qrbill_tmp_seq {4}},
   }
 }
 
@@ -1061,40 +1060,40 @@
 		\seq_set_split:Nnn \l_qrbill_tmp_seq {\\} {#2}
 	}
   \exp_args:Nnx \keys_set:nn {qrbill/data} {
-    #1AddressType=S,
-    #1Name={\seq_item:Nn \l_qrbill_tmp_seq {1}},
-    #1Address1={\seq_item:Nn \l_qrbill_tmp_seq {2}},
-    #1Address2={\seq_item:Nn \l_qrbill_tmp_seq {3}},
-    #1PostalCode={\seq_item:Nn \l_qrbill_tmp_seq {4}},
-    #1City={\seq_item:Nn \l_qrbill_tmp_seq {5}},
-    #1Country={\seq_item:Nn \l_qrbill_tmp_seq {6}},
+		#1AddressType=S,
+		#1Name={\seq_item:Nn \l_qrbill_tmp_seq {1}},
+		#1Address1={\seq_item:Nn \l_qrbill_tmp_seq {2}},
+		#1Address2={\seq_item:Nn \l_qrbill_tmp_seq {3}},
+		#1PostalCode={\seq_item:Nn \l_qrbill_tmp_seq {4}},
+		#1City={\seq_item:Nn \l_qrbill_tmp_seq {5}},
+		#1Country={\seq_item:Nn \l_qrbill_tmp_seq {6}},
   }
 }
 
 \cs_new:Nn \qrbill_insert_address:N {
   \tl_use:c {l_qrbill_data_#1Name_tl}\ifhmode\\\fi
   \str_case_e:nnF {\use:c {l_qrbill_data_#1AddressType_tl}}
-      {
-        {K}     {
-          \tl_use:c {l_qrbill_data_#1Address1_tl}
-          \tl_if_empty:cF {l_qrbill_data_#1Address2_tl} {
-            \ifhmode\\\fi
-            \tl_if_empty:cF {l_qrbill_data_#1Country_tl}
-              {\tl_use:c {l_qrbill_data_#1Country_tl}-}
-              \tl_use:c {l_qrbill_data_#1Address2_tl}
-           }
-        }
-      }{
-        \tl_use:c {l_qrbill_data_#1Address1_tl}~
-        \tl_use:c {l_qrbill_data_#1Address2_tl}
-        \tl_if_empty:cF {l_qrbill_data_#1City_tl} {
-          \ifhmode\\\fi
-          \tl_if_empty:cF {l_qrbill_data_#1Country_tl}
-            {\tl_use:c {l_qrbill_data_#1Country_tl}-}
-          \tl_use:c {l_qrbill_data_#1PostalCode_tl}~
-          \tl_use:c {l_qrbill_data_#1City_tl}
-        }
-      }
+	  {
+		{K}     {
+		  \tl_use:c {l_qrbill_data_#1Address1_tl}
+		  \tl_if_empty:cF {l_qrbill_data_#1Address2_tl} {
+			\ifhmode\\\fi
+			\tl_if_empty:cF {l_qrbill_data_#1Country_tl}
+			  {\tl_use:c {l_qrbill_data_#1Country_tl}-}
+			  \tl_use:c {l_qrbill_data_#1Address2_tl}
+		   }
+		}
+	  }{
+		\tl_use:c {l_qrbill_data_#1Address1_tl}~
+		\tl_use:c {l_qrbill_data_#1Address2_tl}
+		\tl_if_empty:cF {l_qrbill_data_#1City_tl} {
+		  \ifhmode\\\fi
+		  \tl_if_empty:cF {l_qrbill_data_#1Country_tl}
+			{\tl_use:c {l_qrbill_data_#1Country_tl}-}
+		  \tl_use:c {l_qrbill_data_#1PostalCode_tl}~
+		  \tl_use:c {l_qrbill_data_#1City_tl}
+		}
+	  }
 }
 
 \cs_new:Nn \__qrbill_sep_tl:nn {
@@ -1140,15 +1139,15 @@
 
 \clist_map_inline:nn {AV1, AV2} {
   \keys_define:nn {qrbill/data} {
-    #1 .code:n = {
-      \tl_if_empty:nF {##1}{
-        \exp_args:Nnx \keys_set:nn {qrbill/data} {
-          #1-Parameters={\qrbill_av_prefix:n {#1}##1}
-        }
-      }
-      \tl_set:cn {l_qrbill_#1_tl} {##1}
-    },
-    #1 .initial:n =,
+		#1 .code:n = {
+			\tl_if_empty:nF {##1}{
+			\exp_args:Nnx \keys_set:nn {qrbill/data} {
+				#1-Parameters={\qrbill_av_prefix:n {#1}##1}
+			}
+			}
+			\tl_set:cn {l_qrbill_#1_tl} {##1}
+		},
+		#1 .initial:n =,
   }
 }
 
@@ -1165,10 +1164,17 @@
   \str_clear:N \l_qrbill_data_str
   \bool_set_false:N \l_tmpa_bool
   \seq_map_inline:Nn \g__qrbill_qrscheme_seq {
-    \bool_if:NTF \l_tmpa_bool
-         {\str_put_right:Nn\l_qrbill_data_str  {^^J}}
-         {\bool_set_true:N \l_tmpa_bool}
-         \exp_args:NNv \str_put_right:Nn \l_qrbill_data_str {l_qrbill_data_##1_tl}
+		\clist_if_in:NnTF \g__qrbill_ignore_if_empty_clist {##1}
+			{
+				\tl_if_empty:cTF {l_qrbill_data_##1_tl} \use_none:n \use:n
+			}
+			\use:n
+			{
+				\bool_if:NTF \l_tmpa_bool
+	       {\str_put_right:Nn\l_qrbill_data_str  {^^J}}
+	       {\bool_set_true:N \l_tmpa_bool}
+	     \exp_args:NNv \str_put_right:Nn \l_qrbill_data_str {l_qrbill_data_##1_tl}
+	    }
   }
   %necessary to preserve spaces!
   \str_replace_all:Nnn \l_qrbill_data_str {~ } {\ }
@@ -1192,9 +1198,7 @@
 		}
 }
 
-
-
-\prop_new:N \g__qrbill_billing_info_prop 
+\prop_new:N \g__qrbill_billing_info_prop
 \seq_new:N \g__qrbill_billing_info_seq
 
 \clist_new:N \g__qrbill_billing_info_static_clist
@@ -1204,13 +1208,13 @@
   \prop_gset_from_keyval:Nn \g__qrbill_billing_info_prop {#1}
   \seq_gclear:N  \g__qrbill_billing_info_seq
   \prop_map_inline:Nn \g__qrbill_billing_info_prop {
-    \clist_if_in:NnF \g__qrbill_billing_info_static_clist {##1} {
-      \seq_push:Nn \g__qrbill_billing_info_seq {##1}
-    }
-    \keys_define:nn {qrbill/data} {
-      ##2 .tl_set:c = l_qrbill_##2_tl,
-      ##2 .initial:n =,
-    }
+		\clist_if_in:NnF \g__qrbill_billing_info_static_clist {##1} {
+			\seq_push:Nn \g__qrbill_billing_info_seq {##1}
+		}
+		\keys_define:nn {qrbill/data} {
+			##2 .tl_set:c = l_qrbill_##2_tl,
+			##2 .initial:n =,
+		}
   }
 	\seq_if_empty:NF \g__qrbill_billing_info_seq {
 		\prop_map_inline:Nn \g__qrbill_billing_info_prop {
@@ -1222,9 +1226,9 @@
 		}
 	}
   \seq_sort:Nn \g__qrbill_billing_info_seq {
-    \int_compare:nNnTF { ##1 } > { ##2 }
-        { \sort_return_swapped: }
-        { \sort_return_same: }
+		\int_compare:nNnTF { ##1 } > { ##2 }
+			{ \sort_return_swapped: }
+			{ \sort_return_same: }
   }
 }
 
@@ -1232,17 +1236,17 @@
 
 \cs_new:Nn \qrbill_parse_BillingInfo: {
   \bool_if:NT \g__grbill_billinginfo_auto_bool {
-    \str_put_right:Nx \l_qrbill_data_BillingInfo_tl {
-      \prop_item:Nn \g__qrbill_billing_info_prop  {prefix}
-    }
-    \seq_map_inline:Nn \g__qrbill_billing_info_seq {
-      \prop_get:NnN \g__qrbill_billing_info_prop {##1} \l_tmpa_tl
-      \tl_if_empty:cF {l_qrbill_\l_tmpa_tl _tl} {
-        \str_put_right:Nx \l_qrbill_data_BillingInfo_tl {
-          /##1/\tl_use:c {l_qrbill_\l_tmpa_tl _tl}
-        }
-      }
-    }
+		\str_put_right:Nx \l_qrbill_data_BillingInfo_tl {
+			\prop_item:Nn \g__qrbill_billing_info_prop  {prefix}
+		}
+		\seq_map_inline:Nn \g__qrbill_billing_info_seq {
+			\prop_get:NnN \g__qrbill_billing_info_prop {##1} \l_tmpa_tl
+			\tl_if_empty:cF {l_qrbill_\l_tmpa_tl _tl} {
+			\str_put_right:Nx \l_qrbill_data_BillingInfo_tl {
+				/##1/\tl_use:c {l_qrbill_\l_tmpa_tl _tl}
+			}
+			}
+		}
   }
 }
 
@@ -1260,9 +1264,9 @@
 
 \cs_new:Nn \qrbill_insert_AV_parameters:NNn {
   \clist_map_inline:nn {#3} {
-    \tl_if_empty:cF {l_qrbill_##1_tl}
-       {{#1\qrbill_av_prefix:n {##1}}{#2 \tl_use:c {l_qrbill_##1_tl}}}
-  }
+		\tl_if_empty:cF {l_qrbill_##1_tl}
+			 {{#1\qrbill_av_prefix:n {##1}}{#2 \tl_use:c {l_qrbill_##1_tl}}}
+	}
 }
 
 \cs_new:Nn \qrbill_av_prefix:n {Name~#1:~}
@@ -1275,8 +1279,8 @@
 % \section{The file swiss.qrbill-cfg.tex as a custom qrbill scheme}
 %<*swiss.qrbill-cfg.tex>
 \qrbillsetup{
-        creditorprefix =CR-,
-        debtorprefix =UD-,
+	creditorprefix =CR-,
+	debtorprefix =UD-,
 }
 
 \SetQrScheme{
@@ -1339,12 +1343,12 @@
 \ExplSyntaxOff
 
 \SetupQrBill{
-        QRType=SPC,
-        Version=0200,
-        CodingType=1,
-        Trailer=EPD,
-        Currency=CHF,
-        ReferenceType=NON,
+	QRType=SPC,
+	Version=0200,
+	CodingType=1,
+	Trailer=EPD,
+	Currency=CHF,
+	ReferenceType=NON,
 }
 
 \qrbillsetdata*{
@@ -1421,24 +1425,24 @@
 
 \QRbill[
   creditor*={foobar LLC\\
-    Postfach\\
-    404\\
-    2342\\
-    Zurich\\
-    CH},
+		Postfach\\
+		404\\
+		2342\\
+		Zurich\\
+		CH},
   Account=CH1280808005649899718,
   vat=123123123,% VAT number with stripped CH and periods
   debtor*={peiTeX\\
-    TeXnikerweg\\
-    78\\
-    23420\\
-    Hamburg\\
-    DE},
+		TeXnikerweg\\
+		78\\
+		23420\\
+		Hamburg\\
+		DE},
   Amount=1337.42,
   Message=Bestellung vom 27.06.2020,
   invoicenum=100-4242,
 % invoicedate=200701,%yymmdd, preset to todays values
-  vatdetails=0,% 0% VAT 
+  vatdetails=0,% 0% VAT
 % invoicedate=200701,%yymmdd, preset to todays values
   AV1=LX;F00BAR;2342,
 ]
@@ -1471,39 +1475,39 @@
 	width=\paperwidth,
 	height=105mm,
 	]{qrbill}
-	
+
 
 
 \begin{document}
 
 \qrbillsetdata{
   creditor*={foobar LLC\\
-    Postfach\\
-    404\\
-    2342\\
-    Zurich\\
-    CH},
+		Postfach\\
+		404\\
+		2342\\
+		Zurich\\
+		CH},
   Account=CH1280808005649899718,
   vat=123123123,% VAT number with stripped CH and periods
   debtor*={peiTeX\\
-    TeXnikerweg\\
-    78\\
-    23420\\
-    Hamburg\\
-    DE},
+		TeXnikerweg\\
+		78\\
+		23420\\
+		Hamburg\\
+		DE},
   Amount=1337.42,
   Message=Bestellung vom 27.06.2020,
   invoicenum=100-4242,
 %  invoicedate=200701,%yymmdd, preset to todays values
-  vatdetails=0,% 0% VAT 
+  vatdetails=0,% 0% VAT
 %  vatdate=200701,%yymmdd, preset to todays values
   AV1=LX;F00BAR;2342,
 }
 
 \setkomavar{fromaddress}{\insertcreditor}
-	
+
 \begin{letter}{\insertdebtor}
-	
+
 \opening{opening}
 
 Text
@@ -1511,13 +1515,13 @@ Text
 \closing{closing}
 
 % Add qbill on last page
-% For more details 
+% For more details
 \AddLayersToPageStyle{@everystyle@}{qrbill}
-	
+
 \end{letter}
 \end{document}
 %    \end{macrocode}
-% 
+%
 % \iffalse
 %    \begin{macrocode}
 %</qrbill-letter-demo.tex>
