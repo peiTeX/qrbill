@@ -549,38 +549,50 @@
     \bool_gset_false:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
-    \bool_gset_true:N \g__qrbill_vrule_bool
   },
   frame / true .code:n = {
     \bool_gset_true:N \g__qrbill_top_frame_bool
     \bool_gset_true:N \g__qrbill_bottom_frame_bool
     \bool_gset_true:N \g__qrbill_left_frame_bool
     \bool_gset_true:N \g__qrbill_right_frame_bool
-    \bool_gset_true:N \g__qrbill_vrule_bool
   },
   frame / top .code:n = {
     \bool_gset_true:N \g__qrbill_top_frame_bool
     \bool_gset_false:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
-    \bool_gset_true:N \g__qrbill_vrule_bool
   },
   frame / bottom .code:n = {
     \bool_gset_false:N \g__qrbill_top_frame_bool
     \bool_gset_true:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
-    \bool_gset_true:N \g__qrbill_vrule_bool
   },
   frame / none .code:n = {
     \bool_gset_false:N \g__qrbill_top_frame_bool
     \bool_gset_false:N \g__qrbill_bottom_frame_bool
     \bool_gset_false:N \g__qrbill_left_frame_bool
     \bool_gset_false:N \g__qrbill_right_frame_bool
-    \bool_gset_false:N \g__qrbill_vrule_bool
+    \keys_set:nn {qrbill} {vrule=false}
   },
-
   frame .initial:n = true,
+  vrule .choice:,
+  vrule / true .code:n = \tl_gset:Nn \g__qrbill_vrule_tl {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}},
+  vrule / false .code:n = \tl_gset:Nn \g__qrbill_vrule_tl {\rule{\g__qrbill_rule_dim}{\c_zero_dim}},
+	vrule / symbol .code:n =  {
+		\RequirePackage{marvosym}
+		\tl_gset:Nn \g__qrbill_vrule_tl {
+			\rotatebox{90}{
+				\hbox_to_wd:nn {\c_qrbill_height_dim}{
+					\leaders\hbox{\rule{1mm}{\g__qrbill_rule_dim}\hspace{1mm}}\hskip 0pt\@plus1 fill\relax
+					\llap{\raisebox{-.5\height}[\c_zero_dim][\c_zero_dim]{\LeftScissors}}
+					\leaders\hbox{\rule{1mm}{\g__qrbill_rule_dim}\hspace{1mm}}\hskip 0pt\@plus4 fill\relax
+					\hbox{\rule{1mm}{\g__qrbill_rule_dim}}
+				}
+			}
+		}
+	},
+	vrule .initial:n = true,
   billinginfo .bool_gset:N = \g__grbill_billinginfo_auto_bool,
   billinginfo .default:n = true,
   billinginfo .initial:n = true,
@@ -970,9 +982,7 @@
         {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
         {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
       \hspace{\dimexpr62mm-1.5\g__qrbill_rule_dim}
-      \bool_if:NTF \g__qrbill_vrule_bool
-        {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
-        {\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
+      \g__qrbill_vrule_tl
       \hspace{\dimexpr148mm-1.5\g__qrbill_rule_dim}
       \bool_if:NTF \g__qrbill_right_frame_bool
         {\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
