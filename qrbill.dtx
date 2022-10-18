@@ -652,6 +652,8 @@
   replace-umlauts / true .code:n = \prop_gput_from_keyval:Nn \g__qrbill_replacement_prop {ä=ae,Ä=AE,ü=ue,Ü=UE,ö=oe,Ö=OE,ß=ss,ẞ=SS},
   replace-umlauts / false .code:n = \clist_map_inline:nn {ä,Ä,ü,Ü,ö,Ö,ß,ẞ} {\prop_gremove:Nn \g__qrbill_replacement_prop {##1}},
   data-to-string .bool_gset:N = \g__qrbill_to_string_bool,
+  ignore-if-empty  .clist_gset:N = \g__qrbill_ignore_if_empty_clist,
+  ignore-if-empty .initial:n = ,
 }
 
 \ProcessKeysOptions{qrbill}
@@ -1177,14 +1179,17 @@
 }
 
 \seq_new:N \g__qrbill_qrscheme_seq
-\newcommand*\SetQrScheme[1]{
-  \seq_gset_from_clist:Nn \g__qrbill_qrscheme_seq {#1}
-  \seq_map_inline:Nn \g__qrbill_qrscheme_seq {
-    \keys_define:nn {qrbill/data} {
-      ##1 .tl_set:c = l_qrbill_data_##1_tl,
-      ##1 .initial:n =,
-    }
-  }
+\newcommand*\SetQrScheme[2][]{
+		\tl_if_empty:nF {#1} {
+			\keys_set:nn {qrbill} {#1}
+		}
+		\seq_gset_from_clist:Nn \g__qrbill_qrscheme_seq {#2}
+		\seq_map_inline:Nn \g__qrbill_qrscheme_seq {
+		\keys_define:nn {qrbill/data} {
+			##1 .tl_set:c = l_qrbill_data_##1_tl,
+			##1 .initial:n =,
+		}
+		}
 }
 
 
