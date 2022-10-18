@@ -4,7 +4,7 @@ Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020–2022
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2022/09/15 v1.05
+qrbill 2022/10/18 v1.06
 
 ***************************************************************************
 
@@ -74,3 +74,7 @@ For further information on l3build and other options please have a look at the c
    - fix qrcode encoding to support UTF-8
    - add support for speedata's luaqrcode library for qrcode generation http://speedata.github.io/luaqrcode/
    - small layout and documentation fixes
+ * v1.06 (2022/10/18)
+   - additional customization for vrule
+   - add possibilities to ignore data fields if empty
+   - allow the usage of commas within the billing info
