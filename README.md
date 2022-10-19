@@ -65,16 +65,16 @@ For further information on l3build and other options please have a look at the c
  * v1.03 (2021-05-10)
    - Update to swiss qrbill payments standard v2.2
    - Add seb-iban and sep-reference to the example files
- * v1.04 (2022/07/02)
+ * v1.04 (2022-07-02)
    - add basic support for EPC QR codes
    - add date parsing mechanism to preset the dates to values of `\today`
- * v1.05 (2022/09/15)
+ * v1.05 (2022-09-15)
    - add option to convert all data to strings
    - add mechanism to do custom replacements within the data
    - fix qrcode encoding to support UTF-8
    - add support for speedata's luaqrcode library for qrcode generation http://speedata.github.io/luaqrcode/
    - small layout and documentation fixes
- * v1.06 (2022/10/18)
+ * v1.06 (2022-10-18)
    - additional customization for vrule
    - add possibilities to ignore data fields if empty
    - allow the usage of commas within the billing info
