@@ -25,6 +25,5 @@ tdslocations = {
 function update_tag(file,content,tagname,tagdate)
 	local replaced = string.gsub(content,"%d%d%d%d/%d%d/%d%d v%d+.%d%d", tagdate.." v"..tagname)
 	replaced = string.gsub(replaced,"\\ProvidesExplPackage{qrbill}{%d%d%d%d/%d%d/%d%d}{%d+.%d%d}", "\\ProvidesExplPackage{qrbill}{"..tagdate.."}{"..tagname.."}")
-	replaced = string.gsub(replaced,"\\title{qrbill v%d+.%d%d}", "\\title{qrbill v"..tagname.."}")
 	return replaced
 end
