@@ -21,3 +21,9 @@ tdslocations = {
 	     "tex/latex/qrbill/*.csv",
 	     "doc/latex/qrbill/*-demo.tex",
 }
+
+function update_tag(file,content,tagname,tagdate)
+	local replaced = string.gsub(content,"%d%d%d%d/%d%d/%d%d v%d+.%d%d", tagdate.." v"..tagname.." ")
+	replaced = string.gsub(replaced,"\\ProvidesExplPackage{qrbill}{%d%d%d%d/%d%d/%d%d}{%d+.%d%d}", "\\ProvidesExplPackage{qrbill}{"..tagdate.."}{"..tagname.."}")
+	return replaced
+end
