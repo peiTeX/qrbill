@@ -731,17 +731,16 @@
 		%
 		%First, the mode indicator.
 		\def\qr@codetext{4}% %This means `binary'
-		%
-		%Next, the character count.
-		\xdef\qr@stringlength{\tl_count:o {\qr@plaintext}}%
+		% patch character count mechanism, because we have to encode to hex before counting so the package does accept our utf8 string
+		\__qrbill_qr_get_string_length_encoded:n { \qr@plaintext }
 		%Set \qr@charactercountlengthinhex to \qr@charactercountbits@byte/4%
 		\edef\qr@charactercountlengthinhex{\int_eval:n {\qr@charactercountbits@byte / 4}}%
 		\qr@decimaltohex[\qr@charactercountlengthinhex]{\qr@charactercount}{\qr@stringlength}%
 		\xa\g@addto@macro\xa\qr@codetext\xa{\qr@charactercount}%
 		%
 		%Now comes the actual data.
-		\exp_args:NNx \str_set_convert:Nnnn \l_tmpa_str  { \qr@plaintext }  {iso88591} {utf8}
-		\exp_args:NNV \str_set_convert:Nnnn \l_tmpa_str  \l_tmpa_str {} {latin1/hex}
+		\exp_args:NNx \str_set_convert:Nnnn \l_tmpa_str  { \qr@plaintext }  {} {utf8/hex}
+
 		\str_gput_right:NV \qr@codetext \l_tmpa_str
 		\xdef\qr@codetext{\exp_args:No \str_lowercase:n {\qr@codetext}}
 		%Now the terminator.
@@ -769,8 +768,33 @@
 	}
   \cs_set:Nn \qrbill_parse_QRcode:n {
 		\cs_set_eq:NN \qr@encode@binary \__qrbill_encode_unicode_binary:n
-		\raisebox{\depth}{\cs_set_eq:NN \qr@encode@binary \__qrbill_encode_unicode_binary:n\qrcode[height= \g_qrbill_QRcode_dim]{#1}}
+		\raisebox{\depth}{
+			\__qrbill_enable_unicode_qrcode_patch:
+			\qrcode[height= \g_qrbill_QRcode_dim]{#1}
+		}
   }
+
+	\cs_new:Nn \__qrbill_qr_get_string_length_encoded:n {%
+		\exp_args:NNx \str_set_convert:Nnnn \l_tmpa_str  { #1 }  {} {utf8/hex}
+		\xdef\qr@stringlength{\int_eval:n {\str_count:N \l_tmpa_str / 2}}
+	}
+
+	\cs_new:Nn \__qrbill_qr_padatfront:nn {%
+		% #1 = macro containing text to pad
+		% #2 = desired number of characters
+		% Pads a number with initial zeros.
+		\prg_replicate:nn {\int_max:nn {0} {#2- \tl_count:N #1}} {
+			\qr@g@preface@macro{#1}{0}
+		}
+	}
+
+	\let\orig@qr@getstringlength\qr@getstringlength
+
+	\cs_new:Nn \__qrbill_enable_unicode_qrcode_patch: {
+		\cs_set_eq:NN \qr@padatfront \__qrbill_qr_padatfront:nn
+		\AddToHook{cmd/qr@choose@best@version/before}{\cs_set_eq:NN \qr@getstringlength\__qrbill_qr_get_string_length_encoded:n}
+		\AddToHook{cmd/qr@choose@best@version/after}{\let\qr@getstringlength\orig@qr@getstringlength}
+	}
 }
 
 \cs_generate_variant:Nn \qrbill_parse_QRcode:n {V}
