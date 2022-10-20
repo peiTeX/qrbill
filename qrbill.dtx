@@ -1197,7 +1197,8 @@
 	    }
   }
   %necessary to preserve spaces!
-  \str_replace_all:Nnn \l_qrbill_data_str {~ } {\ }
+  \bool_if:NF \g__qrbill_luamode_bool
+		{ \str_replace_all:Nnn \l_qrbill_data_str {~ } {\ } }
   \prop_map_inline:Nn \g__qrbill_replacement_prop {
 		\str_replace_all:Nnn \l_qrbill_data_str {##1} {##2}
 	}
