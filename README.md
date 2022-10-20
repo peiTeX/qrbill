@@ -78,3 +78,5 @@ For further information on l3build and other options please have a look at the c
    - additional customization for vrule
    - add possibilities to ignore data fields if empty
    - allow the usage of commas within the billing info
+ * v1.07 (2022-10-20)
+   - fix utf8 encoding für qrmode=package
