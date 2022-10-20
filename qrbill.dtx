@@ -710,6 +710,10 @@
 	}
 }
 
+%    \end{macrocode}
+% \changes{v1.07}{2022/10/20}{patch the qrcode package to work with utf-8 strings}
+%    \begin{macrocode}
+
 \bool_if:NF \g__qrbill_luamode_bool {
   \usepackage{qrcode}
   % modified version of \qr@encode@binary to allow utf8 qrcodes required by swiss qrbill scheme
