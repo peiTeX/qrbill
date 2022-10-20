@@ -690,16 +690,7 @@
 \dim_new:N \g_qrbill_QRcode_dim
 \dim_gset:Nn \g_qrbill_QRcode_dim {46mm}
 \bool_if:NT \g__qrbill_luamode_bool {
-	\file_if_exist:nTF {qrencode.lua} {
-		\lua_load_module:n {qrbill-latexluaqrcode}
-	} {
-		\msg_new:nnn {qrbill} {luaqrcode-not-found} {
-			Could~not~find~the~required~library~for~qrmode=lua.\\
-			I~will~switch~to~qrmode=package.
-		}
-		\msg_warning:nn {qrbill} {luaqrcode-not-found}
-		\bool_gset_false:N \g__qrbill_luamode_bool
-	}
+	\lua_load_module:n {qrbill-latexluaqrcode}
 
 	% qrcode setup
 	\dim_new:N \l__qrbill_QRblocksize_dim
