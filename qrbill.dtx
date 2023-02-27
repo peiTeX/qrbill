@@ -866,7 +866,7 @@
 			\skip_vertical:n {\c_qrbill_sep_dim-\g__qrbill_rule_dim}
 			\skip_horizontal:n {\c_qrbill_sep_dim-\g__qrbill_rule_dim}
 			\begin{minipage}[c][95mm][t]{52mm}
-			\vbox_to_ht:nn {7mm} {\qrbill_title_font:\qrbillreceiptname}
+			\vbox_to_ht:nn {7mm} {\qrbill_title_font:\qrbillreceiptname\vfill}
 			\par\nointerlineskip
 			\vbox_to_ht:nn {56mm}{
 				{\qrbill_headingR_font:\qrbillaccountname\par}
@@ -896,6 +896,7 @@
 					 \par
 					 }
 				 }
+				 \vfill
 			}
 			\par\nointerlineskip
 			\vbox_to_ht:nn {14mm}{
@@ -918,12 +919,13 @@
 			\par\nointerlineskip
 			\vbox_to_ht:nn {18mm} {
 				\makebox[\linewidth][r]{\qrbill_headingR_font:\qrbillacceptantname}\par
+				\vfill
 			}
 			\end{minipage}%
 			\skip_horizontal:n {2\c_qrbill_sep_dim}
 			\begin{minipage}[c][95mm][t]{138mm}
 			\begin{minipage}[c][85mm][t]{51mm}
-				\parbox[t][7mm][t]{\linewidth}{\qrbill_title_font:\qrbillpaymentpartname}
+				\parbox[t][7mm][t]{\linewidth}{\qrbill_title_font:\qrbillpaymentpartname\vfill}
 				\par\nointerlineskip
 				\skip_vertical:n {\c_qrbill_sep_dim}
 				\qrcode_setup_QRcode:
@@ -950,9 +952,10 @@
 				\tl_if_empty:NTF \l_qrbill_data_Amount_tl {
 					\hfill
 					\raisebox{\dimexpr-\height+\ht\strutbox}[\z@]{
-					\llap{\__qrbill_placeholder:nn {40mm} {15mm}
-					}}
+						\llap{\__qrbill_placeholder:nn {40mm} {15mm}}
+					}
 				}
+				\vfill
 				}
 			\end{minipage}
 			\begin{minipage}[c][85mm][t]{87mm}
@@ -964,6 +967,7 @@
 				\qrbill_insert_address:N \g__qrbill_creditorprefix_tl
 				\par\vskip\baselineskip
 				}
+				\raggedright
 				\tl_if_empty:NF \l_qrbill_data_Reference_tl {
 				{\qrbill_headingP_font:\qrbillreferencename\par}
 				{\qrbill_valueP_font:
@@ -1017,6 +1021,7 @@
 			{\rule{\g__qrbill_rule_dim}{\c_qrbill_height_dim}}
 			{\rule{\g__qrbill_rule_dim}{\c_zero_dim}}
 			}
+			\vfill
 		}
   }
   \endgroup
