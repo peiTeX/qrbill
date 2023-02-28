@@ -1,0 +1,3 @@
+[submodule "libraries/luaqrcode"]
+	path = libraries/luaqrcode
+	url = git@github.com:speedata/luaqrcode.git

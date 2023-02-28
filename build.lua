@@ -8,13 +8,13 @@ typesetopts = "--shell-escape"
 
 packtdszip = true
 
-installfiles = {"*.sty","qrbill_*.pdf","*.qrbill-cfg.tex", "*.csv", "*-demo.tex"}
+installfiles = {"*.sty","qrbill_*.pdf","*.qrbill-cfg.tex", "*.csv", "*-demo.tex","libraries/luaqrcode/qrencode.lua","qrbill-*.lua"}
 
-scriptfiles = {"qrbill-*.lua"}
+scriptfiles = {"qrbill-*.lua","qrencode.lua"}
 
 demofiles = {"*-demo.tex"}
 docfiles = {"*-demo.tex"}
-sourcefiles = {"*.dtx", "*.ins", "*.csv", "qrbill-*.lua"}
+sourcefiles = {"*.dtx", "*.ins", "*.csv", "qrbill-*.lua", "libraries/luaqrcode/qrencode.lua"}
 
 tdslocations = {
 	     "tex/latex/qrbill/qrbill_*.pdf",
