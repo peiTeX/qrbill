@@ -2,7 +2,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Copyright (C) 2020–2022 by Marei Peischl (peiTeX) <marei@peitex.de>
+% Copyright (C) 2020–2023 by Marei Peischl (peiTeX) <marei@peitex.de>
 %
 % This work is a collaboration of
 %   Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
@@ -54,7 +54,7 @@
 % \fi
 % \iffalse
 %<*driver>
-\ProvidesFile{qrbill.dtx}[2022/10/20 v1.07  \ create QR-bills based on the Swiss standard]
+\ProvidesFile{qrbill.dtx}[2023/02/28 v2.00  \ create QR-bills based on the Swiss standard]
 \documentclass[english, parskip=half-]{scrartcl}
 \usepackage{iftex}
 \ifPDFTeX
@@ -284,8 +284,8 @@
 % \changes{v1.06}{2022/10/18}{Add ignore-if-empty option}
 %
 % \item[qrmode (package/lua) (package)] Selects the mechanism for QRcode generation.
+% \changes{v2.00}{2023/02/28}{qrencode.lua now is part of the qrbill package}
 % With Version 2.0 the package supports usage of the the luaqrcode library \cite{luaqrcode}. This can be enabled by using the \latexinline{qmode=lua} option.
-% In that case the luaqrcode libary has to be installed within the \verb+$LUAINPUTS+.
 %
 % \item[qrscheme (Name of a custom QRbill scheme) (swiss)]
 % Loads the definitions for the QRcode and the BillingInformation. Currently only the
@@ -514,7 +514,7 @@
 % \section{Implementation}
 %    \begin{macrocode}
 \RequirePackage{expl3}
-\ProvidesExplPackage{qrbill}{2022/10/20}{1.07}{
+\ProvidesExplPackage{qrbill}{2023/02/28}{2.00}{
   Template for QR-bills based on the Swiss Payment Standards
 }
 \RequirePackage{iftex}

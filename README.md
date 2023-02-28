@@ -1,10 +1,10 @@
 # qrbill – create QR-bills based on the swiss payment standard
 
-Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020–2022
+Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020–2023
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2022/10/20 v1.07
+qrbill 2023/02/28 v2.00
 
 ***************************************************************************
 
@@ -80,3 +80,5 @@ For further information on l3build and other options please have a look at the c
    - allow the usage of commas within the billing info
  * v1.07 (2022-10-20)
    - fix utf8 encoding für qrmode=package
+ * v2.00 (2023-02-28)
+   - add luaqrcode to qrbill
