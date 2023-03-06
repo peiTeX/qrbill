@@ -11,6 +11,10 @@ qrbill 2023/02/28 v2.00
  This material is subject to the LaTeX Project Public License version 1.3c
  or later. See http://www.latex-project.org/lppl.txt for details.
 
+ The included qrbill-qrencode.lua file is subject to a 3-clause BSD license
+ Copyright (c) 2012-2020, Patrick Gundlach (SPEEDATA GMBH) and contributors,
+ see https://github.com/speedata/luaqrcode. All rights reserved.
+
 ***************************************************************************
 
 ## Provided files
