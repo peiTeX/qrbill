@@ -16,7 +16,7 @@ scriptfiles = {"qrbill-*.lua"}
 
 demofiles = {"*-demo.tex"}
 docfiles = {"*-demo.tex"}
-sourcefiles = {"*.dtx", "*.ins", "*.csv", "qrbill-*.lua"}
+sourcefiles = {"*.dtx", "*.ins", "*.csv", "qrbill-*.lua", "qrbill_*.pdf"}
 cleanfiles={"*.log", "*.pdf", "*.zip", "qrbill-qrencode.lua"}
 
 tdslocations = {
