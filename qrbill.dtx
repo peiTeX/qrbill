@@ -287,7 +287,12 @@
 % \changes{v2.00}{2023/02/28}{qrencode.lua now is part of the qrbill package}
 % With Version 2.0 the package supports usage of the the luaqrcode library \cite{luaqrcode}. This can be enabled by using the \latexinline{qmode=lua} option.
 %
-% \item[qrscheme (Name of a custom QRbill scheme) (swiss)]
+% \changes{v2.01}{2023/06/16}{add qrsize option}
+% \item[qrsize (length) (46mm)]
+% Allows to change the size of the created QRcoode.
+% The default setting is chosen to match the swiss QRbills.
+%
+% \item[qrscheme (Name of a QRbill scheme) (swiss)]
 % Loads the definitions for the QRcode and the BillingInformation. Currently only the
 % swiss qrbill scheme is available, but one can define own variants based on this file.
 % Users can copy the file swiss.qrbill-cfg.tex as an example.
@@ -544,6 +549,8 @@
   font / custom .code:n = {\tl_gclear:N \g__qrbill_font_tl},
   qrscheme .tl_gset:N = \g__qrbill_qrscheme_tl,
   qrscheme .initial:n = swiss,
+  qrsize .dim_gset:N =  \g_qrbill_QRcode_dim,
+  qrsize .initial:n = 46mm,
   creditorprefix .tl_gset:N = \g__qrbill_creditorprefix_tl,
   creditorprefix .initial:n = CR-,
   debtorprefix .tl_gset:N = \g__qrbill_debtorprefix_tl,
@@ -687,8 +694,6 @@
   \RequirePackage{anyfontsize}
 }
 
-\dim_new:N \g_qrbill_QRcode_dim
-\dim_gset:Nn \g_qrbill_QRcode_dim {46mm}
 \bool_if:NT \g__qrbill_luamode_bool {
 	\lua_load_module:n {qrbill-latexluaqrcode}
 
