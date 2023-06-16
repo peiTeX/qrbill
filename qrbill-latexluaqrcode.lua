@@ -1,4 +1,4 @@
-qrencode = require("qrencode.lua")
+qrencode = require("qrbill-qrencode.lua")
 
 function printQRcode(codestring)
 	local ok, tab = qrencode.qrcode(codestring, 2)
