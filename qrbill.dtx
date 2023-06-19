@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Copyright (C) 2020–2023 by Marei Peischl (peiTeX) <marei@peitex.de>
 %
@@ -30,7 +30,7 @@
 % https://github.com/peitex/qrbill
 % Please use the issue tracker for feedback!
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \fi
 % \iffalse
@@ -76,6 +76,12 @@
   \inputminted[autogobble, escapeinside=||,tabsize=4]{latex}{minted.doc.out}
 }
 
+\newenvironment{doccode*}{
+  \VerbatimEnvironment
+  \begin{VerbatimOut}[tabsize=4]{minted.doc.out}}
+  {\end{VerbatimOut}
+  \inputminted[autogobble, escapeinside=||,tabsize=4]{latex}{minted.doc.out}
+}
 \usepackage{babel}
 \usepackage[babel]{csquotes}
 
@@ -486,33 +492,30 @@
 % \ExplSyntaxOff
 %
 % \section{Setup for EPC QR codes}
+% \label{sec:epc}
 % EPC QR codes can be used for SEPA credit transfer (SCT).
 % They do not include any data about the debtor or tax information.
 % Therefore they may only be used with the starred variant of \latexinline{\QRbill*} or the user has to provide additional data interfaces.
+%
+% To use this kind of QRcodes with qrbill one has to select the corresponding \latexinline{qrscheme}:
+% \begin{doccode*}
+\usepackage[qrscheme=epc]{qrbill}
+% \end{doccode*}
 % \subsection{Preconfigured data}
 % \changes{v1.04}{2022/07/01}{Add basic support for EPC QR codes}
 % The epc qrscheme provided by this package preset the following data:
 % \begin{doccode}
 % \SetupQrBill{
-%	   QRType=BCD,
-%	   Version=002,
-%	   CodingType=1,% UTF-8, 2 would be ISO
-%	   Trailer=SCT,
-%	 }
+% 	QRType=BCD,
+% 	Version=002,
+% 	CodingType=1,% UTF-8, 2 would be ISO
+% 	Trailer=SCT,
+% }
 % \end{doccode}
 % These fields are required to use these values for the current version of the EPC QR code.
 %
 % \subsection{Required data}
-% The data fields required by the EPC QRcode can be set directly. A full example for an easy EPC qrcode would be
-% \begin{doccode}
-%   \QRbill*[
-%     BIC=BYLADEM1GLS,
-%     Account=DE68430609671013251700,
-%     Name=peiTeX,
-%     Amount=EUR123.42,
-%     Message={Invoice 2022:1337, customer 1337}
-%   ]
-% \end{doccode}
+% The data fields required by the EPC QRcode can be set directly. A full example for an easy EPC qrcode can be found in appendix \ref{sec:example-epc}.
 % \iffalse
 % \section{Implementation}
 %    \begin{macrocode}
@@ -1558,9 +1561,30 @@ Text
 %    \end{macrocode}
 %
 % \iffalse
-%    \begin{macrocode}
 %</qrbill-letter-demo.tex>
-%    \end{macrocode}
+%<*qrbill-epc-demo.tex>
+% \fi
+% \section{Example of EPC qrcode}
+% \changes{v2.01}{2023/06/18}{edd epc qrcode example document}
+%    \begin{doccode*}
+\documentclass{article}
+\usepackage[qrscheme=epc]{qrbill}
+
+\begin{document}
+
+\QRbill*[
+ BIC=BYLADEM1GLS,
+ Account=DE68430609671013251700,
+ Name=peiTeX,
+ Amount=EUR1 .42,
+ Message={Invoice 2022:1337, customer 1337}
+]
+
+\end{document}
+%    \end{doccode*}
+% \iffalse
+%\endinput
+%</qrbill-epc-demo.tex>
 % \fi
 %\Finale
 \endinput
