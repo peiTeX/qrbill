@@ -4,7 +4,7 @@ Copyright (C) Marei Peischl (peiTeX)  <marei@peitex.de>, 2020–2023
 
 This work is part of a collaborative project of Marei Peischl (peiTeX) and Alex Antener (foobar LLC).
 
-qrbill 2023/02/28 v2.00
+qrbill 2023/06/19 v2.01
 
 ***************************************************************************
 

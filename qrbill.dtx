@@ -54,7 +54,7 @@
 % \fi
 % \iffalse
 %<*driver>
-\ProvidesFile{qrbill.dtx}[2023/02/28 v2.00  \ create QR-bills based on the Swiss standard]
+\ProvidesFile{qrbill.dtx}[2023/06/19 v2.01  \ create QR-bills based on the Swiss standard]
 \documentclass[english, parskip=half-]{scrartcl}
 \usepackage{iftex}
 \ifPDFTeX
@@ -295,7 +295,7 @@
 % \changes{v2.00}{2023/02/28}{qrencode.lua now is part of the qrbill package}
 % With Version 2.0 the package supports usage of the the luaqrcode library \cite{luaqrcode}. This can be enabled by using the \latexinline{qmode=lua} option.
 %
-% \changes{v2.01}{2023/06/16}{add qrsize option}
+% \changes{v2.01}{2023/06/19}{add qrsize option}
 % \item[qrsize (length) (46mm)]
 % Allows to change the size of the created QRcoode.
 % The default setting is chosen to match the swiss QRbills.
@@ -524,7 +524,7 @@
 % \section{Implementation}
 %    \begin{doccode*}
 \RequirePackage{expl3}
-\ProvidesExplPackage{qrbill}{2023/02/28}{2.00}{
+\ProvidesExplPackage{qrbill}{2023/06/19}{2.01}{
   Template for QR-bills based on the Swiss Payment Standards
 }
 \RequirePackage{iftex}
@@ -789,7 +789,7 @@
 		\raisebox{\depth}{
 			\__qrbill_enable_unicode_qrcode_patch:
 %    \end{doccode*}
-% \changes{v2.01}{2023/00/00}{Disable hyperlink for qrcode in case hyperref is loaded}
+% \changes{v2.01}{2023/06/19}{Disable hyperlink for qrcode in case hyperref is loaded}
 %    \begin{doccode*}
 			\qrcode[nolink,height= \g_qrbill_QRcode_dim]{#1}
 		}
@@ -1579,7 +1579,7 @@ Text
 % \fi
 % \section{Example for EPC qrcode}
 % \label{sec:example-epc}
-% \changes{v2.01}{2023/06/18}{edd epc qrcode example document}
+% \changes{v2.01}{2023/06/19}{edd epc qrcode example document}
 %    \begin{doccode*}
 \documentclass{article}
 \usepackage[qrscheme=epc]{qrbill}
