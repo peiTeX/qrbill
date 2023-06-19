@@ -90,3 +90,4 @@ For further information on l3build and other options please have a look at the c
  * v2.01 (2023-06-19)
    - add full exp qrcode example
    - improve documentation
+   - disable hyperlink if `qrmode=package` and hyperref is loaded

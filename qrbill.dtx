@@ -788,7 +788,10 @@
 		\cs_set_eq:NN \qr@encode@binary \__qrbill_encode_unicode_binary:n
 		\raisebox{\depth}{
 			\__qrbill_enable_unicode_qrcode_patch:
-			\qrcode[height= \g_qrbill_QRcode_dim]{#1}
+%    \end{doccode*}
+% \changes{v2.01}{2023/00/00}{Disable hyperlink for qrcode in case hyperref is loaded}
+%    \begin{doccode*}
+			\qrcode[nolink,height= \g_qrbill_QRcode_dim]{#1}
 		}
   }
 
