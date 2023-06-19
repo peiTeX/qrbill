@@ -8,6 +8,8 @@ typesetfiles  = {"*.dtx"}
 typesetexe = "lualatex"
 typesetopts = "--shell-escape"
 
+tagfiles = {"*.dtx", "*.md"}
+
 packtdszip = true
 
 installfiles = {"*.sty","qrbill_*.pdf","*.qrbill-cfg.tex", "*.csv", "*-demo.tex","qrbill-*.lua"}
@@ -28,5 +30,7 @@ tdslocations = {
 function update_tag(file,content,tagname,tagdate)
 	local replaced = string.gsub(content,"%d%d%d%d/%d%d/%d%d v%d+.%d%d", tagdate.." v"..tagname)
 	replaced = string.gsub(replaced,"\\ProvidesExplPackage{qrbill}{%d%d%d%d/%d%d/%d%d}{%d+.%d%d}", "\\ProvidesExplPackage{qrbill}{"..tagdate.."}{"..tagname.."}")
+	replaced = string.gsub(replaced,"qrbill %d%d%d%d/%d%d/%d%d v%d+.%d%d", "qrbill "..tagdate.." v"..tagname)
+	replaced = string.gsub(replaced,"\\changes{v"..tagname.."}{%d%d%d%d/%d%d/%d%d", "\\changes{v"..tagname.."}{"..tagdate)
 	return replaced
 end
