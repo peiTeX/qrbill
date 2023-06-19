@@ -167,6 +167,9 @@
 
 \usepackage{qrbill}
 
+\usepackage{geometry}
+\geometry{left=4cm}
+
 \usepackage[hidelinks]{hyperref}
 
 \begin{document}
@@ -1501,6 +1504,7 @@
 %<*qrbill-letter-demo.tex>
 % \fi
 % \section{qrbill scrletter example}
+% \label{sec:example-qrbill-letter}
 %    \begin{doccode*}
 % !TeX Program=lualatex
 \documentclass[foldmarks=b]{scrletter}
@@ -1570,7 +1574,8 @@ Text
 %</qrbill-letter-demo.tex>
 %<*qrbill-epc-demo.tex>
 % \fi
-% \section{Example of EPC qrcode}
+% \section{Example for EPC qrcode}
+% \label{sec:example-epc}
 % \changes{v2.01}{2023/06/18}{edd epc qrcode example document}
 %    \begin{doccode*}
 \documentclass{article}

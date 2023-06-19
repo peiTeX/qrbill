@@ -32,6 +32,7 @@ The files
 as well as the demo files
 * qrbill-standalone-demo.tex
 * qrbill-letter-demo.tex
+* qrbill-epc-demo.tex
 can be created from the qrbill.dtx by processing the qrbill.ins-file.
 
 ## Installation Notes
@@ -86,3 +87,6 @@ For further information on l3build and other options please have a look at the c
    - fix utf8 encoding für qrmode=package
  * v2.00 (2023-02-28)
    - add luaqrcode to qrbill
+ * v2.01 (2023-06-19)
+   - add full exp qrcode example
+   - improve documentation
