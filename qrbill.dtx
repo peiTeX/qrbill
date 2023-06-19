@@ -499,9 +499,9 @@
 % Therefore they may only be used with the starred variant of \latexinline{\QRbill*} or the user has to provide additional data interfaces.
 %
 % To use this kind of QRcodes with qrbill one has to select the corresponding \latexinline{qrscheme}:
-% \begin{doccode*}
-\usepackage[qrscheme=epc]{qrbill}
-% \end{doccode*}
+% \begin{doccode}
+% \usepackage[qrscheme=epc]{qrbill}
+% \end{doccode}
 % \subsection{Preconfigured data}
 % \changes{v1.04}{2022/07/01}{Add basic support for EPC QR codes}
 % The epc qrscheme provided by this package preset the following data:
@@ -553,7 +553,8 @@
   font / custom .code:n = {\tl_gclear:N \g__qrbill_font_tl},
   qrscheme .choice:,
   qrscheme / epc .code:n = \tl_gset:Nn \g__qrbill_qrscheme_tl {epc}\tl_gclear:N \g__qrbill_font_tl,
-  qrscheme / unknown .code:n = \tl_gset_eq:NN \g__qrbill_qrscheme_tl \l_keys_key_tl,
+  qrscheme / unknown .code:n = \tl_gset:Nn  \g__qrbill_qrscheme_tl {
+  #1},
   qrscheme .initial:n = swiss,
   qrsize .dim_gset:N =  \g_qrbill_QRcode_dim,
   qrsize .initial:n = 46mm,
