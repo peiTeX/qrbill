@@ -87,7 +87,7 @@ For further information on l3build and other options please have a look at the c
    - fix utf8 encoding für qrmode=package
  * v2.00 (2023-02-28)
    - add luaqrcode to qrbill
- * v2.01 (2023-06-19)
+ * v2.01 (2023-07-24)
    - add full epc qrcode example
    - improve documentation
    - disable hyperlink if `qrmode=package` and hyperref is loaded
