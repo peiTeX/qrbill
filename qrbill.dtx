@@ -1059,7 +1059,16 @@
 	\IfBooleanTF {#1}
 	{
 		\qrcode_setup_QRcode:
-		\qrbill_parse_QRcode:V \l_qrbill_data_str
+		\leavevmode\qrbill_parse_QRcode:V \l_qrbill_data_str
+		\tl_if_empty:NF \g_qrbill_icon_tl {
+		\llap{\hbox_to_wd:nn {\g_qrbill_QRcode_dim} {
+			\hfill
+			\raisebox{\dimexpr-.5\height+.5\g_qrbill_QRcode_dim}[0pt][0pt]{
+				\includegraphics[width=\g_qrbill_iconwidth_dim]{\g_qrbill_icon_tl}
+			}
+			\hfill
+		}}
+		}
 	}{
 		\qrbill_bill_create:
 	}
