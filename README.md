@@ -92,3 +92,5 @@ For further information on l3build and other options please have a look at the c
    - improve documentation
    - disable hyperlink if `qrmode=package` and hyperref is loaded
    - support icons with epc qrcodes
+   - fix icon alignment for `qrmode=lua`
+   - update luaqrcode library
