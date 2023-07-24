@@ -524,7 +524,8 @@
 %
 % QRType,
 % \subsection{Overview over all data fields}
-% \label{sec:data-complete}
+% \label{sec:epc-data-complete}
+% \changes{v2.01}{2023/06/19}{Add overview over all epc qrcode data fields}
 % Data fields which are used in the QRcode:\par
 % \begingroup
 % \ExplSyntaxOn
@@ -1076,6 +1077,9 @@
 	{
 		\qrcode_setup_QRcode:
 		\leavevmode\qrbill_parse_QRcode:V \l_qrbill_data_str
+%    \end{doccode*}
+% \changes{v2.01}{2023/06/19}{Add icon support for epc qrcodes}
+%    \begin{doccode*}
 		\tl_if_empty:NF \g_qrbill_icon_tl {
 		\llap{\hbox_to_wd:nn {\g_qrbill_QRcode_dim} {
 			\hfill

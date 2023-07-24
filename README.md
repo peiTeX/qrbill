@@ -88,6 +88,7 @@ For further information on l3build and other options please have a look at the c
  * v2.00 (2023-02-28)
    - add luaqrcode to qrbill
  * v2.01 (2023-06-19)
-   - add full exp qrcode example
+   - add full epc qrcode example
    - improve documentation
    - disable hyperlink if `qrmode=package` and hyperref is loaded
+   - support icons with epc qrcodes
