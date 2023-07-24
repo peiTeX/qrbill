@@ -418,14 +418,14 @@
 % \end{center}
 % To set an address of type \enquote{K} one can use they option key \latexinline{debtor} or \latexinline{creditor}. Type \enquote{S} can be achieved using the starred variant (\latexinline{debtor*}/\latexinline{creditor*}).
 %
-% \begin{minipage}{.5\linewidth}
+% \begin{minipage}{.4\linewidth}
 % \begin{doccode}
 % creditor={Name\\
 % Street Nr.\\
 % PostalCode City\\
 % CountryCode},
 % \end{doccode}
-% \end{minipage}%
+% \end{minipage}\hfill
 % \begin{minipage}{.5\linewidth}
 % \begin{doccode}
 % creditor*={Name\\
@@ -493,7 +493,7 @@
 % \par\medskip
 % Data fields to automatically create the BillingInfo string. The key in parentheses indicates the prefix to be used to construct the string.\par
 % \ExplSyntaxOn
-% \prop_map_inline:Nn \g__qrbill_billing_info_prop {#2~(#1)\\}
+% \prop_map_inline:Nn \g__qrbill_billing_info_prop {#2~(#1)\\}\strut
 % \ExplSyntaxOff
 % \section{Setup for EPC QR codes}
 % \label{sec:epc}
@@ -519,10 +519,8 @@
 % These fields are required to use these values for the current version of the EPC QR code.
 %
 % \subsection{Required data}
-% \label{sec:epc-data-complete}
 % The data fields required by the EPC QRcode can be set directly. A full example for an easy EPC qrcode can be found in appendix \ref{sec:example-epc}.
 %
-% QRType,
 % \subsection{Overview over all data fields}
 % \label{sec:epc-data-complete}
 % \changes{v2.01}{2023/07/24}{Add overview over all epc qrcode data fields}
