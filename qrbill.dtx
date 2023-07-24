@@ -734,8 +734,13 @@
 		\let\qrblack\qrbill_qrcode_black:
 		\let\qrwhite\qrbill_qrcode_white:
 		\def\qrnewline{\\[\dimexpr-\baselineskip+\l__qrbill_QRblocksize_dim]}
-		\noindent\parbox{\g_qrbill_QRcode_dim}{
-			\lua_now:n {tex.sprint(string)}
+%    \end{doccode*}
+% \changes{v2.01}{2023/07/24}{fix icon alignment for qrmode=lua}
+%    \begin{doccode*}
+		\raisebox{\dimexpr\depth-\l__qrbill_QRblocksize_dim}[\dimexpr\height+\depth-\l__qrbill_QRblocksize_dim][0pt]{
+			\noindent\parbox{\g_qrbill_QRcode_dim}{
+				\lua_now:n {tex.sprint(string)}
+			}
 		}
 	}
 
