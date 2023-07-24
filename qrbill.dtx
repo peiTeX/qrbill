@@ -519,7 +519,23 @@
 % These fields are required to use these values for the current version of the EPC QR code.
 %
 % \subsection{Required data}
+% \label{sec:epc-data-complete}
 % The data fields required by the EPC QRcode can be set directly. A full example for an easy EPC qrcode can be found in appendix \ref{sec:example-epc}.
+%
+% QRType,
+% \subsection{Overview over all data fields}
+% \label{sec:data-complete}
+% Data fields which are used in the QRcode:\par
+% \begingroup
+% \ExplSyntaxOn
+% \file_get:nnN {epc.qrbill-cfg.tex} {\char_set_catcode_comment:N \% } \l_tmpa_tl
+% \let\endinput\relax
+% \l_tmpa_tl
+% \seq_use:Nn \g__qrbill_qrscheme_seq {\\}
+% \ExplSyntaxOff
+% \par\medskip
+% The DTA field is completly optional and can be used to encode the reason for the transfer.
+% \endgroup
 % \iffalse
 % \section{Implementation}
 %    \begin{doccode*}
