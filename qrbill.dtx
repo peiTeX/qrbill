@@ -740,6 +740,7 @@
 		\raisebox{\dimexpr\depth-\l__qrbill_QRblocksize_dim}[\dimexpr\height+\depth-\l__qrbill_QRblocksize_dim][0pt]{
 			\noindent\parbox{\g_qrbill_QRcode_dim}{
 				\lua_now:n {tex.sprint(string)}
+				\hss
 			}
 		}
 	}
