@@ -1,0 +1,9 @@
+expl3
+koma-script
+qrcode
+l3packages
+scrbase
+graphicx
+numprint
+
+soft fontspec # custom fonts possible with all compilers
