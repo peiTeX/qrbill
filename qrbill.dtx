@@ -759,7 +759,7 @@
 %    \begin{doccode*}
 
 \bool_if:NF \g__qrbill_luamode_bool {
-  \usepackage{qrcode}
+  \RequirePackage{qrcode}
   % modified version of \qr@encode@binary to allow utf8 qrcodes required by swiss qrbill scheme
   % Copyright (C) 2015 by Anders Hendrickson <ahendric@cord.edu>
 	\cs_set:Nn \__qrbill_encode_unicode_binary:n {
